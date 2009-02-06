@@ -1,0 +1,8 @@
+name = Amazon Store
+description = Amazon shopping cart and searching with SearchIndex.
+package = Amazon
+dependencies[] = amazon
+dependencies[] = panels
+core = 6.x
+php = 5.2
+

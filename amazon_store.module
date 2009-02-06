@@ -1,0 +1,447 @@
+<?php
+// $Id$
+
+
+
+/**
+ * Implement an amazon shopping cart with search and remote cart capabilities
+ * 
+ * Many items remain to be settled
+ * Issues:
+ *   * Change name of the module to amazon_store. Rework urls as amazon_store/*
+ * 	 * Locale support
+ *   * Multiple vendors per ASIN, multiple offers must be handled. Present offers to users, add to cart by offerid
+ *   * Handle unavailable stuff correctly
+ *   * Improve sophistication of caching instead of just asking for everything up front
+ *   * Caching of searches?
+ *   * See how functionality can be combined with Amazon module
+ *   * Full detail page which things link to
+ *   * Change the module name to a constant and use it in paths (amazon_store/...). Mod name will change...
+ *   
+ * Current Priorities:
+ *   
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function amazon_store_menu(){
+  $items['amazon_store'] = array(
+    'title' => t('Amazon Store'),
+    'page callback' => '_amazon_store_page',
+    'access callback' => TRUE,
+  // TODO: Access arguments here if required
+  );
+  $items['amazon_store_add_to_cart'] = array(
+    'page callback' => 'amazon_store_add_to_cart',
+    'access callback' => TRUE,
+  );
+  $items['amazon_store_clear_cart'] = array(
+    'page callback' => 'amazon_store_clear_cart',
+    'access callback' => TRUE,
+  );
+  $items['amazon_store_remove_from_cart'] = array(
+    'page callback' => 'amazon_store_remove_from_cart',
+    'access callback' => TRUE,
+  );
+  $items['amazon_store_show_cart'] = array(
+    'page callback' => 'amazon_store_show_cart',
+    'access callback' => TRUE,
+  );
+  $items['amazon_raw_item_detail'] = array(
+    'page callback' => 'amazon_raw_item_detail',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme();
+ */
+function amazon_store_theme() {
+  return array(
+    'amazon_raw_item' => 
+      array('arguments' => array('xml' => NULL,),
+      'template' => 'amazon_raw_item'),
+    'amazon_cart' =>
+      array('arguments' => array('xml' => NULL,),
+       'template' => 'amazon_cart'),
+    'amazon_cart_item' => 
+      array('arguments' => array('xml' => NULL),
+        'template' => 'amazon_cart_item'),
+    'amazon_raw_item_detail' => 
+      array('arguments' => array('asin' => NULL),
+        'template' => 'amazon_raw_item_detail'),
+
+  );
+}
+
+/**
+ * Implementation of hook_cron();
+ */
+function amazon_store_cron() {
+  // Clear data which has expired.
+  // TODO: Validate that this doesn't delete data which is still good
+  cache_clear_all(NULL,'cache_amazon_store');
+  
+}
+
+/**
+ * Implementation of hook_flush_caches();
+ */
+function amazon_store_flush_caches() {
+  return array('cache_amazon_store');
+}
+
+
+// Panels hook
+// PANELS ********************************************************************/
+
+/**
+ * Implementation of hook_panels_include_directory().
+ */
+function amazon_store_panels_include_directory($plugintype) {
+  switch ($plugintype) {
+    case 'contexts':
+      return 'panels_contexts';
+      break;
+    case 'arguments':
+      return 'panels_arguments';
+      break;
+    case 'content_types':
+      return 'panels_content_types';
+      break;
+      
+  }
+  return NULL;
+  
+}
+// Template functions for themeing
+
+function amazon_store_preprocess_amazon_cart(&$variables) {
+  drupal_add_css(drupal_get_path('module','amazon_store') . "/amazon_store.css");
+}
+function amazon_store_preprocess_amazon_cart_item(&$variables) {
+  $fullinfo = amazon_store_retrieve_item((string)$variables['xml']->ASIN);
+  $variables['fullinfo'] = $fullinfo;
+  drupal_add_css(drupal_get_path('module','amazon_store') . "/amazon_store.css");
+ }
+function amazon_store_preprocess_amazon_raw_item_detail(&$variables) {
+  drupal_add_css(drupal_get_path('module','amazon_store') . "/amazon_store.css");
+  
+  $xml = amazon_store_retrieve_item($variables['asin']);
+  $variables['xml'] = $xml;
+}
+function amazon_store_preprocess_amazon_raw_item(&$variables) {
+  drupal_add_css(drupal_get_path('module','amazon_store') . "/amazon_store.css");
+}
+
+/**
+ * Cache an amazon item - pass in SimpleXML item
+ * @param (SimpleXML) $xml
+ */
+function amazon_store_cache_item($xml) {
+  $cache_timeout = variable_get('amazon_refresh_schedule',86400);
+  
+  // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
+  cache_set($xml->ASIN,$xml->asXML(),'cache_amazon_store',time() + $cache_timeout);
+}
+
+function amazon_store_retrieve_item($asin) {
+  // TODO: Add item to cron to expire stuff
+  $item = cache_get($asin,'cache_amazon_store');
+  if ($item && $item->data) {
+    $xml = new SimpleXMLElement($item->data);
+  } else { // Item was not in cache
+    $xml = amazon_store_get_item_data($asin);
+  } 
+  return $xml;
+}
+
+
+
+
+// Main page entry points
+/**
+ * Advanced search page
+ * Adapted from core search module
+ */
+function _amazon_store_page() {
+  $output = "";
+  //TODO: Theme this page with template
+  $mod_dir=drupal_get_path('module','amazon_store');
+  $output .= "<a href='/amazon_store_show_cart'>Go to your cart <img src='/$mod_dir/images/cart.gif' alt='shopping cart' /></a>";
+  $output .= drupal_get_form('_amazon_store_form');
+  $SearchIndex=$_SESSION['SearchIndex'];
+  $SearchPhrase=$_SESSION['SearchPhrase'];
+  //TODO: This should be a theme template just like the rest
+  if (isset($SearchPhrase) && isset($SearchIndex) && count($SearchIndex)) {
+    $output .= '<div id="mid_right_column_wrap">';
+    $output .= t("<h3>Your search for \"$SearchPhrase\" in $SearchIndex</h3><table><tbody>");
+    $results = amazon_store($SearchIndex,$SearchPhrase);
+    foreach ($results as $asin => $item) {
+      $output .= theme('amazon_raw_item',$item);
+      $output .= <<<END
+      <tr>
+              <td colspan="3">
+                <div class="greyrule"/>
+              </td>
+            </tr>
+END;
+    }
+    $output .= "</table>";
+  }
+  unset($_SESSION['SearchPhrase']);
+
+  return $output;
+}
+
+
+//TODO: We should really be using the offerListingId
+function amazon_store_add_to_cart($asin) {
+
+  amazon_store_get_cart_info($cart_id, $cart_HMAC);
+
+  // Do CartAdd operation with cart_id
+  $parameters = array(
+    'MergeCart' => 'True',
+    'CartId' => $cart_id,
+    'HMAC' => $cart_HMAC,
+    'ASIN' => $asin,
+    'Item.1.ASIN' => $asin,
+    'Item.1.Quantity' => "1",
+  );
+  $items = array();
+  if ($cart_id) {
+    $results = amazon_http_request('CartAdd', $parameters);
+    // Check results
+    // TODO: There are probably more ways to fail than $results empty. Probably amazon module has it wrong
+    if (!$results || $results->Cart->Request->IsValid != 'True') {
+      amazon_store_report_error($results->Cart->Request->Errors);
+    }
+  }
+
+  // TODO: Check correctness of this path. We should only get here if the CartAdd failed, and we should know why
+
+  if (empty($results)) {
+    // If CartAdd fails due to no cart
+    //    Do CartCreate with cart_id
+    //    Get new cart_id and update user with it
+    // In all cases, log results
+    // In Initial stages, we should probably show the cart after doing an add
+    $results = amazon_http_request('CartCreate', $parameters);
+  }
+  // Check results
+  if ($results) {
+    if ($results->Cart->Request->IsValid == 'True') {
+      amazon_store_set_cart_info((string)$results->Cart->CartId,(string)$results->Cart->HMAC);
+    } else {
+      amazon_store_report_error($results->Cart->Request->Errors);
+      return "Error on query - see system log";
+    }
+    // Display the items
+    drupal_goto('amazon_store_show_cart');
+  }
+
+  return "<div>Failed to get the stuff from amazon</div>";
+  
+}
+
+
+function amazon_store_clear_cart() {
+ amazon_store_get_cart_info($cart_id, $cart_HMAC);
+
+  // Do CartAdd operation with cart_id
+  $parameters = array(
+    'MergeCart' => 'True',
+    'CartId' => $cart_id,
+    'HMAC' => $cart_HMAC,
+   );
+  $items = array();
+  if ($cart_id) {
+    $results = amazon_http_request('CartClear', $parameters);
+    // Check results
+    if (!$results || $results->Cart->Request->IsValid != 'True') {
+      amazon_store_report_error($results->Cart->Request->Errors);
+      drupal_set_message(t("failed to clear shopping cart"));
+      return;
+    }
+  }
+  drupal_set_message(t("Your shopping cart is now empty"));
+  drupal_goto('amazon_store');
+  
+}
+
+// TODO: Should be more sophisticated. Instead of just zeroing the quantity, we should let them change it.
+function amazon_store_remove_from_cart($item_id) {
+ amazon_store_get_cart_info($cart_id, $cart_HMAC);
+
+  $parameters = array(
+    'CartId' => $cart_id,
+    'HMAC' => $cart_HMAC,
+    'MergeCart' => 'True',
+    "Item.1.CartItemId" => $item_id,
+    "Item.1.Quantity" => "0",
+   );
+  $items = array();
+  if ($cart_id) {
+    $results = amazon_http_request('CartModify', $parameters);
+    // Check results
+    if (!$results || $results->Cart->Request->IsValid != 'True') {
+      amazon_store_report_error($results->Cart->Request->Errors);
+      drupal_set_message(t("Failed to remove item"));
+      return t("Failed to remove item");
+    }
+  }
+  drupal_set_message(t("The item has been removed from your cart"));
+  // Display the cart
+  drupal_goto('amazon_store_show_cart');
+}
+
+function amazon_store_show_cart() {
+ amazon_store_get_cart_info($cart_id, $cart_HMAC);
+
+  $parameters = array(
+    'CartId' => $cart_id,
+    'HMAC' => $cart_HMAC,
+    'MergeCart' => 'True',
+   );
+  $items = array();
+  if ($cart_id) {
+    $results = amazon_http_request('CartGet', $parameters);
+    // Check results
+    if (!$results || $results->Cart->Request->IsValid != 'True') {
+      amazon_store_report_error($results->Cart->Request->Errors);
+      drupal_set_message(t("Failed to get cart"));
+    }
+  }
+  // Display the cart
+  $output .= "<div>" .theme('amazon_cart',$results->Cart) . "</div>";
+  return $output;
+  
+}
+
+function amazon_raw_item_detail($asin) {
+  $output = theme('amazon_raw_item_detail',$asin);
+  return $output;
+}
+
+// Utility functions
+
+function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
+  $cart_id = $_SESSION['cart_id'];
+  $cart_HMAC= $_SESSION['HMAC'];
+}
+
+// TODO: Isolate amazon info in sessions and name it better
+function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
+  $_SESSION['cart_id'] = $cart_id;
+  $_SESSION['HMAC'] = $cart_HMAC;
+}
+
+function amazon_store_report_error($errors) {
+  foreach ($errors->Error as $error) {
+    $i++;
+    $msg .= "($i): {$error->Code}: {$error->Message} <br/>";
+  }
+  watchdog('amazon',$msg);
+}
+
+
+
+/**
+ * Advanced search form
+ */
+//TODO: Returning to the form the SearchIndex should be the same as it was, like it used to work.
+function _amazon_store_form() {
+  //TODO: This should be array of arrays: 'PCHardware'=>t('PC Hardware')
+  //TODO: This should be loaded from variable and available for configuration
+  $search_indexes = array('All','Apparel','Automotive','Baby','Beauty',
+    'Blended','Books','Classical','DigitalMusic','DVD','Electronics',
+    'GourmetFood','Grocery','HealthPersonalCare','HomeGarden',
+    'Industrial','Jewelry','KindleStore','Kitchen','Magazines',
+    'Merchants','Miscellaneous','MP3Downloads','Music','MusicalInstruments',
+    'MusicTracks','OfficeProducts','OutdoorLiving','PCHardware',
+    'PetSupplies','Photo','Shoes','SilverMerchant','Software',
+    'SportingGoods','Tools','Toys','VHS','Video','VideoGames',
+    'Watches','Wireless','WirelessAccessories',
+  );
+  foreach($search_indexes as $item) {
+  $real_search_indexes[$item] = $item;
+  }
+
+  $form['SearchIndex'] = array(
+    '#title' => t('Category'),
+    '#type' => 'select',
+    '#options' => $real_search_indexes,
+    '#default_value' => $_SESSION['SearchIndex'],  
+  );
+  $form['SearchPhrase'] = array(
+    '#title' => t('Search For'),
+    '#type' => 'textfield',
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Search',
+  );
+  return $form;
+
+}
+
+function _amazon_store_form_submit($form, &$form_state) {
+  $_SESSION['SearchIndex'] = $form_state['values']['SearchIndex'];
+  $_SESSION['SearchPhrase'] = $form_state['values']['SearchPhrase'];
+}
+
+
+
+function amazon_store($index, $keywords = '', $parameters = array()) {
+  $parameters += array(
+    'ResponseGroup' => 'ItemAttributes,Images,EditorialReview,Offers,Reviews',
+    'SearchIndex' => $index,
+  
+  );
+  if (!empty($keywords)) {
+    // TODO: else Use BrowseNodeLookup to get something to work with if it's empty
+    $parameters['Keywords'] = urlencode($keywords);
+  }
+
+  $items = array();
+  // TODO: Cache searches
+  $results = amazon_http_request('ItemSearch', $parameters);
+  foreach($results->Items->Item as $xml) {
+    amazon_store_cache_item($xml);
+    $items[(string)$xml->ASIN] = $xml;
+  }
+  return $items;
+}
+
+function amazon_store_get_item_data($asin) {
+  $parameters = array(
+    'ResponseGroup' => 'ItemAttributes,Images,EditorialReview,Offers,Reviews',
+    'ItemId' => $asin,
+  
+  );
+  $parameters['Keywords'] = urlencode($keywords);
+
+  $items = array();
+  // TODO: Cache searches
+  $results = amazon_http_request('ItemLookup', $parameters);
+  foreach($results->Items->Item as $xml) {
+    amazon_store_cache_item($xml);
+    $items[(string)$xml->ASIN] = $xml;
+  }
+  return $items;
+}
+
+// Theme functions
+
+//TODO: Implement with template function (maybe) or expland the amazon possibilities
+function theme_amazon_raw_item($item) {
+  $output .= "<h3><a href='{$item['detailpageurl']}'>{$item['title']}</a></h3>";
+  $output .= "<img src='{$item['imagesets']['smallimage']['url']}' />";
+  $output .= "<div>{$item['editorialreviews'][0]['content']}</div>";
+  return $output;
+}
+
+
