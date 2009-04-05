@@ -1,0 +1,12 @@
+// $Id$
+
+amazon_store 1.0beta2 2009-04-05
+----------------------
+- Added CHANGELOG.txt
+- Added javascript behavior to show/hide full project description on the
+  search results page
+- Removed ugly extra entries under the amazon_store menu item
+
+amazon_store 1.0beta1 2009-04-05
+----------------------
+- Initial Release

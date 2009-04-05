@@ -5,20 +5,6 @@
  * @file
  * Implement an amazon shopping cart with search and remote cart capabilities
  *
- * Many items remain to be settled
- * Issues:
- * 	 * Locale support; or in config let them pick the SearchIndexes they want
- *   * Clean up css, remove any alonovo-proprietary items, add classes, make search box one line
- *   * Make all panels panes templated, like search_results pane
- *   * Add the update time to the context. Can be used in refresh block that way.
- * 	 * Add help hook, or advanced_help
- *
- * Current Priorities:
- *   1. Browse display should show the bucket it's browsing
- *   2. Maybe browse display should show children
- *   4. Move panels display code into templates, make a non-panels page for item, make default panel
- *   6. Module configuration elements: Default SearchIndex, browseid, merchant
- *   7. Fix throbber bounce problem
  */
 
 define(AS_DEBUG,FALSE);   // Turn on to execute debug code
@@ -32,7 +18,9 @@ include_once drupal_get_path('module', 'amazon_store') . '/panels/amazon_store_d
 function amazon_store_init() {
   // Currently, only supporty US locale
   $GLOBALS['amazon_store_search_indexes'] = new SearchIndexes("US");
-  drupal_add_css(drupal_get_path('module','amazon_store') . "/amazon_store.css");
+  $moduledir = drupal_get_path('module','amazon_store');
+  drupal_add_css("$moduledir/amazon_store.css");
+  drupal_add_js("$moduledir/amazon_store.js");
 }
 
 
@@ -44,31 +32,39 @@ function amazon_store_menu(){
     'title' => t('Amazon Store'),
     'page callback' => '_amazon_store_page',
     'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+
   );
   $items['amazon_store/clear_cart'] = array(
     'page callback' => 'amazon_store_clear_cart',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   $items['amazon_store/cart'] = array(
     'page callback' => 'amazon_store_show_cart',
     'access callback' => TRUE,
     'title' => t("Your Shopping Cart"),
+    'type' => MENU_NORMAL_ITEM,
   );
   $items['amazon_store/item'] = array(
     'page callback' => 'amazon_item_detail',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   $items['amazon_store/clear_cache'] = array(
     'page callback' => 'amazon_store_clear_cache',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   $items['amazon_store/addcart_ahah'] = array(
     'page callback' => '_amazon_store_addcart_form_ahah',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   $items['amazon_store/addcart_submit_ahah'] = array(
     'page callback' => '_amazon_store_addcart_submit_ahah',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
