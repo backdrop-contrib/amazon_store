@@ -1,4 +1,10 @@
 <?php
+/**
+ * $Id$
+ * @file
+ *   Install for amazon_store.module
+ *
+ */
 
 function amazon_store_install() {
   drupal_install_schema('amazon_store');
@@ -6,9 +12,7 @@ function amazon_store_install() {
 
 function amazon_store_uninstall() {
   drupal_uninstall_schema('amazon_store');
-  variable_del('amazon_store_cache_timeout');
 }
-
 
 function amazon_store_schema() {
   $schema['cache_amazon_store'] = drupal_get_schema_unprocessed('system', 'cache');
