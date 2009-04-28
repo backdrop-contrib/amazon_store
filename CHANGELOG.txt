@@ -2,10 +2,27 @@
 
 amazon_store 1.0beta2 2009-04-05
 ----------------------
+- Added ability to configure default items in amazon_store by SearchIndex,
+  BrowseNode, or by an ItemId list of ASINs
+- Added admin capability to turn on or off the Search at the top of the amazon_store page,
+  and also turn on or off the "Narrow By" and "Sort By" forms
+- Added ItemId type as part of URL
 - Added CHANGELOG.txt
 - Added javascript behavior to show/hide full project description on the
   search results page
 - Removed ugly extra entries under the amazon_store menu item
+- Moved the search form into themable territory. You can theme the entire
+  search results page (/amazon_store) by putting amazon_store_search_results.tpl.php
+  into your theme's directory and then changing it. So you can change everything
+  about that page.  Patches for improved display are welcome, as is CSS that you like.
+- #424988 - Selected Product in my amazon store
+- #427726 - Removal of search. Addition of view, or block
+- #427156 - javascript:void(null) - Or, Show/hide full description not working.
+- #424740 - Error with Amazon Module (same as http://xp-dev.com/bugs/3159/view/)
+- Now validates as  XHTML 1.0 Strict
+- #3568 (alonovo) - Search results pager was willing to go past the end of the results. This pager
+  can certainly still use improvement
+- #446300 - Error with links not done correctly in a site that's not in the root.
 
 amazon_store 1.0beta1 2009-04-05
 ----------------------

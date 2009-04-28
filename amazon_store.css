@@ -10,9 +10,13 @@
 }
 
 
-.search-results .form-item, #-amazon-store-search-form .form-item  {
+.search-results .form-item, #amazon-store-search-form .form-item  {
 	float: left;
 	margin: 5px;
+}
+
+#center form#amazon-store-search-form  {
+  margin-bottom: 0;
 }
 
 .search-results .form-submit {
@@ -32,7 +36,7 @@
 
 .search-results p.title {
 	font-size: large;
-	font-style: bold;
+	font-weight: bold;
 }
 .search-results p.manufacturer {
 	padding: 0;

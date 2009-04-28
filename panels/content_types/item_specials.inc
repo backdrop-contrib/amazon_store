@@ -44,7 +44,7 @@ function amazon_store_item_specials_render($subtype, $conf, $panel_args, $contex
   $amazon_object = $context->data;
   $block->title = t("Refresh Page/Clear Cache");
 
-  $output .= "<div><a href='/amazon_store/clear_cache/{$amazon_object->ASIN}?destination=amazon_store/item/{$amazon_object->ASIN}'>Refresh this page</a></div>";
+  $output .= "<div>" .l(t("Refresh this page"),"amazon_store/clear_cache/{$amazon_object->ASIN}",array('query'=>"destination=amazon_store/item/{$amazon_object->ASIN}")). "</div>";
   $block->content = $output;
   return $block;
 

@@ -6,10 +6,10 @@
  */
 ?>
 <h2>Your Cart</h2>
-<a href="amazon_store"><img alt="continue shopping"
+<a href="<?php print url('amazon_store') ?>"><img alt="continue shopping"
 	class="continue_shopping"
 	src="<?php print url("$directory/images/shop_cont_bu.gif") ?>" /></a> <?php if ($cart->CartItems): ?>
-<a href="<?php print $cart->PurchaseURL; ?>" target="_blank"><img
+<a href="<?php print $cart->PurchaseURL; ?>" ><img
 	alt="continue checkout" class="continue_checkout"
 	src="<?php print url("$directory/images/check_bu.gif") ?>" /></a> <?php endif; ?>
 
@@ -29,12 +29,12 @@ items in your cart. <?php else: ?>
 	  ?>
 		<tr class="cart_item">
 			<td class="item_cart_image"><a
-				href="/amazon_store/item/<?php print $fullinfo->ASIN ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
+				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
 			<img src="<?php print $fullinfo->SmallImage->URL ?>"
 				alt="<?php print $item->Title ?> " /></a> <?php else: ?>
 			<img src="<?php print url("$directory/images/no_image_small.jpg"); ?>" /> <?php endif; ?></td>
 			<td class="item_stats"><a class="product_name"
-				href="/amazon_store/item/<?php print $fullinfo->ASIN ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
+				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
 			<strong class="company_name"> <?php print $fullinfo->ItemAttributes->Manufacturer ?>
 			</strong></td>
 			<td class="price_quantity">
@@ -58,10 +58,10 @@ items in your cart. <?php else: ?>
 			<td class="cart_subtotal"><!--  <input type="image" class="update"
 				value="1" name="update" alt="update" src="<?php print url("$directory/images/update_bu.gif") ?>" />
 			--> Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
-			<p><a href="<?php print $cart->PurchaseURL ?>" target="_blank"><img
+			<p><a href="<?php print $cart->PurchaseURL ?>" ><img
 				alt="continue checkout" class="continue_checkout"
 				src="<?php print $directory ?>/images/check_bu.gif" /></a></p>
-			<p><a href="/amazon_store/clear_cart">Empty your cart</a></p>
+			<p><a href="<?php print url("amazon_store/clear_cart"); ?>">Empty your cart</a></p>
 			</td>
 		</tr>
 	</tbody>

@@ -8,7 +8,6 @@
  */
 
 define(AS_DEBUG,FALSE);   // Turn on to execute debug code
-define(DEFAULT_SEARCHINDEX,"Books"); // SearchIndex used for browsenode if no Searchindex set or "All" is set
 
 include_once("searchindexes.inc");  // Definition of searchindex-specific object
 include_once drupal_get_path('module', 'amazon_store') . '/panels/amazon_store_default_panel_pages.inc';
@@ -57,7 +56,7 @@ function amazon_store_menu(){
     'type' => MENU_CALLBACK,
   );
   $items['amazon_store/addcart_ahah'] = array(
-    'page callback' => '_amazon_store_addcart_form_ahah',
+    'page callback' => 'amazon_store_addcart_form_ahah',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -66,8 +65,20 @@ function amazon_store_menu(){
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+
+
+  $items['admin/settings/amazon_store'] = array(
+    'title' => 'Amazon Store Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('amazon_store_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+   );
+
   return $items;
 }
+
+
 
 
 /**
@@ -85,9 +96,9 @@ function amazon_store_block($op = 'list', $delta = 0, $edit = array()) {
     $block = array();
     switch ($delta) {
       case 0:
+        $directory = drupal_get_path('module','amazon_store');
         $block['subject'] = t("Search Amazon");
-        $block['content'] = drupal_get_form('_amazon_store_search_form') .
-          "<div>" . l("Shopping Cart",'amazon_store/cart') . "</div>";
+        $block['content'] = theme('amazon_store_search_block');
         break;
     }
     return $block;
@@ -122,7 +133,9 @@ function amazon_store_theme() {
   'amazon_store_search_results_manufacturer' =>
      array('arguments' => array('manufacturer' => NULL),
      'template' => 'amazon_store_search_results_manufacturer'),
-  'amazon_store_item_image' =>
+  'amazon_store_search_block' =>
+     array('template' => 'amazon_store_search_block'),
+   'amazon_store_item_image' =>
      array('arguments' => array('amazon_item' => NULL, 'size' => NULL),
      'template' => 'amazon_store_item_image'),
   'amazon_store_item_offers' =>
@@ -162,9 +175,9 @@ function amazon_store_flush_caches() {
 function amazon_store_forms($form_id) {
   $args = func_get_args();
   $forms = array();
-  if (strpos($form_id, '_amazon_store_addcart_form') === 0) {
+  if (strpos($form_id, 'amazon_store_addcart_form') === 0) {
     $forms[$form_id] = array(
-      'callback' => '_amazon_store_addcart_form',
+      'callback' => 'amazon_store_addcart_form',
       'callback arguments' => $args[1],
     );
   }
@@ -227,6 +240,75 @@ function amazon_store_preprocess_amazon_cart(&$variables) {
   }
 }
 
+function amazon_store_admin_form() {
+/**
+ * Items to add:
+ *   - Checkbox Option to show search
+ *   - Checkbox Option to show narrow-by
+ *   - Optional default list of items
+ *   - Optional default browsenode and search index
+ */
+  $locale = variable_get('amazon_locale',"");
+  if ($locale !="US") {
+    drupal_set_message("Amazon Store module does not currently support any locale except the 'US' locale. Your amazon settings specify $locale, which won't work. Please correct this at <a href='".url('admin/settings/amazon')."'>admin->settings->amazon</a>");
+    return;
+  }
+  $form = array(
+    'amazon_store_show_searchform' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Display search form'),
+      '#default_value' => variable_get('amazon_store_show_searchform', 1),
+    ),
+    'amazon_store_show_narrowby_form' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Display "narrow by" form'),
+      '#default_value' => variable_get('amazon_store_show_narrowby_form', 1),
+    ),
+    'amazon_store_show_sort_form' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Display sort form'),
+      '#default_value' => variable_get('amazon_store_show_sort_form', 1),
+    ),
+    'amazon_store_default_search_index' => array(
+      '#type' => 'select',
+      '#title' => t('Default Search Index'),
+      '#description' => t("The Search Index used by default on the amazon_store page"),
+      '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(),
+      '#default_value' => variable_get('amazon_store_default_search_index', "Books"),
+    ),
+    'amazon_store_default_items' => array(
+      '#type' => 'radios',
+      '#title' => t('Default items for amazon_store page if no search has been done (no keywords present)'),
+      '#description' => t("You may choose either a simple search index (and its default browsenode), a specific browsenode, or a list of items to display on the default amazon_store page"),
+      '#options' => array(
+        'searchindex' => t("SearchIndex Only - Use Amazon's default browsenode for the selected search index"),
+        'browsenode' => t('A browsenode specified below'),
+        'itemlist' => t("A list of Amazon ASINs specified below"),
+      ),
+      '#default_value' => variable_get('amazon_store_default_items','searchindex'),
+    ),
+
+    'amazon_store_default_browsenode_id' => array(
+      '#type' => 'textfield',
+      '#title' => t("Default Browsenode ID"),
+      '#description' => t("Browsenode ID to use as default search. This browsenode MUST be valid with the Search Index you have chosen. You can find browsenodes at http://browsenodes.com"),
+      '#size' => 12,
+      '#default_value' => variable_get('amazon_store_default_browsenode_id',""),
+    ),
+
+    'amazon_store_default_item_list' => array(
+      '#type' => 'textfield',
+      '#title' => t("Default Item List"),
+      '#description' => t("Comma-separated list of Amazon ASINs that should be displayed by default on the amazon_store page"),
+      '#size' => 80,
+      '#default_value' => variable_get('amazon_store_default_item_list',""),
+
+    ),
+
+  );
+
+  return system_settings_form($form);
+}
 
 /**
  * Cache an amazon item - pass in SimpleXML item
@@ -328,7 +410,6 @@ function parametersForKeywordSearch($keywords) {
 function _amazon_store_page() {
 
   $output = "";
-  $output .= drupal_get_form('_amazon_store_search_form');
   $parameters = array();
 
 
@@ -339,6 +420,7 @@ function _amazon_store_page() {
   extract($_GET,EXTR_PREFIX_ALL,"get");
   if (!empty($get_SearchIndex)) { $parameters['SearchIndex']=check_plain($get_SearchIndex); }
   if (!empty($get_Keywords)) { $parameters['Keywords'] = ereg_replace('[\'\"]','',$get_Keywords); }
+  if (!empty($get_ItemId)) { $parameters['ItemId'] = filter_xss($get_ItemId); }
   if (!empty($get_BrowseNode)) {$parameters['BrowseNode'] = intval($get_BrowseNode); }
   if (!empty($get_MinimumPrice)) {$parameters['MinimumPrice'] = intval($get_MinimumPrice); }
   if (!empty($get_MaximumPrice)) {$parameters['MaximumPrice'] = intval($get_MaximumPrice); }
@@ -363,17 +445,40 @@ function _amazon_store_page() {
     $parameters += parametersForKeywordSearch($get_manufacturer);
   }
 
+  if ($parameters['SearchIndex'] == 'All' && !empty($parameters['BrowseNode'])) {
+      $parameters['SearchIndex'] = variable_get('amazon_store_default_search_index',"Books");
+  }
   // If we have no keywords, browse the SearchIndex.
-  if (empty($parameters['Keywords']) && empty($parameters['BrowseNode'])) {
+  if (empty($parameters['Keywords']) && empty($parameters['BrowseNode']) && empty($parameters['ItemId'])) {
     $browseNodes=$GLOBALS['amazon_store_search_indexes']->getBrowseNodes();
     if (empty($parameters['SearchIndex']) || $parameters['SearchIndex'] == 'All') {
-      $parameters['SearchIndex'] = DEFAULT_SEARCHINDEX;
+      $parameters['SearchIndex'] = variable_get('amazon_store_default_search_index',"Books");
     }
-    $parameters['BrowseNode'] = $browseNodes[$parameters['SearchIndex']];
+    // If they have configured a browsenode, use that
+    $defaultlist = variable_get('amazon_store_default_items','searchindex');
+    switch ($defaultlist) {
+      case 'searchindex': // Use the default browsenode for searchindex
+        $parameters['BrowseNode'] = $browseNodes[$parameters['SearchIndex']];
+        break;
+      case 'browsenode':
+        $parameters['BrowseNode'] = variable_get('amazon_store_default_browsenode_id',0);
+        break;
+      case 'itemlist':
+        $parameters['ItemId'] = variable_get('amazon_store_default_item_list',"");
+        break;
+    }
+
   }
 
-
-  $results = _amazon_store_search($parameters );
+  $locale = variable_get('amazon_locale',"");
+  if ($locale != "US") {
+    return("Amazon Store module does not currently support any locale except the 'US' locale. Your amazon settings specify $locale, which won't work. Please correct this at <a href='".url('admin/settings/amazon')."'>admin->settings->amazon</a>");
+  }
+  if (!empty($parameters['ItemId'])) {
+    $results = _amazon_store_itemlist(array('ItemId' => $parameters['ItemId']));
+  } else {
+    $results = _amazon_store_search($parameters );
+  }
 
   $output .= theme('amazon_store_search_results',$results);
   return $output;
@@ -595,13 +700,13 @@ function amazon_store_report_error($errors) {
 /**
  * Basic Amazon search form
  */
-function _amazon_store_search_form() {
+function amazon_store_search_form() {
 
   $form['SearchIndex'] = array(
     '#title' => t('Category'),
     '#type' => 'select',
     '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(),
-    '#default_value' => $_GET['SearchIndex'],
+    '#default_value' => !empty($_GET['SearchIndex']) ? $_GET['SearchIndex'] : variable_get('amazon_store_default_search_index','All'),
   );
   $form['Keywords'] = array(
     '#title' => t('Search For'),
@@ -617,7 +722,7 @@ function _amazon_store_search_form() {
 
 }
 
-function _amazon_store_search_form_submit($form, &$form_state) {
+function amazon_store_search_form_submit($form, &$form_state) {
   $form_state['redirect'] = array('amazon_store',"Keywords=".$form_state['values']['Keywords']."&SearchIndex=".$form_state['values']['SearchIndex']);
 }
 
@@ -702,6 +807,29 @@ function _amazon_store_search($parameters = array()) {
 
   if (! ($results = amazon_store_retrieve_cached_search($parameters))) {
     $results = amazon_store_http_request('ItemSearch', $parameters);
+    if (empty($results->error) && !empty($results->Items->Item)) {
+      amazon_store_cache_search($parameters,$results);
+      foreach($results->Items->Item as $xml) {
+        amazon_store_cache_item($xml);
+      }
+    }
+  }
+
+  return $results->Items;
+}
+
+/**
+ * Just like search, but takes a comma-separated item list of ASINs instead
+ * @param $itemlist
+ * @return unknown_type
+ */
+function _amazon_store_itemlist($parameters = array()) {
+  $parameters += array(
+    'ResponseGroup' => 'BrowseNodes,Variations,ItemAttributes,Images,EditorialReview,OfferFull,Reviews,Similarities,AlternateVersions,Large',
+  );
+
+  if (! ($results = amazon_store_retrieve_cached_search($parameters))) {
+    $results = amazon_store_http_request('ItemLookup', $parameters);
     if (empty($results->error) && !empty($results->Items->Item)) {
       amazon_store_cache_search($parameters,$results);
       foreach($results->Items->Item as $xml) {
@@ -822,16 +950,22 @@ function ProductGroup2SearchIndex($ProductGroup) {
 
 /**
  * Simply returns the next page based on the ItemPage URL entry, if it exists
+ * @param $limit Limit results to that number of pages
+ * @return -1 if past the number of pages, otherwise the next page
+ */
+/**
+ *
  * @return unknown_type
  */
-function _amazon_store_nextpage() {
+function _amazon_store_nextpage($limit) {
   $thispage = $_GET['ItemPage'];
-  if (!empty($thispage)) {
-    return $thispage + 1;
-
-  } else {
-    return 2;
+  if (empty($thispage)) {
+    $thispage = 1;
   }
+  if ($thispage+1 <= $limit) {
+    return $thispage+1;
+  }
+  return 0;
 }
 
 /**
@@ -849,6 +983,9 @@ function _amazon_store_revise_query($newstuff) {
   $newget = $_GET;
   unset($newget['q']);  // The rewritten part of drupal query
   unset($newget['ItemPage']); // If we're rewriting the query, the page is not going to be relevant
+  if (empty($_GET['SearchIndex'])) {
+    $newget['SearchIndex'] = variable_get('amazon_store_default_search_index','All');
+  }
   foreach ($newstuff as $key=>$value) {
     $newget[$key] = $value;
   }
@@ -983,7 +1120,7 @@ function _amazon_store_get_variation_dimensions($item) {
  * @param  $asin
  * @return prepared form
  */
-function _amazon_store_addcart_form(&$form_state,$asin) {
+function amazon_store_addcart_form(&$form_state,$asin) {
   // We either have asin passed in, or get it from values array
   if (empty($asin)) { $asin = $form_state['values']['fields']['asin']; }
 
@@ -1001,8 +1138,8 @@ function _amazon_store_addcart_form(&$form_state,$asin) {
 
   // These are required because the form_id is no longer just the plain one, but
   // has ASIN attached to it (many forms driven by one handler)
-  $form['#validate'][] = '_amazon_store_addcart_form_validate';
-  $form['#submit'][] = '_amazon_store_addcart_form_submit';
+  $form['#validate'][] = 'amazon_store_addcart_form_validate';
+  $form['#submit'][] = 'amazon_store_addcart_form_submit';
   $form['item_title'] = array(
     '#type' => 'value',
     '#value' => (string)$item->ItemAttributes->Title,
@@ -1010,7 +1147,7 @@ function _amazon_store_addcart_form(&$form_state,$asin) {
   $fieldswrapper = "fields-$asin-wrapper";
 
   $form['fields'] = array(
-    '#prefix' => "<div id='$fieldswrapper'class='fields-wrapper'>",
+    '#prefix' => "<div id='$fieldswrapper' class='fields-wrapper'>",
     '#suffix' => "</div>",
     '#type' => 'fieldset',
   );
@@ -1126,7 +1263,7 @@ function _amazon_store_addcart_form(&$form_state,$asin) {
   $form['reset'] = array(
     	'#type' => 'submit',
     	'#value' => t("Reset selections"),
-    	'#validate' => array('_amazon_store_addcart_form_reset'),
+    	'#validate' => array('amazon_store_addcart_form_reset'),
       '#executes_submit_callback' => FALSE,
       '#attributes' => array('class' => 'no-js'),
 
@@ -1141,7 +1278,7 @@ function _amazon_store_addcart_form(&$form_state,$asin) {
  * @param unknown_type $element
  * @param unknown_type $form_state
  */
-function _amazon_store_addcart_form_reset($element, &$form_state) {
+function amazon_store_addcart_form_reset($element, &$form_state) {
   unset($form_state['values']);
   unset($form_state['storage']);
   $form_state['rebuild'] = TRUE;
@@ -1159,7 +1296,7 @@ function _amazon_store_addcart_form_reset($element, &$form_state) {
  * @param unknown_type $form
  * @param unknown_type $form_state
  */
-function _amazon_store_addcart_form_validate($form, &$form_state) {
+function amazon_store_addcart_form_validate($form, &$form_state) {
   $asin = $form_state['values']['fields']['asin'];
   $item =amazon_store_retrieve_item($asin);
   $itemsByAttribute =  _amazon_store_process_variations($item);
@@ -1202,7 +1339,7 @@ function _amazon_store_addcart_form_validate($form, &$form_state) {
  * @param unknown_type $form
  * @param unknown_type $form_state
  */
-function _amazon_store_addcart_form_submit($form,&$form_state) {
+function amazon_store_addcart_form_submit($form,&$form_state) {
   foreach ($form_state['values']['fields'] as $name => $value) {
     $text = $form['select_options'][$name]['#options'][$value];
     $report .= "$name: $text; ";
@@ -1210,7 +1347,8 @@ function _amazon_store_addcart_form_submit($form,&$form_state) {
   $asin = $form_state['values']['fields']['asin'];
   $result = amazon_store_add_to_cart(NULL,$form_state['values']['fields']['offer'."-$asin"]);
   if ($result) {
-    drupal_set_message("{$form['item_title']['#value']} was added to your cart. <em>" . l("View your cart",'amazon_store/cart') . "</em>");
+    $directory = drupal_get_path('module','amazon_store');
+    drupal_set_message("{$form['item_title']['#value']} was added to your cart. <br/><em>" . l("<img src='".url("$directory/images/check_bu.gif")."' />", 'amazon_store/cart', array('html' => TRUE)) . "</em>");
   } else {
     drupal_set_message("Error: Item not added to cart");
   }
@@ -1227,7 +1365,7 @@ function _amazon_store_addcart_form_submit($form,&$form_state) {
 function _amazon_store_disable_validation(&$form) {
   foreach (element_children($form) as $child) {
     $form[$child]['#validated'] = TRUE;
-    _amazon_store_disable_validation(&$form[$child]);
+    _amazon_store_disable_validation($form[$child]);
   }
 }
 
@@ -1236,7 +1374,7 @@ function _amazon_store_disable_validation(&$form) {
  * widgets only, not the submission.
  *
  */
-function _amazon_store_addcart_form_ahah() {
+function amazon_store_addcart_form_ahah() {
   $form_state = array('storage' => NULL, 'submitted' => FALSE);
   $form_build_id = $_POST['form_build_id'];
   $form = form_get_cache($form_build_id, $form_state);
@@ -1346,7 +1484,7 @@ function _amazon_store_get_sort() {
  * @return
  * 	Form for changing sort order
  */
-function _amazon_store_sort_form(&$form_state) {
+function amazon_store_sort_form(&$form_state) {
   $form = array(
     '#tree' => TRUE,
   );
@@ -1364,7 +1502,7 @@ function _amazon_store_sort_form(&$form_state) {
     '#type' => 'select',
     '#options' => $options,
     '#default_value' => "?" . _amazon_store_revise_query(array('Sort' => _amazon_store_get_sort())),
-    '#attributes' => array('onChange' => 'dest=this.options[this.options.selectedIndex].value; window.location = dest;'),
+    '#attributes' => array('onchange' => 'dest=this.options[this.options.selectedIndex].value; window.location = dest;'),
 
   );
   $form['sortby-submit'] = array(
@@ -1376,7 +1514,7 @@ function _amazon_store_sort_form(&$form_state) {
   return $form;
 }
 
-function _amazon_store_sort_form_submit($form,&$form_state) {
+function amazon_store_sort_form_submit($form,&$form_state) {
   $form_state['redirect'] = array('amazon_store',$form_state['values']['sortby']);
 }
 
@@ -1388,12 +1526,12 @@ function _amazon_store_sort_form_submit($form,&$form_state) {
  * @return
  * 	a form
  */
-function _amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
+function amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
 
   $form = array(
     '#tree' => TRUE,
     '#title' => "Narrow your search",
-          '#submit' => array('_amazon_store_searchbin_sets_form_submit'),
+          '#submit' => array('amazon_store_searchbin_sets_form_submit'),
 
   );
   $form['searchbins'] = array(
@@ -1409,13 +1547,13 @@ function _amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
     $form['searchbins'][$narrowBy]['select'] = array(
         '#type' => 'select',
         '#attributes' => array('class' => 'searchbin_selector',
-          'onChange' => 'dest=this.options[this.options.selectedIndex].value; if (dest) {window.location = dest;}'),
+          'onchange' => 'dest=this.options[this.options.selectedIndex].value; if (dest) {window.location = dest;}'),
     );
     $form['searchbins'][$narrowBy]['submit'] = array(
         '#type' => 'submit',
         '#value' => "Narrow by ".$narrowBy,
         '#name' => $narrowBy,
-        '#submit' => array('_amazon_store_searchbin_sets_form_submit'),
+        '#submit' => array('amazon_store_searchbin_sets_form_submit'),
         '#attributes' => array('class' => 'no-js'),
 
     );
@@ -1441,7 +1579,7 @@ function _amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
 }
 
 
-function _amazon_store_searchbin_sets_form_submit($form,&$form_state) {
+function amazon_store_searchbin_sets_form_submit($form,&$form_state) {
   $categoryChosen = $form_state['clicked_button']['#name'];
   $newQuery = $form_state['values']['searchbins'][$categoryChosen]['select'];
   $form_state['redirect']=array('amazon_store',$newquery);

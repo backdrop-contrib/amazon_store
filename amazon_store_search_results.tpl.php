@@ -7,21 +7,31 @@
  */
 
 ?>
+<?php
+  if (variable_get(amazon_store_show_searchform,TRUE)) {
+    print drupal_get_form('amazon_store_search_form');
+  }
+?>
 <div class="amazon-store-panel search-results"><!--
-<a href='/amazon_store/cart'> Go to your cart <img
+<a href='<?php url("amazon_store/cart") ?>'> Go to your cart <img
   src='/<?php // print url("$directory/images/chngcart_bu.gif") ?>'
   alt='shopping cart' /></a>
  -->
 
-<div class="change_sort"><?php  print drupal_get_form('_amazon_store_sort_form')?>
+
+<?php if (!empty($results->Item)): ?>
+
+<div class="change_sort"><?php
+if (variable_get('amazon_store_show_sort_form',TRUE)) {
+    print drupal_get_form('amazon_store_sort_form');
+}?>
 </div>
-<div class="search-sets"><?php
-if (!empty($results->SearchBinSets)) {
-  $form = drupal_get_form('_amazon_store_searchbin_sets_form',$results->SearchBinSets);
+<div class="search-sets narrow-by"><?php
+if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets)) {
+  $form = drupal_get_form('amazon_store_searchbin_sets_form',$results->SearchBinSets);
   print $form;
 }
 ?></div>
-<?php if ($results): ?>
 
 
 <div id="amazon-store-search-results" class="amazon-form"><?php if  (isset($Keywords) && isset($SearchIndex) && count($SearchIndex)) : ?>
@@ -36,7 +46,7 @@ if (!empty($results->SearchBinSets)) {
 	  continue;
 	}
 	$asin = (string)$result->ASIN;
-	$form = drupal_get_form('_amazon_store_addcart_form',(string)$result->ASIN);
+	$form = drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN);
 	?>
 
 		<!--  BEGIN ITEM PROCESSING -->
@@ -50,7 +60,7 @@ if (!empty($results->SearchBinSets)) {
 				src="<?php print url("$directory/images/no_image_med.jpg"); ?>" /> <?php endif; ?></td>
 			<td>
 			<p class="title"><a
-				href="/amazon_store/item/<?php print "{$result->ASIN}" ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
+				href="<?php print url("amazon_store/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
 				<?php if (!empty($result->ItemAttributes->Manufacturer)){
 				  print theme('amazon_store_search_results_manufacturer',(string)$result->ItemAttributes->Manufacturer);
 				}
@@ -58,7 +68,7 @@ if (!empty($results->SearchBinSets)) {
 
 			<div class="editorial"><a href="javascript:void(null)"
 				class="togglebtn">Show/hide full description</a> or <a
-				href="amazon_store/item/<?php  print $result->ASIN; ?>">See full
+				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
 			details</a>
 			<div class="toggle editorial"><?php print $result->EditorialReviews->EditorialReview[0]->Content; ?></div>
 			</div>
@@ -78,12 +88,16 @@ if (!empty($results->SearchBinSets)) {
 </table>
 
 </div>
-<!--  end mid_right_column_wrap --><?php $nextpage = _amazon_store_nextpage(); ?>
-		<?php //TODO: Rewrite query - page X of Y, and make sure we don't go beyond the available pages ?>
+<!--  end mid_right_column_wrap --><?php $nextpage = _amazon_store_nextpage($results->TotalPages); ?>
+		<?php if ($nextpage) { ?>
 <div class="nextpage"><a
-	href="/amazon_store/?<?php print _amazon_store_revise_query(array('ItemPage'=>$nextpage)); ?>">&gt;&gt;Go
+	href="<?php print url("amazon_store",array('query' => _amazon_store_revise_query(array('ItemPage'=>$nextpage))));  ?>">&gt;&gt;Go
 to Page <?php print "$nextpage of {$results->TotalPages} pages " ?> of
-Results</a></div>
-<div class="narrow_by"></div>
+results</a></div>
+<?php } ?>
+<a href="<?php print url('amazon_store/cart'); ?>" ><img
+  alt="continue checkout" class="continue_checkout"
+  src="<?php print url("$directory/images/check_bu.gif") ?>" /></a>
+
 		<?php endif; ?></div>
 

@@ -13,11 +13,16 @@ MerchantId=
 Brand=
 SearchIndex=
 Keywords=
-Sort=
-BrowseNode=
+Sort=  (try the sorts you see as you try out the interface)
+BrowseNode=  (a numeric browsenode - find what you're looking for on browsenode.com)
+ItemIid=  (a comma-delimited list of ASINs)
 
 If you want a page with a specific set of things, without a search, you can just choose a BrowseNode:
 http://example.com/amazon_store?BrowseNode=xxxxx
+or
+http://example.com/amazon_store?ItemId=ASIN1,ASIN2,ASIN3,ASIN4,ASIN5
 
 You can look at browsenodes at http://browsenodes.com
+
+
 

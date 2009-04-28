@@ -13,8 +13,8 @@
 <div id="topnav">
 <h3 id="title"><?php print $amazon_item->ItemAttributes->Title ?></h3>
 
-<a href='/amazon_store'>Continue Shopping</a> or <a
-  href='/amazon_store/cart'>See your cart</a></div>
+<a href="<?php print url("amazon_store") ?>">Continue Shopping</a> or <a
+  href='<?php print url("amazon_store/cart")?>'>See your cart</a></div>
 
 <!-- Left section: Item Description and Product Reviews -->
 <div id="item-details" class="left-column column">
