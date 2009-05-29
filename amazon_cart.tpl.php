@@ -8,10 +8,10 @@
 <h2>Your Cart</h2>
 <a href="<?php print url('amazon_store') ?>"><img alt="continue shopping"
 	class="continue_shopping"
-	src="<?php print url("$directory/images/shop_cont_bu.gif") ?>" /></a> <?php if ($cart->CartItems): ?>
+	src="<?php print "$directory/images/shop_cont_bu.gif" ?>" /></a> <?php if ($cart->CartItems): ?>
 <a href="<?php print $cart->PurchaseURL; ?>" ><img
 	alt="continue checkout" class="continue_checkout"
-	src="<?php print url("$directory/images/check_bu.gif") ?>" /></a> <?php endif; ?>
+	src="<?php print "$directory/images/check_bu.gif" ?>" /></a> <?php endif; ?>
 
 <div class="greyrule" ></div>
 <?php if (!$cart->CartItems):?> There are no
@@ -56,7 +56,7 @@ items in your cart. <?php else: ?>
 			<td colspan="2"></td>
 
 			<td class="cart_subtotal"><!--  <input type="image" class="update"
-				value="1" name="update" alt="update" src="<?php print url("$directory/images/update_bu.gif") ?>" />
+				value="1" name="update" alt="update" src="<?php print "$directory/images/update_bu.gif" ?>" />
 			--> Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
 			<p><a href="<?php print $cart->PurchaseURL ?>" ><img
 				alt="continue checkout" class="continue_checkout"

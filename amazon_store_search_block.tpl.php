@@ -6,6 +6,7 @@
  */
 print drupal_get_form('amazon_store_search_form');
 ?>
-<div class="cart-button"><a href="<?php print url("amazon_store/cart") ?>" title="View your shopping cart">
-<img src="<?php print url("$directory/images/shopping_cart.png") ?>" /></a>
+<br>
+<div align="center" class="cart-button"><a href="<?php print url("amazon_store/cart") ?>" title="View your shopping cart">
+<img src="<?php print "$directory/images/shopping_cart.png" ?>" /></a>
 </div>

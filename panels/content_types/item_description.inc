@@ -15,7 +15,7 @@ function amazon_store_item_description_panels_content_types() {
     'render callback' => 'amazon_store_item_description_render',
     'title callback' => 'amazon_store_item_description_admin_title',
     'add callback' => 'amazon_store_item_description_admin',
-  
+
   );
   return $items;
 }
@@ -39,8 +39,8 @@ function amazon_store_item_description_render($subtype, $conf, $panel_args, $con
   $block->module = 'item_description';
 
   $block->title = (string)$context->data->EditorialReviews->EditorialReview[0]->Source;
-  $block->content = (string)$context->data->EditorialReviews->EditorialReview[0]->Content;
-  
+  $block->content = filter_xss((string)$context->data->EditorialReviews->EditorialReview[0]->Content);
+
   return $block;
 }
 

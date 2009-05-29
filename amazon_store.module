@@ -273,7 +273,7 @@ function amazon_store_admin_form() {
       '#type' => 'select',
       '#title' => t('Default Search Index'),
       '#description' => t("The Search Index used by default on the amazon_store page"),
-      '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(),
+      '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(TRUE),
       '#default_value' => variable_get('amazon_store_default_search_index', "Books"),
     ),
     'amazon_store_default_items' => array(
@@ -525,8 +525,9 @@ function amazon_store_add_to_cart($asin,  $offerListingId=NULL, $quantity=1, $no
       return TRUE;
     }
     if ((string)$results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.ItemAlreadyInCart") {
-      drupal_set_message("This item is already in your cart. Not added again");
-      return FALSE;
+      $current_quantity = amazon_store_get_current_cart_quantity($id);
+      amazon_store_update_cart_quantity($id,$current_quantity+1);
+      return TRUE;
     } else if ((string)$results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.CartInfoMismatch") {
       // Probably the sponsored cause, and thus the associate id, has changed
       // Fall through
@@ -559,6 +560,19 @@ function amazon_store_add_to_cart($asin,  $offerListingId=NULL, $quantity=1, $no
 }
 
 
+function amazon_store_get_current_cart_quantity($cartItemId) {
+    amazon_store_get_cart_info($cart_id, $cart_HMAC);
+
+  $parameters = array(
+    'MergeCart' => 'True',
+    'CartId' => $cart_id,
+    'HMAC' => $cart_HMAC,
+    "Item.1.CartItemId" => $cartItemId,
+  );
+  $results = amazon_store_http_request('CartGet', $parameters);
+  $current_quantity = (int)$results->Cart->CartItems->CartItem[0]->Quantity;
+  return $current_quantity;
+}
 /**
  * Update quantity on a cart item
  *
@@ -569,7 +583,7 @@ function amazon_store_add_to_cart($asin,  $offerListingId=NULL, $quantity=1, $no
  * @return
  * 	TRUE on success
  */
-function amazon_store_update_cart_quantity($cartItemId, $quantity, $item_number ) {
+function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
 
   amazon_store_get_cart_info($cart_id, $cart_HMAC);
 
@@ -582,7 +596,7 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity, $item_number 
   );
 
   $results = amazon_store_http_request('CartModify', $parameters);
-  $actual_quantity = $quantity > 0 ? $results->Cart->CartItems->CartItem[$item_number]->Quantity : $quantity;
+  $actual_quantity = $quantity > 0 ? (int)$results->Cart->CartItems->CartItem[0]->Quantity : $quantity;
 
   if (empty($results->error)) {
     drupal_set_message("Cart quantity updated to $actual_quantity");
@@ -782,7 +796,7 @@ function amazon_store_http_request($op, $parameters) {
   if ($error_set) {
     $errors="";
     watchdog('amazon',$msg . " ///" . print_r($results,TRUE));
-    drupal_set_message("Sorry - there was an error accessing Amazon.com. Details are in the " . l("system log", "admin/reports/dblog") . " (and here:) $msg");
+    // drupal_set_message("Sorry - there was an error accessing Amazon.com. Details are in the " . l("system log", "admin/reports/dblog") . " (and here:) $msg");
     $results->error = $msg;
   }
   return ($results);
@@ -1348,7 +1362,7 @@ function amazon_store_addcart_form_submit($form,&$form_state) {
   $result = amazon_store_add_to_cart(NULL,$form_state['values']['fields']['offer'."-$asin"]);
   if ($result) {
     $directory = drupal_get_path('module','amazon_store');
-    drupal_set_message("{$form['item_title']['#value']} was added to your cart. <br/><em>" . l("<img src='".url("$directory/images/check_bu.gif")."' />", 'amazon_store/cart', array('html' => TRUE)) . "</em>");
+    drupal_set_message("{$form['item_title']['#value']} was added to your cart. <br/><em>" . l("<img src='$directory/images/check_bu.gif' />", 'amazon_store/cart', array('html' => TRUE)) . "</em>");
   } else {
     drupal_set_message("Error: Item not added to cart");
   }
@@ -1652,6 +1666,6 @@ function _amazon_store_cart_quantity_validate($form,&$form_state) {
 
 function _amazon_store_cart_quantity_form_submit($form,&$form_state) {
   $asin=$form_state['values']['asin'];
-  amazon_store_update_cart_quantity($form_state['values']['cartitemid'."-$asin"],$form_state['values']['quantity'."-$asin"], $form_state['values']['item_number'."-$asin"]);
+  amazon_store_update_cart_quantity($form_state['values']['cartitemid'."-$asin"],$form_state['values']['quantity'."-$asin"]);
   // And return to this same page
 }

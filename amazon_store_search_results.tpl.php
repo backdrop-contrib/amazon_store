@@ -13,9 +13,7 @@
   }
 ?>
 <div class="amazon-store-panel search-results"><!--
-<a href='<?php url("amazon_store/cart") ?>'> Go to your cart <img
-  src='/<?php // print url("$directory/images/chngcart_bu.gif") ?>'
-  alt='shopping cart' /></a>
+<a href='<?php url("amazon_store/cart") ?>'> Go to your cart</a>
  -->
 
 
@@ -70,7 +68,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 				class="togglebtn">Show/hide full description</a> or <a
 				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
 			details</a>
-			<div class="toggle editorial"><?php print $result->EditorialReviews->EditorialReview[0]->Content; ?></div>
+			<div class="toggle editorial"><?php print filter_xss($result->EditorialReviews->EditorialReview[0]->Content); ?></div>
 			</div>
 			<?php print $form; ?></td>
 
@@ -97,7 +95,7 @@ results</a></div>
 <?php } ?>
 <a href="<?php print url('amazon_store/cart'); ?>" ><img
   alt="continue checkout" class="continue_checkout"
-  src="<?php print url("$directory/images/check_bu.gif") ?>" /></a>
+  src="<?php print "$directory/images/check_bu.gif" ?>" /></a>
 
 		<?php endif; ?></div>
 

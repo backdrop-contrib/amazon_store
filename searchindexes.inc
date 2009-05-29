@@ -8,7 +8,7 @@
 /**
  * @class
  * SearchIndex
- * 
+ *
  * Allows getting important info about a search index by locale
  * Currently only fitted with US info
  *
@@ -35,7 +35,7 @@ class SearchIndexes {
        'inverseprice' => 'Price: high to low',
        '-launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'Automotive' => array('friendly_name' => 'Automotive',
   'BrowseNode' => 15690151,
@@ -46,7 +46,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Baby' => array('friendly_name' => 'Baby',
   'BrowseNode' => 3760931,
@@ -57,7 +57,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'Beauty' => array('friendly_name' => 'Beauty',
   'BrowseNode' => 11055981,
@@ -69,7 +69,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        '-launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'Books' => array('friendly_name' => 'Books',
   'BrowseNode' => 1000,
@@ -83,7 +83,7 @@ class SearchIndexes {
        'daterank' => 'Publication date: newer to older',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Classical' => array('friendly_name' => 'Classical',
   'BrowseNode' => 301668,
@@ -99,7 +99,7 @@ class SearchIndexes {
        '-orig-rel-date' => 'Release date: older to newer',
        'releasedate' => 'Release date: newer to older',
        '-releasedate' => 'Release date: older to newer',
-), 
+),
 ),
 'DigitalMusic' => array('friendly_name' => 'Digital Music',
   'BrowseNode' => 301668,
@@ -107,7 +107,7 @@ class SearchIndexes {
   'sorts' => array(
        'songtitlerank' => 'Most popular',
        'uploaddaterank' => 'Date added',
-), 
+),
 ),
 
 'DVD' => array('friendly_name' => 'DVD',
@@ -121,7 +121,7 @@ class SearchIndexes {
        'titlerank' => 'Alphabetical: A to Z',
        '-video-release-date' => 'Release date: newer to older',
        'releasedate' => 'Release date: newer to older',
-), 
+),
 ),
 'Electronics' => array('friendly_name' => 'Electronics',
   'BrowseNode' => 493964,
@@ -133,7 +133,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'GourmetFood' => array('friendly_name' => 'Gourmet Food',
   'BrowseNode' => 3580501,
@@ -145,7 +145,7 @@ class SearchIndexes {
        'inverseprice' => 'Price: high to low',
        'launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'HealthPersonalCare' => array('friendly_name' => 'Health/Personal Care',
   'BrowseNode' => 3760931,
@@ -157,7 +157,7 @@ class SearchIndexes {
        'inverseprice' => 'Price: high to low',
        'launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 
 'HomeGarden' => array('friendly_name' => 'Home and Garden',
@@ -169,7 +169,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Industrial' => array('friendly_name' => 'Industrial',
   'BrowseNode' => 228013,
@@ -181,7 +181,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Jewelry' => array('friendly_name' => 'Jewelry',
   'BrowseNode' => 3880591,
@@ -192,7 +192,7 @@ class SearchIndexes {
        'pricerank' => 'Price: low to high',
        'inverseprice' => 'Price: high to low',
        'launch-date' => 'Newest arrivals',
-), 
+),
 ),
 'KindleStore' => array('friendly_name' => 'Kindle Store',
   'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'TextStream', 'Title'),
@@ -203,7 +203,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'relevancerank' =>  'Relevance',
        'reviewrank' => 'Average customer review: high to low',
-), 
+),
 ),
 'Kitchen' => array('friendly_name' => 'Kitchen',
   'BrowseNode' => 1063498,
@@ -215,7 +215,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Magazines' => array('friendly_name' => 'Magazines',
   'BrowseNode' => 44264011,
@@ -228,7 +228,7 @@ class SearchIndexes {
        'daterank' => 'Publication date: newer to older',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Merchants' => array('friendly_name' => 'Merchants',
   'BrowseNode' => 493964,
@@ -240,7 +240,7 @@ class SearchIndexes {
        'inverseprice' => 'Price: high to low',
        '-launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'Miscellaneous' => array('friendly_name' => 'Miscellaneous',
   'BrowseNode' => 349028011,
@@ -252,11 +252,11 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 
 ),
 'MP3Downloads' => array('friendly_name' => 'MP3 Downloads',
-   
+
   'parameters_allowed' => array( 'Browsenode', 'Keyword', 'Title'),
   'sorts' => array(
        'price' => 'Price: low to high',
@@ -264,7 +264,7 @@ class SearchIndexes {
        '-releasedate' => 'Release date',
        'relevancerank' =>  'Relevance',
        'salesrank' => 'Bestselling',
-), 
+),
 ),
 'Music' => array('friendly_name' => 'Music',
   'BrowseNode' => 301668,
@@ -282,7 +282,7 @@ class SearchIndexes {
        'releasedate' => 'Release date: most recent to oldest',
        '-releasedate' => 'Release date: oldest to most recent',
        'relevancerank' =>  'Relevance',
-), 
+),
 
 ),
 'MusicalInstruments' => array('friendly_name' => 'Musical Instruments',
@@ -295,14 +295,14 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        '-launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'MusicTracks' => array('friendly_name' => 'Music Tracks',
   'parameters_allowed' => array( 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State'),
   'sorts' => array(
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 
 ),
 'OfficeProducts' => array('friendly_name' => 'Office Products',
@@ -315,7 +315,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'OutdoorLiving' => array('friendly_name' => 'Outdoor Living',
   'BrowseNode' => 1063498,
@@ -327,7 +327,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'PCHardware' => array('friendly_name' => 'PC Hardware',
   'BrowseNode' => 493964,
@@ -338,7 +338,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'PetSupplies' => array('friendly_name' => 'Pet Supplies',
   'BrowseNode' => 13900811,
@@ -350,7 +350,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Photo' => array('friendly_name' => 'Photo',
   'BrowseNode' => 13900861,
@@ -362,7 +362,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Shoes' => array('friendly_name' => 'Shoes',
   'BrowseNode' => 3375301,
@@ -374,7 +374,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'xsrelevancerank' => 'Relevance',
        'reviewrank' => 'Average customer review: high to low',
-), 
+),
 
 ),
 'SilverMerchants' => array('friendly_name' => 'Silver Merchants',
@@ -396,7 +396,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'SportingGoods' => array('friendly_name' => 'Sporting Goods',
   'BrowseNode' => 1036682,
@@ -408,7 +408,7 @@ class SearchIndexes {
        'inverseprice' => 'Price: high to low',
        'launch-date' => 'Newest arrivals',
        'sale-flag' => 'On sale',
-), 
+),
 ),
 'Tools' => array('friendly_name' => 'Tools',
   'BrowseNode' => 228013,
@@ -420,7 +420,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'Toys' => array('friendly_name' => 'Toys',
   'BrowseNode' => 130,
@@ -432,7 +432,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-age-min' => 'Age: high to low',
-), 
+),
 ),
 'UnboxVideo' => array('friendly_name' => 'Unboxed Video',
   'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MPAARating', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
@@ -443,7 +443,7 @@ class SearchIndexes {
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
        '-video-release-date' => 'Release date: newer to older',
-), 
+),
 ),
 'VHS' => array('friendly_name' => 'VHS',
   'BrowseNode' => 404272,
@@ -456,7 +456,7 @@ class SearchIndexes {
        'titlerank' => 'Alphabetical: A to Z',
        '-video-release-date' => 'Release date: newer to older',
        '-releasedate' => 'Release date: newer to older',
-), 
+),
 ),
 'Video' => array('friendly_name' => 'Video',
   'BrowseNode' => 130,
@@ -469,7 +469,7 @@ class SearchIndexes {
        'titlerank' => 'Alphabetical: A to Z',
        '-video-release-date' => 'Release date: newer to older',
        '-releasedate' => 'Release date: newer to older',
-), 
+),
 ),
 'VideoGames' => array('friendly_name' => 'Video Games',
   'BrowseNode' => 44263011,
@@ -480,7 +480,7 @@ class SearchIndexes {
        'price' => 'Price: low to high',
        '-price' => 'Price: high to low',
        'titlerank' => 'Alphabetical: A to Z',
-), 
+),
 ),
 'Watches' => array('friendly_name' => 'Watches',
   'BrowseNode' => 378516011,
@@ -491,7 +491,7 @@ class SearchIndexes {
        'relevancerank' =>  'Relevance',
        'reviewrank' => 'Average customer review: high to low',
        'salesrank' => 'Bestselling to worst selling',
-), 
+),
 ),
 'Wireless' => array('friendly_name' => 'Wireless',
   'BrowseNode' => 408234,
@@ -504,7 +504,7 @@ class SearchIndexes {
        'salesrank' => 'Bestselling',
        'titlerank' => 'Alphabetical: A to Z',
        '-titlerank' => 'Alphabetical: Z to A',
-), 
+),
 ),
 'WirelessAccessories' => array('friendly_name' => 'Wireless Accessories',
   'BrowseNode' => 408234,
@@ -519,9 +519,9 @@ class SearchIndexes {
 
   ),
   );
-  
+
   /**
-   * 
+   *
    * @param $locale
    * 	Locale ("US") in the Amazon scheme of Locale
    * @return unknown_type
@@ -538,7 +538,7 @@ class SearchIndexes {
         }
       }
       error_reporting($error_level);
-      
+
     }
   }
   function getBrowseNodes() {
@@ -547,8 +547,12 @@ class SearchIndexes {
   function getParametersAllowed() {
     return $this->parametersAllowed();
   }
-  function getSearchIndexPulldown() {
-    return $this->searchIndexPulldown;
+  function getSearchIndexPulldown($exclude_all_searchindex=FALSE) {
+    $rv = $this->searchIndexPulldown;
+    if ($exclude_all_searchindex == TRUE) {
+      unset($rv['All']);
+    }
+    return $rv;
   }
   function getSorts($searchIndex) {
     return $this->sorts;
