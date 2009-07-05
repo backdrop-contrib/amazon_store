@@ -13,3 +13,4 @@ Installation:
 
 Related modules:
 1. Thickbox: If thickbox is installed, the product images will link to nice larger images on the page.
+2. Panels: If panels is installed, you can customize the way an individual product is displayed.

@@ -1,5 +1,25 @@
 // $Id$
 
+amazon_store 1.0beta4 2009-July
+--------------------------------
+Bug Fixes:
+#492460: Shopping cart image did not display in many situations.
+#494304: Add to cart on Ubercart causes Amazon Store error messages.
+
+
+amazon_store 1.0beta3 2009-05-29
+--------------------------------
+
+Bug fixes:
+
+#474610: "Add to cart" should increment count if the cart already has item in it
+#466616: Button images don't show if clean urls turned off
+#461598: When SearchIndex equals All, BrowseNode cannot be present.
+
+I also turned off the drupal_set_message() that by default was shown any time 
+the Amazon API returned an error, regardless of whether it was significant to 
+the user or not. These things still go into watchdog.
+
 amazon_store 1.0beta2 2009-04-05
 ----------------------
 - Added ability to configure default items in amazon_store by SearchIndex,

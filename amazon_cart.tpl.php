@@ -32,7 +32,7 @@ items in your cart. <?php else: ?>
 				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
 			<img src="<?php print $fullinfo->SmallImage->URL ?>"
 				alt="<?php print $item->Title ?> " /></a> <?php else: ?>
-			<img src="<?php print url("$directory/images/no_image_small.jpg"); ?>" /> <?php endif; ?></td>
+			<?php print theme('image',"$directory/images/no_image_small.jpg"); ?> <?php endif; ?></td>
 			<td class="item_stats"><a class="product_name"
 				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
 			<strong class="company_name"> <?php print $fullinfo->ItemAttributes->Manufacturer ?>
