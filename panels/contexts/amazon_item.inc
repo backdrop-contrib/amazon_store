@@ -3,7 +3,7 @@
  * $Id$
  * @file
  *  Provides the amazon_item context plugin for amazon_store panel
- * 
+ *
  */
 /**
  * Implementation of hook_panels_contexts()
@@ -16,7 +16,7 @@ function amazon_store_amazon_item_panels_contexts() {
     'context' => 'amazon_store_amazon_item_context',
     'keyword' => 'amazon_item',
     'context name' => 'amazon_item',
-    'no ui' => TRUE,
+    'settings form' => 'amazon_store_amazon_item_settings_form',
   );
   return $items;
 }
@@ -28,26 +28,40 @@ function amazon_store_amazon_item_panels_contexts() {
 function amazon_store_amazon_item_context($empty, $data = NULL, $conf = FALSE) {
   $context = new panels_context('amazon_item');
   $context->plugin = 'amazon_item';
-  $context->keyword = 'xxx';
+  $context->keyword = 'amazon_item';
 
   if ($empty) {
     return $context;
   }
 
   if ($conf) {
-    if (!empty($data)) {
-      $context->data = new stdclass();
-      $context->data->description = "Our context is &gt;{$data['item1']}&lt; and it came from config info.";
-      $context->title    = t("amazon_item Context from config");
-      return $context;
-    }
-  } else { // $data is coming from an arg - it's just a string
-    $context->data = amazon_store_retrieve_item($data);
+    $asin = $data['asin'];
+  } else {
+    $asin = $data;
+  }
+  if (!empty($asin)) {
+    $context->data = amazon_store_retrieve_item($asin);
     if ($context->data) {
       $context->arg = $data;
       $context->title = $context->data->ItemAttributes->Title;
+      return $context;
     }
-    return $context;
   }
+  return NULL;
+
 }
+
+
+function amazon_store_amazon_item_settings_form($conf, $external = FALSE) {
+  $form = array();
+  $form['asin'] = array(
+    '#type' => 'textfield',
+    '#title' => t('ASIN of the Amazon Item'),
+    '#size' => 50,
+    '#description' => t('The Amazon.com unique identitifier (ASIN) for this pane.'),
+    '#default_value' => $conf['asin'],
+  );
+  return $form;
+}
+
 
