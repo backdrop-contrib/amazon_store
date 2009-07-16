@@ -2,9 +2,13 @@
 
 amazon_store 1.0beta4 2009-July
 --------------------------------
+Features:
+#502156: Support Panels/Ctools 3
+
 Bug Fixes:
 #492460: Shopping cart image did not display in many situations.
 #494304: Add to cart on Ubercart causes Amazon Store error messages.
+Many small fixes to PHP style, and issues pointed out by logging errors
 
 
 amazon_store 1.0beta3 2009-05-29

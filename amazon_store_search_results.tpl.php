@@ -8,7 +8,7 @@
 
 ?>
 <?php
-  if (variable_get(amazon_store_show_searchform,TRUE)) {
+  if (variable_get('amazon_store_show_searchform',TRUE)) {
     print drupal_get_form('amazon_store_search_form');
   }
 ?>

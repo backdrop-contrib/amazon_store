@@ -19,7 +19,7 @@ if (!empty($configured_image)) {
 if (!empty($amazon_item->LargeImage)) {
   $largeImage=$amazon_item->LargeImage->URL;
 }
-$output .= "<img src='$image' width='$width' height='$height' title='{$amazon_item->ItemDetails->Title}' class='amazon-product-image'/>";
+$output = "<img src='$image' width='$width' height='$height' title='{$amazon_item->ItemDetails->Title}' class='amazon-product-image'/>";
 if (!empty($largeImage)) {
   $output = "<a href='$largeImage' title='{$amazon_item->ItemAttributes->Title}' class='thickbox'>
     $output</a>";

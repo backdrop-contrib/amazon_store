@@ -56,14 +56,14 @@ function amazon_store_feature_format($item) {
   return $output;
 }
 function amazon_store_binding_format($item,$allAttributes) {
-  $output .= "$item";
+  $output = "$item";
   if (!empty($allAttributes->NumberOfPages)) {
     $output .= ", {$allAttributes->NumberOfPages} pages";
   }
   return $output;
 }
 function amazon_store_dimensions_format($item) {
-  $output .= "<ul>";
+  $output = "<ul>";
   if ($item->Height) {
     $output .= "<li>Dimensions: {$item->Length}L x {$item->Width}W x {$item->Height}H</li>";
   }
@@ -74,10 +74,10 @@ function amazon_store_dimensions_format($item) {
   return $output;
 }
 function amazon_store_format_attribute($item,$handler,$allAttributes) {
-  $output .= "{$handler['name']}: ";
-  if ($handler['outputElement']) {
+  $output = "{$handler['name']}: ";
+  if (!empty($handler['outputElement'])) {
     $output .= $item->{$handler['outputElement']};
-  } else if ($handler['handler']) {
+  } else if (!empty($handler['handler'])) {
     $output .= $handler['handler']($item,$allAttributes);
   } else {
     $output .= (string)$item;
