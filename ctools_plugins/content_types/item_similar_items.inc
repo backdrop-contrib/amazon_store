@@ -17,7 +17,7 @@ function amazon_store_item_similar_items_ctools_content_types() {
     'edit form' => 'amazon_store_item_similar_items_edit_form',
     'icon' => 'icon_amazon.png',
     'description' => t('Amazon Item Reviews (CustomerReview).'),
-    'required context' => new panels_required_context(t('Amazon Item'), 'amazon_item'),
+    'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
     'category' => array(t('Amazon'), -9),
 
   );
