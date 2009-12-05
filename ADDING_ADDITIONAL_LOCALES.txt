@@ -1,6 +1,10 @@
 ADDING OTHER AMAZON LOCALEs to AMAZON_STORE
 -------------------------------------------
 
+NOTE: This file is left here for historical reasons only, or in case someone
+wants to improve the existing locale support. This work has already been done.
+
+
 Many people have requested support for locales other than the US locale for the 
 Amazon Store module (http://drupal.org/project/amazon_store.
 
