@@ -1,14 +1,25 @@
 // $Id$
 
-amazon_store 1.0beta4 2009-July
+amazon_store 2.0XXXXX ???
+* #566016 by rfay: Allow more liberal filtering of product description so the whole thing comes through.
+* #649380 by rfay: Make category pulldown optional on search page.
+* #648980 by rfay: Settings - allow separate control of front page search index 
+* #639312 by rfay: Change links to use 'buttonize' class instead of using background graphics.
+* Change to cache results from different locales separately, so that changing locale doesn't lead to confused results.
+* Don't show editorial review (Product Description) if it doesn't exist. Unfortunately, locales other than US locale don't provide this response.
+* Add configuration option for Merchant ID in search. You can now search all merchants or just Amazon.com
+
+amazon_store 2.0alpha1 2009-07-19
 --------------------------------
 Features:
 #502156: Support Panels/Ctools 3
+#426912: Support alternate Amazon locales (Thanks, @the_g_bomb)
 
 Bug Fixes:
 #492460: Shopping cart image did not display in many situations.
 #494304: Add to cart on Ubercart causes Amazon Store error messages.
 Many small fixes to PHP style, and issues pointed out by logging errors
+#522168 and #510980: Improve handling of random URL tossed at Amazon_store
 
 
 amazon_store 1.0beta3 2009-05-29

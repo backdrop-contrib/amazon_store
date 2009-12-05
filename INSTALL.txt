@@ -4,8 +4,7 @@ Installation:
 1. Install and enable the module as usual. Prerequisites include
    the Amazon module (http://drupal.org/project/amazon) and optionally
    the panels module (http://drupal.org/project/panels)
-2. Configure the various items in admin->settings->amazon. NOTE THAT ONLY THE US LOCALE 
-   IS CURRENTLY SUPPORTED BY amazon_store.
+2. Configure the various items in admin->settings->amazon. 
 3. Make sure you're running cron, or the store's inventory will get hopelessly out of
    date with the actual Amazon inventory.
 4. Configure the various items in admin->settings->amazon store. 

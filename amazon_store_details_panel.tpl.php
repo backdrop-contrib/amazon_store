@@ -48,7 +48,7 @@ function amazon_store_composer_format($item) {
 }
 
 function amazon_store_feature_format($item) {
-  $output .= "<ul>";
+  $output = "<ul>";
   foreach ($item as $feature) {
     $output .= "<li>$feature</li>";
   }

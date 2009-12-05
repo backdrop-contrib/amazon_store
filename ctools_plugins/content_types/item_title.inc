@@ -16,7 +16,7 @@ function amazon_store_item_title_ctools_content_types() {
     'description' => t('Amazon Item Title.'),
     'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
     'category' => array(t('Amazon'), 9),
-    'admin title' => 'Title of Amazon Item',
+    'admin title' => t('Title of Amazon Item'),
     'admin info' => 'amazon_store_item_title_admin_info',
   );
   return $items;

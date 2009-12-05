@@ -54,8 +54,9 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 				title="<?php print $result->ItemAttributes->Title ?>"> <img
 				src="<?php print $result->MediumImage->URL ?>"
 				alt="Image of <?php print $result->ItemAttributes->Title ?>"
-				class="product-image" /></a> <?php else: ?> <img
-				src="<?php print url("$directory/images/no_image_med.jpg"); ?>" /> <?php endif; ?></td>
+				class="product-image" /></a> <?php else: ?>
+        <?php print theme('image',"$directory/images/no_image_med.jpg"); ?>
+       <?php endif; ?></td>
 			<td>
 			<p class="title"><a
 				href="<?php print url("amazon_store/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
@@ -64,11 +65,15 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 				}
 				?>
 
-			<div class="editorial"><a href="javascript:void(null)"
-				class="togglebtn">Show/hide full description</a> or <a
+			<div class="editorial">
+        <?php if (!empty($result->EditorialReviews->EditorialReview[0]->Content)) { ?>
+          <a href="javascript:void(null)"
+          class="togglebtn">Show/hide full description</a> or
+          <?php } ?>
+          <a
 				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
 			details</a>
-			<div class="toggle editorial"><?php print filter_xss($result->EditorialReviews->EditorialReview[0]->Content); ?></div>
+			<div class="toggle editorial"><?php if (!empty($result->EditorialReviews->EditorialReview[0]->Content)) { print filter_xss($result->EditorialReviews->EditorialReview[0]->Content); } ?></div>
 			</div>
 			<?php print $form; ?></td>
 
@@ -93,9 +98,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 to Page <?php print "$nextpage of {$results->TotalPages} pages " ?> of
 results</a></div>
 <?php } ?>
-<a href="<?php print url('amazon_store/cart'); ?>" ><img
-  alt="continue checkout" class="continue_checkout"
-  src="<?php print "$directory/images/check_bu.gif" ?>" /></a>
 
 		<?php endif; ?></div>
-
+<?php print "<br />" . l(t("View Cart"), 'amazon_store/cart', array('attributes' => array('class' => 'buttonize continue_checkout')));
+?>

@@ -6,13 +6,11 @@
  */
 ?>
 <h2>Your Cart</h2>
-<a href="<?php print url('amazon_store') ?>"><img alt="continue shopping"
-	class="continue_shopping"
-	src="<?php print "$directory/images/shop_cont_bu.gif" ?>" /></a> <?php if ($cart->CartItems): ?>
-<a href="<?php print $cart->PurchaseURL; ?>" ><img
-	alt="continue checkout" class="continue_checkout"
-	src="<?php print "$directory/images/check_bu.gif" ?>" /></a> <?php endif; ?>
 
+<?php print l(t("Continue Shopping"), 'amazon_store', array('attributes' => array('class' => 'buttonize continue_shopping')));
+  if ($cart->CartItems) {
+     print l(t("Checkout at Amazon"), $cart->PurchaseURL, array('attributes' => array('class' => 'buttonize continue_checkout')));
+  } ?>
 <div class="greyrule" ></div>
 <?php if (!$cart->CartItems):?> There are no
 items in your cart. <?php else: ?>
@@ -55,12 +53,13 @@ items in your cart. <?php else: ?>
 		<tr id="cart_items_footer">
 			<td colspan="2"></td>
 
-			<td class="cart_subtotal"><!--  <input type="image" class="update"
-				value="1" name="update" alt="update" src="<?php print "$directory/images/update_bu.gif" ?>" />
-			--> Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
-			<p><a href="<?php print $cart->PurchaseURL ?>" ><img
-				alt="continue checkout" class="continue_checkout"
-				src="<?php print $directory ?>/images/check_bu.gif" /></a></p>
+			<td class="cart_subtotal">Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
+			<p>
+      <?php if ($cart->CartItems) {
+        print l(t("Checkout at Amazon"), $cart->PurchaseURL, array('attributes' => array('class' => 'buttonize continue_checkout')));
+      } ?>
+
+    </p>
 			<p><a href="<?php print url("amazon_store/clear_cart"); ?>">Empty your cart</a></p>
 			</td>
 		</tr>

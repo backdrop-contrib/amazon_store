@@ -1,4 +1,4 @@
-$Id$
+Id: README.URLs.txt,v 1.2 2009/04/28 22:10:00 rfay Exp $
 Explanation of URLs and Browsenodes in the Search URL
 
 When you land on the /amazon_store page with the no keywords, a BrowseNode is selected for you, depending
