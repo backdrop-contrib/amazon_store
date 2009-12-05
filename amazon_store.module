@@ -153,8 +153,9 @@ function amazon_store_theme() {
 function amazon_store_cron() {
 // Clear data which has expired.
 // Normally data should expire within 24 hours, as that
-// is the Amazon AAWS requirement
+// is the Amazon AAWS requirement.
   cache_clear_all(NULL,'cache_amazon_store');
+  cache_clear_all(NULL,'cache_amazon_store_searches');
 }
 
 /**
@@ -164,7 +165,7 @@ function amazon_store_cron() {
  * the cache_amazon_store table will be truncated as well
  */
 function amazon_store_flush_caches() {
-  return array('cache_amazon_store');
+  return array('cache_amazon_store', 'cache_amazon_store_searches');
 }
 
 /**
@@ -334,6 +335,15 @@ function amazon_store_admin_form() {
       ),
   );
 
+  $period = drupal_map_assoc(array(3600, 7200, 43200, 86400), 'format_interval');
+  $form['amazon_store_refresh_schedule'] = array(
+    '#type' => 'select',
+    '#title' => t('Refresh schedule'),
+    '#description' => t("Cached information must be cleared regularly to keep informaton current and to comply with Amazon's requirements. Cron must be enabled for this function to work properly."),
+    '#default_value' => variable_get('amazon_store_refresh_schedule', 43200),
+    '#options' => $period
+  );
+
   $form['amazon_store_include_categories'] = array(
       '#type' => 'checkboxes',
       '#title' => t("Categories to include in search box, etc. It's often preferable to exclude some categories"),
@@ -346,19 +356,20 @@ function amazon_store_admin_form() {
 }
 
 /**
- * Cache an amazon item - pass in SimpleXML item
+ * Cache an amazon item - pass in SimpleXML item.
  *
- * Timeout is controlled by the Amazon module's admin settings
+ * Timeout is controlled by the module's admin settings.
  *
  * @param (SimpleXML) $xml
+ *   A simplexml item.
  */
 function amazon_store_cache_item($xml) {
-  $cache_timeout = variable_get('amazon_refresh_schedule',86400);
+  $cache_timeout = variable_get('amazon_store_refresh_schedule', 43200);
   $locale = variable_get('amazon_locale', 'US');
 
   // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
   // So we cache the XML instead
-  cache_set("ASIN-{$xml->ASIN}-{$locale}",$xml->asXML(),'cache_amazon_store',time() + $cache_timeout);
+  cache_set("ASIN-{$xml->ASIN}-{$locale}",$xml->asXML(), 'cache_amazon_store', time() + $cache_timeout);
 }
 
 
@@ -393,12 +404,12 @@ function amazon_store_retrieve_item($asin) {
  * 	SimpleXML object with the search
  */
 function amazon_store_cache_search($parameters,$results) {
-  $cache_timeout = variable_get('amazon_refresh_schedule',86400);
+  $cache_timeout = variable_get('amazon_store_refresh_schedule', 43200);
   $locale = variable_get('amazon_locale', 'US');
 
   ksort($parameters);
   $key= "Search-$locale-" . implode('/',array_keys($parameters)).implode('/',$parameters);
-  cache_set($key,$results->asXML(),'cache_amazon_store',time()+$cache_timeout);
+  cache_set($key,$results->asXML(),'cache_amazon_store_searches',time()+$cache_timeout);
 }
 
 /**
@@ -415,7 +426,7 @@ function amazon_store_retrieve_cached_search($parameters) {
   ksort($parameters);
   $key= "Search-$locale-" . implode('/',array_keys($parameters)).implode('/',$parameters);
 
-  $item = cache_get($key,'cache_amazon_store');
+  $item = cache_get($key,'cache_amazon_store_searches');
   if ($item && $item->data) {
     $xml = new SimpleXMLElement($item->data);
   }

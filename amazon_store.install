@@ -12,12 +12,14 @@ function amazon_store_install() {
 
 function amazon_store_uninstall() {
   drupal_uninstall_schema('amazon_store');
+
   $vars = "amazon_store_default_browsenode_id
           amazon_store_default_items
           amazon_store_default_item_list
           amazon_store_default_search_index
           amazon_store_include_categories
           amazon_store_merchant_id
+          amazon_store_refresh_schedule
           amazon_store_search_index_choice
           amazon_store_show_category_select
           amazon_store_show_narrowby_form
@@ -32,6 +34,16 @@ function amazon_store_uninstall() {
 function amazon_store_schema() {
   $schema['cache_amazon_store'] = drupal_get_schema_unprocessed('system', 'cache');
   $schema['cache_amazon_store']['description'] = 'Store amazon item data, keyed by ASIN.';
+  $schema['cache_amazon_store_searches'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_amazon_store_searches']['description'] = 'Store Amazon Store searches.';
 
   return $schema;
+}
+
+// We only have 2 cache tables, so create them.
+function amazon_store_update_6201() {
+  $ret = array();
+  $schema = drupal_get_schema_unprocessed('system', 'cache');
+  db_create_table($ret, 'cache_amazon_store_searches', $schema);
+  return $ret;
 }
