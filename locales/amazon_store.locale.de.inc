@@ -193,6 +193,7 @@ function amazon_store_locale() {
 ),
 
   'MP3Downloads' => array('friendly_name' => t('MP3 Downloads'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 77256031,
   'parameters_allowed' => array('Availability', 'BrowseNode', 'DeliveryMethod', 'Keywords', 'MerchantId', 'Sort', 'Title'),
   'sorts' => array(

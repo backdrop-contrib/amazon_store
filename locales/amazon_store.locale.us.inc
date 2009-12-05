@@ -85,6 +85,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'DigitalMusic' => array('friendly_name' => t('Digital Music'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 301668,
   'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
@@ -178,6 +179,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'KindleStore' => array('friendly_name' => t('Kindle Store'),
+  'exclude_default' => TRUE,
   'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'TextStream', 'Title'),
   'sorts' => array(
   'daterank' => t('Publication date: newer to older'),
@@ -201,6 +203,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'Magazines' => array('friendly_name' => t('Magazines'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 44264011,
   'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'State', 'Sort', 'Title'),
   'sorts' => array(
@@ -214,6 +217,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'Merchants' => array('friendly_name' => t('Merchants'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 493964,
   'parameters_allowed' => array( 'Keywords', 'Title', 'BrowseNode', 'Artist', 'Author', 'Actor', 'Director', 'AudienceRating', 'Manufacturer', 'MusicLabel', 'Composer', 'Publisher', 'Brand', 'Conductor', 'City', 'Neighborhood', 'Orchestra', 'TextStream'),
   'sorts' =>  array(
@@ -226,6 +230,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'Miscellaneous' => array('friendly_name' => t('Miscellaneous'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 349028011,
   'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
@@ -239,7 +244,7 @@ $locale = array( 'US' => array(
 
   ),
   'MP3Downloads' => array('friendly_name' => t('MP3 Downloads'),
-
+  'exclude_default' => TRUE,
   'parameters_allowed' => array( 'Browsenode', 'Keyword', 'Title'),
   'sorts' => array(
   'price' => t('Price: low to high'),
@@ -281,6 +286,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'MusicTracks' => array('friendly_name' => t('Music Tracks'),
+  'exclude_default' => TRUE,
   'parameters_allowed' => array( 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State'),
   'sorts' => array(
   'titlerank' => t('Alphabetical: A to Z'),
@@ -418,6 +424,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'UnboxVideo' => array('friendly_name' => t('Unboxed Video'),
+  'exclude_default' => TRUE,
   'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MPAARating', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
@@ -429,6 +436,7 @@ $locale = array( 'US' => array(
   ),
   ),
   'VHS' => array('friendly_name' => t('VHS'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 404272,
   'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' =>  array(

@@ -318,22 +318,28 @@ function amazon_store_admin_form() {
       ),
 
       'amazon_store_default_browsenode_id' => array(
-      '#type' => 'textfield',
-      '#title' => t("Default Browsenode ID"),
-      '#description' => t("Browsenode ID to use as default search. This browsenode MUST be valid with the Search Index you have chosen. You can find browsenodes at <a href='http://browsenodes.com'>browsenodes.com</a>"),
-      '#size' => 12,
-      '#default_value' => variable_get('amazon_store_default_browsenode_id',""),
+        '#type' => 'textfield',
+        '#title' => t("Default Browsenode ID"),
+        '#description' => t("Browsenode ID to use as default search. This browsenode MUST be valid with the Search Index you have chosen. You can find browsenodes at <a href='http://browsenodes.com'>browsenodes.com</a>"),
+        '#size' => 12,
+        '#default_value' => variable_get('amazon_store_default_browsenode_id',""),
       ),
 
       'amazon_store_default_item_list' => array(
-      '#type' => 'textfield',
-      '#title' => t("Default Item List"),
-      '#description' => t("Comma-separated list of up to 10 Amazon ASINs that should be displayed by default on the amazon_store page"),
-      '#size' => 80,
-      '#default_value' => variable_get('amazon_store_default_item_list',""),
-
+        '#type' => 'textfield',
+        '#title' => t("Default Item List"),
+        '#description' => t("Comma-separated list of up to 10 Amazon ASINs that should be displayed by default on the amazon_store page"),
+        '#size' => 80,
+        '#default_value' => variable_get('amazon_store_default_item_list',""),
       ),
+  );
 
+  $form['amazon_store_include_categories'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t("Categories to include in search box, etc. It's often preferable to exclude some categories"),
+      '#description' => t("Note that this list changes if you change the locale, so you will have to revisit this page after changing the locale on the <a href='!amazon_settings_url'>Amazon Module Settings</a> page.", array('!amazon_settings_url' => url('admin/settings/amazon'))),
+      '#options' => $GLOBALS['amazon_store_search_indexes']->getAllCategories(),
+      '#default_value' => variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories()),
   );
 
   return system_settings_form($form);

@@ -171,6 +171,7 @@
   ),
 
   'MP3Downloads' => array('friendly_name' => t('MP3 Downloads'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 77198031,
   'parameters_allowed' => array( 'Author', 'Availability', 'BrowseNode', 'Count', 'DeliveryMethod', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ResponseGroup', 'ReviewSort', 'SearchIndex', 'Sort', 'TagPage', 'TagsPerPage', 'TagSort', 'Title'),
   'sorts' => array(
@@ -290,6 +291,7 @@
   ),
 
 'VHS' => array('friendly_name' => t('VHS'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 283926,
   'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(

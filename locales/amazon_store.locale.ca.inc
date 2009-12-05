@@ -94,6 +94,7 @@ function amazon_store_locale() {
   ),
   ),
   'VHS' => array('friendly_name' => t('VHS'),
+  'exclude_default' => TRUE,
   'BrowseNode' => 962072,
   'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(

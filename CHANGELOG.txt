@@ -1,6 +1,7 @@
 // $Id$
 
 amazon_store 2.0XXXXX ???
+* #559918 by rfay: Make category list configurable so categories can be excluded.
 * #566016 by rfay: Allow more liberal filtering of product description so the whole thing comes through.
 * #649380 by rfay: Make category pulldown optional on search page.
 * #648980 by rfay: Settings - allow separate control of front page search index 
