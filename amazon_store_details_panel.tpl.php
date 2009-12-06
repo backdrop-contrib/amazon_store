@@ -38,7 +38,7 @@ function amazon_store_manufacturer_format($item) {
   return theme('amazon_store_search_results_manufacturer',(string)$item);
 }
 function amazon_store_author_format($item) {
-  return l($item,"amazon_store",array('query'=>"author=$item"));
+    return l($item,"amazon_store",array('query'=>"author=$item"));
 }
 function amazon_store_artist_format($item) {
   return l($item,"amazon_store",array('query'=>"artist=$item"));
@@ -50,7 +50,10 @@ function amazon_store_composer_format($item) {
 function amazon_store_feature_format($item) {
   $output = "<ul>";
   foreach ($item as $feature) {
-    $output .= "<li>$feature</li>";
+    // Strip items that contain links, which will be unuseful.
+    if (!preg_match("/href=/i", $feature)) {
+      $output .= "<li>" . check_plain($feature) . "</li>";
+    }
   }
   $output .= "</ul>";
   return $output;

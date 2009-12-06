@@ -19,7 +19,12 @@
 <!-- Left section: Item Description and Product Reviews -->
 <div id="item-details" class="left-column column">
 <h3>Item Description</h3>
-<p id="product-description"><?php if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) { print filter_xss_admin((string)$amazon_item->EditorialReviews->EditorialReview[0]->Content); } ?>
+<p id="product-description">
+<?php
+if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
+  print check_markup($amazon_item->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */, FALSE);
+}
+?>
 </p>
 
 <h3>Product Details</h3>

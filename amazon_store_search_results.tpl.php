@@ -73,7 +73,13 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
           <a
 				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
 			details</a>
-			<div class="toggle editorial"><?php if (!empty($result->EditorialReviews->EditorialReview[0]->Content)) { print filter_xss($result->EditorialReviews->EditorialReview[0]->Content); } ?></div>
+			<div class="toggle editorial">
+			<?php
+			if (!empty($result->EditorialReviews->EditorialReview[0]->Content)) {
+			  print check_markup($result->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */, FALSE);
+			}
+			?>
+      </div>
 			</div>
 			<?php print $form; ?></td>
 
