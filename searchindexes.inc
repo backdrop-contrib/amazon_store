@@ -14,7 +14,6 @@
  *
  */
 class SearchIndexes {
-  protected $searchIndexPulldown = array();  // Populated search index pulldown.
   protected $allCategories = array();   // All categories.
   protected $recommendedCategories = array();  // Categories which will be on by default.
   protected $parametersAllowed = array();
@@ -54,9 +53,10 @@ class SearchIndexes {
     return $this->parametersAllowed();
   }
   function getSearchIndexPulldown($exclude_all_searchindex=FALSE) {
-    $rv = $this->searchIndexPulldown;
-    if ($exclude_all_searchindex == TRUE) {
-      unset($rv['All']);
+    $rv = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
+    $rv = array_filter($rv);
+    if (!$exclude_all_searchindex) {
+      $rv = array('All' => 'All') + $rv;
     }
     return $rv;
   }

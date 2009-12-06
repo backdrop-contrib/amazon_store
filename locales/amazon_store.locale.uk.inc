@@ -65,7 +65,7 @@
     'reviewrank' => t('Average customer review'),
     'pricerank' => t('Price, Low to High'),
     'inverse-pricerank' => t('Price, High to Low'),
-    'daterank' => t('Publication date, Older to Newer'),
+    'daterank' => t('Publication date, Newer to Older'),
     'pubdate' => t('Publication date, Older to Newer'),
     'titlerank' => t('Alphabetical, A to Z'),
     '-titlerank' => t('Alphabetical, Z to A')
