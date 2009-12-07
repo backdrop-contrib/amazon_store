@@ -55,8 +55,8 @@ class SearchIndexes {
   function getSearchIndexPulldown($exclude_all_searchindex=FALSE) {
     $rv = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
     $rv = array_filter($rv);
-    if (!$exclude_all_searchindex) {
-      $rv = array('All' => 'All') + $rv;
+    if ($exclude_all_searchindex) {
+      unset($rv['All']);
     }
     return $rv;
   }
