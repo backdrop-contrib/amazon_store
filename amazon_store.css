@@ -33,7 +33,9 @@
 	margin: 0;
 	padding: 0;
 }
-
+.search-form-clear {
+  clear: both;
+}
 .search-results p.title {
 	font-size: large;
 	font-weight: bold;
@@ -77,6 +79,10 @@
   clear: both;
 }
 
+.search-indexes-table td {
+  vertical-align: top;
+  line-height: 120%;
+}
 /* buttonize a link */
 
 a.buttonize {

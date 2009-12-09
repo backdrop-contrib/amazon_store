@@ -58,6 +58,9 @@ class SearchIndexes {
     if ($exclude_all_searchindex) {
       unset($rv['All']);
     }
+    foreach ($rv as $name => $friendly_name) {
+      $rv[$name] = $this->searchIndexPulldown[$name];
+    }
     return $rv;
   }
   function getSorts($searchIndex) {

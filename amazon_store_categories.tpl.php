@@ -5,14 +5,20 @@
  *   Present a block of Amazon store category links.
  */
 
+$num_columns = variable_get('amazon_store_categories_block_num_columns', 2);
 $categories = $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(TRUE);
-
-$output = "<div class='amazon-store-category-blurb'>" . t("Search Amazon in these categories:") . "</div>";
-$output .= "<ul>";
-foreach($categories as $category => $friendly_name) {
+print "<div class='amazon-store-category-blurb'>" . t("Search Amazon in these categories:") . "</div>";
+$td_length = (int)(count($categories)/$num_columns);
+print "<table class='search-indexes-table'><tr><td>";
+$count = 1;
+$column = 1;
+foreach ($categories as $category => $friendly_name) {
   $link = l($friendly_name, "amazon_store", array('query' => array('SearchIndex' => $category)));
-  $output .= "<li>$link</li>";
+  print "<p>$link</p>";
+  if (($count % $td_length == 0) && $column < $num_columns) {
+    print "</td><td>";
+    $column ++;
+  }
+  $count++;
 }
-$output .= "</ul>";
-$output = "<div class='amazon-store-category-links'>" . $output . "</div>";
-print $output;
+print "</td></tr></table>";

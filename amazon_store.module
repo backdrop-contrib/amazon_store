@@ -90,25 +90,59 @@ function amazon_store_menu() {
  * Block 'categories': A list of links to Amazon categories.
  */
 function amazon_store_block($op = 'list', $delta = "0", $edit = array()) {
-  if ($op == 'list') {
-    $blocks[0]['info'] = t('Search Amazon');
-    $blocks['categories']['info'] = t('Amazon Store Categories');
-    return $blocks;
-  }
-  else   if ($op == 'view') {
-    $block = array();
-    switch ($delta) {
-      case "0":
-        $directory = drupal_get_path('module','amazon_store');
-        $block['subject'] = t("Search Amazon");
-        $block['content'] = theme('amazon_store_search_block');
-        break;
-      case 'categories':
-        $block['subject'] = t('Search Amazon Categories');
-        $block['content'] = theme('amazon_store_categories');
-        break;
-    }
-    return $block;
+  switch ($op) {
+    case 'list':
+      $blocks[0]['info'] = t('Search Amazon');
+      $blocks['categories']['info'] = t('Amazon Store Categories');
+      return $blocks;
+    case 'view':
+      $block = array();
+      switch ($delta) {
+        case "0":
+          $block['subject'] = t("Search Amazon");
+          $block['content'] = theme('amazon_store_search_block');
+          break;
+        case 'categories':
+          $block['subject'] = t('Search Amazon Categories');
+          $block['content'] = theme('amazon_store_categories');
+          break;
+          return $block;
+      }
+      return $block;
+      break;
+    case 'configure':
+      switch ($delta) {
+        case "0":
+          $form = array();
+          $form['amazon_store_search_block_keywords_width'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Width (in characters) of keywords element'),
+            '#size' => 5,
+            '#default_value' => variable_get('amazon_store_search_block_keywords_width',  15),
+          );
+          return $form;
+        case "categories":
+          $form = array();
+          $form['amazon_store_categories_block_num_columns'] = array(
+            '#type' => 'select',
+            '#options' => drupal_map_assoc(array(1, 2, 3, 4, 5)),
+            '#title' => t('Number of columns'),
+            '#default_value' => variable_get('amazon_store_categories_block_num_columns',  2),
+          );
+          return $form;
+
+      }
+      break;
+    case 'save':
+      switch ($delta) {
+        case '0':
+          variable_set('amazon_store_search_block_keywords_width', $edit['amazon_store_search_block_keywords_width']);
+          break;
+        case "categories":
+          variable_set('amazon_store_categories_block_num_columns', $edit['amazon_store_categories_block_num_columns']);
+          break;
+      }
+      return;
   }
 }
 
@@ -790,7 +824,7 @@ function amazon_store_report_error($errors) {
 /**
  * Basic Amazon search form.
  */
-function amazon_store_search_form() {
+function amazon_store_search_form(&$form_state, $keyword_width = 15) {
 
   if (variable_get('amazon_store_show_category_select', TRUE)) {
     $form['SearchIndex'] = array(
@@ -808,12 +842,16 @@ function amazon_store_search_form() {
   $form['Keywords'] = array(
       '#title' => t('Search For'),
       '#type' => 'textfield',
-      '#size' => 15,
+      '#size' => $keyword_width,
       '#default_value' => isset($_GET['Keywords']) ? $_GET['Keywords'] : "",
   );
   $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Search Amazon'),
+  );
+  $form['clear'] = array(
+    '#type' => 'markup',
+    '#value' => "<div class='search-form-clear'></div>",
   );
   return $form;
 
@@ -1647,6 +1685,10 @@ function amazon_store_sort_form(&$form_state) {
       '#name' => t('Sort'),
       '#attributes' => array('class' => 'no-js'),
   );
+  $form['clear'] = array(
+    '#type' => 'markup',
+    '#value' => "<div class='search-form-clear'></div>",
+  );
   return $form;
 }
 
@@ -1711,6 +1753,11 @@ function amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
       unset($form['searchbins'][$narrowBy]);
     }
   }
+  $form['clear'] = array(
+    '#type' => 'markup',
+    '#value' => "<div class='search-form-clear'></div>",
+  );
+
   return $form;
 }
 

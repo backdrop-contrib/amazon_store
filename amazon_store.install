@@ -24,6 +24,8 @@ function amazon_store_uninstall() {
           amazon_store_show_category_select
           amazon_store_show_narrowby_form
           amazon_store_show_searchform
+          amazon_store_search_block_keywords_width
+          amazon_store_categories_block_num_columns
           amazon_store_show_sort_form";
 
   foreach(preg_split("/\s+/", $vars) as $var) {

@@ -9,11 +9,12 @@
 ?>
 <?php
   if (variable_get('amazon_store_show_searchform',TRUE)) {
-    print drupal_get_form('amazon_store_search_form');
+    // Argument specifies how wide the keywords textfield should be, in chars.
+    print drupal_get_form('amazon_store_search_form', 50);
   }
 ?>
 <div class="amazon-store-panel search-results"><!--
-<a href='<?php url("amazon_store/cart") ?>'> Go to your cart</a>
+<a href='<?php print url("amazon_store/cart") ?>'> Go to your cart</a>
  -->
 
 

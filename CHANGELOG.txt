@@ -1,6 +1,9 @@
 // $Id$
 
 amazon_store 2.0XXXXX ???
+* #655626 by rfay: Remove ugly graphic from search block. Improve alignment of search blocks in various themes.
+                   Wider (and configurable) keyword entry area in search block.
+                   Add configuration to both blocks.
 * #652350 by rfay: Remove links from features section of item detail page.
 * #652078 by rfay: Add a themable block with links to categories.
 * #588958 by rfay: Improve caching by splitting into 2 tables and use shorter refresh intervals.
