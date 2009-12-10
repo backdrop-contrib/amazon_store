@@ -9,6 +9,9 @@ $num_columns = variable_get('amazon_store_categories_block_num_columns', 2);
 $categories = $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(TRUE);
 print "<div class='amazon-store-category-blurb'>" . t("Search Amazon in these categories:") . "</div>";
 $td_length = (int)(count($categories)/$num_columns);
+if (count($categories % $num_columns)) {
+  $td_length++; // Distribute more into the first columns.
+}
 print "<table class='search-indexes-table'><tr><td>";
 $count = 1;
 $column = 1;

@@ -1,6 +1,6 @@
 // $Id$
 
-amazon_store 2.0XXXXX ???
+amazon_store 2.0-RC1
 * #655626 by rfay: Remove ugly graphic from search block. Improve alignment of search blocks in various themes.
                    Wider (and configurable) keyword entry area in search block.
                    Add configuration to both blocks.
