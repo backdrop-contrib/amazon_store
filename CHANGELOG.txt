@@ -1,5 +1,7 @@
 // $Id$
 
+* #658168 by rfay: Fixed 'Clear cart' is a link, should be a POST not a GET.
+
 amazon_store 2.0-RC1
 * #655626 by rfay: Remove ugly graphic from search block. Improve alignment of search blocks in various themes.
                    Wider (and configurable) keyword entry area in search block.

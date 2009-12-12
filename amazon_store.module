@@ -719,7 +719,19 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
  * Empty the cart
  *
  */
-function amazon_store_clear_cart() {
+function amazon_store_clear_cart(&$form_state, $destination = "amazon_store") {
+  $form = array();
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t("Clear cart")
+  );
+  $form['destination'] = array(
+    '#type' => 'value',
+    '#value' => $destination,
+  );
+  return $form;
+}
+function amazon_store_clear_cart_submit($form, $form_state) {
   amazon_store_get_cart_info($cart_id, $cart_HMAC);
 
   // Do CartAdd operation with cart_id
@@ -738,7 +750,7 @@ function amazon_store_clear_cart() {
     }
   }
   drupal_set_message(t("Your shopping cart is now empty"));
-  drupal_goto('amazon_store');
+  drupal_goto($form_state['values']['destination']);
 }
 
 

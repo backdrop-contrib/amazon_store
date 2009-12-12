@@ -57,10 +57,11 @@ items in your cart. <?php else: ?>
 			<p>
       <?php if ($cart->CartItems) {
         print l(t("Checkout at Amazon"), $cart->PurchaseURL, array('attributes' => array('class' => 'buttonize continue_checkout')));
+        print drupal_get_form('amazon_store_clear_cart');
+
       } ?>
 
     </p>
-			<p><a href="<?php print url("amazon_store/clear_cart"); ?>">Empty your cart</a></p>
 			</td>
 		</tr>
 	</tbody>
