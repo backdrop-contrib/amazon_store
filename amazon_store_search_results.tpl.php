@@ -107,5 +107,5 @@ results</a></div>
 <?php } ?>
 
 		<?php endif; ?></div>
-<?php print "<br />" . l(t("View Cart"), 'amazon_store/cart', array('attributes' => array('class' => 'buttonize continue_checkout')));
+<?php print "<br />" . theme('amazon_store_link_button', t("View Cart"), 'amazon_store/cart');
 ?>

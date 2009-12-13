@@ -83,23 +83,4 @@
   vertical-align: top;
   line-height: 120%;
 }
-/* buttonize a link */
-
-a.buttonize {
-/* background: #9ECF22; */
-  background:#14609F  repeat-x scroll 0 -70px;
-  border:1px solid #424242;
-  color: white !important;
-  cursor:pointer;
-  margin:0 .8em 0 0;
-  padding:.2em .4em;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  font-size:14px;
-}
-
-a.buttonize:hover {
-  background:#555555 none repeat scroll 0 0;
-  color:white;
-}
 

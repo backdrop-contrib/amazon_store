@@ -197,6 +197,10 @@ function amazon_store_theme() {
     'amazon_store_categories' => array(
       'template' => 'amazon_store_categories',
     ),
+    'amazon_store_link_button' => array(
+      'template' => 'amazon_store_link_button',
+      'arguments' => array('text' => NULL, 'url' => NULL),
+    ),
 
   );
 }
@@ -232,16 +236,22 @@ function amazon_store_flush_caches() {
 function amazon_store_forms($form_id) {
   $args = func_get_args();
   $forms = array();
-  if (strpos($form_id, 'amazon_store_addcart_form') === 0) {
+  if (preg_match('/^amazon_store_addcart_form/', $form_id)) {
     $forms[$form_id] = array(
         'callback' => 'amazon_store_addcart_form',
         'callback arguments' => $args[1],
     );
   }
-  if (strpos($form_id, '_amazon_store_cart_quantity_form') === 0) {
+  if (preg_match('/^_amazon_store_cart_quantity_form/', $form_id)) {
     $forms[$form_id] = array(
-        'callback' => '_amazon_store_cart_quantity_form',
-        'callback arguments' => $args[1],
+      'callback' => '_amazon_store_cart_quantity_form',
+      'callback arguments' => $args[1],
+    );
+  }
+  if (preg_match('/^amazon_store_buttonize_link/', $form_id)) {
+    $forms[$form_id] = array(
+      'callback' => 'amazon_store_buttonize_link',
+      'callback arguments' => $args[1],
     );
   }
   return $forms;
@@ -1537,7 +1547,7 @@ function amazon_store_addcart_form_submit($form,&$form_state) {
   $result = _amazon_store_add_to_cart(NULL,$offer);
   if ($result) {
     $directory = drupal_get_path('module', 'amazon_store');
-    drupal_set_message(t('%item  was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), 'amazon_store/cart', array('html' => TRUE, 'attributes' => array('class' => 'buttonize'))))));
+    drupal_set_message(t('%item  was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), 'amazon_store/cart'))));
   } else {
     drupal_set_message(t('Error: Item not added to cart'));
   }
@@ -1849,4 +1859,34 @@ function _amazon_store_cart_quantity_form_submit($form,&$form_state) {
   $asin=$form_state['values']['asin'];
   amazon_store_update_cart_quantity($form_state['values']['cartitemid'."-$asin"],$form_state['values']['quantity'."-$asin"]);
 // And return to this same page
+}
+
+/**
+ * Turn a link or path into a form button.
+ * This is only intended to handle internal paths and simple links like
+ * the one to the amazon checkout.
+ * @param $form_state
+ * @param $name
+ *   button name.
+ * @param $link
+ *   URL we'll link to.
+ * @return form.
+ */
+function amazon_store_buttonize_link(&$form_state, $name, $link) {
+  $parts = parse_url($link);
+  if (!empty($parts['scheme'])) {
+    $url = "{$parts['scheme']}://{$parts['host']}{$parts['path']}";
+    $link = array($url, $parts['query']);
+  }
+  $form = array(
+    '#redirect' => $link,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => $name,
+  );
+  return $form;
+}
+function amazon_store_buttonize_link_submit($form, $form_state) {
+  $x = 1;
 }

@@ -7,10 +7,11 @@
 ?>
 <h2>Your Cart</h2>
 
-<?php print l(t("Continue Shopping"), 'amazon_store', array('attributes' => array('class' => 'buttonize continue_shopping')));
-  if ($cart->CartItems) {
-     print l(t("Checkout at Amazon"), $cart->PurchaseURL, array('attributes' => array('class' => 'buttonize continue_checkout')));
-  } ?>
+<?php
+print theme('amazon_store_link_button', t("Continue Shopping"), 'amazon_store');
+if ($cart->CartItems) {
+  print theme('amazon_store_link_button', t("Checkout at Amazon"), (string)$cart->PurchaseURL);
+} ?>
 <div class="greyrule" ></div>
 <?php if (!$cart->CartItems):?> There are no
 items in your cart. <?php else: ?>
@@ -56,7 +57,7 @@ items in your cart. <?php else: ?>
 			<td class="cart_subtotal">Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
 			<p>
       <?php if ($cart->CartItems) {
-        print l(t("Checkout at Amazon"), $cart->PurchaseURL, array('attributes' => array('class' => 'buttonize continue_checkout')));
+        print theme('amazon_store_link_button', t("Checkout at Amazon"), $cart->PurchaseURL);
         print drupal_get_form('amazon_store_clear_cart');
 
       } ?>
