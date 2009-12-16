@@ -770,6 +770,10 @@ function amazon_store_clear_cart_submit($form, $form_state) {
  * @return rendered page contents
  */
 function amazon_store_show_cart() {
+
+  // Prevent caching. This one shouldn't be cached.
+  $GLOBALS['conf']['cache'] = FALSE;
+
   amazon_store_get_cart_info($cart_id, $cart_HMAC);
 
   $parameters = array(
@@ -789,7 +793,6 @@ function amazon_store_show_cart() {
   // Display the cart
   $output = "<div>" .theme('amazon_cart',$results->Cart) . "</div>";
   return $output;
-
 }
 
 function amazon_item_detail($asin) {
@@ -1886,7 +1889,4 @@ function amazon_store_buttonize_link(&$form_state, $name, $link) {
     '#value' => $name,
   );
   return $form;
-}
-function amazon_store_buttonize_link_submit($form, $form_state) {
-  $x = 1;
 }

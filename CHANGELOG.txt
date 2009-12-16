@@ -1,10 +1,13 @@
 // $Id$
 
-
+amazon_store-6.x-2.0-RC2
+------------------------
+* #661634 by rfay: Cart page (amazon_store/cart) cached for anonymous users.
 * Followup to #639312 by rfay: Move linkbutton to its own theme hook.
-* #658168 by rfay: Fixed 'Clear cart' is a link, should be a POST not a GET.
+* #658168 by rfay: 'Clear cart' is a link, should be a POST not a GET.
 
 amazon_store 2.0-RC1
+--------------------
 * #655626 by rfay: Remove ugly graphic from search block. Improve alignment of search blocks in various themes.
                    Wider (and configurable) keyword entry area in search block.
                    Add configuration to both blocks.
