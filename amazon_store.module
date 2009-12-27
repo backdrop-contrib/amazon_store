@@ -770,7 +770,6 @@ function amazon_store_clear_cart_submit($form, $form_state) {
  * @return rendered page contents
  */
 function amazon_store_show_cart() {
-
   // Prevent caching. This one shouldn't be cached.
   $GLOBALS['conf']['cache'] = FALSE;
 
@@ -791,8 +790,12 @@ function amazon_store_show_cart() {
     }
   }
   // Display the cart
-  $output = "<div>" .theme('amazon_cart',$results->Cart) . "</div>";
-  return $output;
+  if (!empty($results->Cart)) {
+    $result = theme('amazon_cart',$results->Cart);
+  } else {
+    $result = t("There is nothing in your cart.");
+  }
+  return "<div>$result</div>";
 }
 
 function amazon_item_detail($asin) {
@@ -810,8 +813,8 @@ function amazon_item_detail($asin) {
 /**
  * Return the cart ID and HMAC from session variable
  *
- * @param unknown_type $cart_id
- * @param unknown_type $cart_HMAC
+ * @param $cart_id
+ * @param $cart_HMAC
  */
 function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
   $cart_id = empty($_SESSION['cart_id']) ? NULL : $_SESSION['cart_id'];
@@ -821,8 +824,8 @@ function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
 /**
  * Set cart ID and HMAC in session variable
  *
- * @param unknown_type $cart_id
- * @param unknown_type $cart_HMAC
+ * @param $cart_id
+ * @param $cart_HMAC
  */
 // TODO: Isolate amazon info in sessions and name it better
 function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
@@ -832,9 +835,9 @@ function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
 
 /**
  * Utility function for reporting errors as reported in the
- * errors portion of SimpleXML Amazon item object
+ * errors portion of SimpleXML Amazon item object.
  *
- * @param unknown_type $errors
+ * @param $errors
  */
 function amazon_store_report_error($errors) {
   foreach ($errors->Error as $error) {

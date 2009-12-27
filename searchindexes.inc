@@ -52,14 +52,26 @@ class SearchIndexes {
   function getParametersAllowed() {
     return $this->parametersAllowed();
   }
+
+  /**
+   * Filter the searchIndexPulldown to exclude the categories removed in admin interface.
+   * @param $exclude_all_searchindex
+   *   TRUE if we exclude "All"
+   * @return
+   *   Keyed array. Key is the descriptor, like 'OutdoorLiving', value is the
+   *   friendly name, like 'Outdoor Living'.
+   */
   function getSearchIndexPulldown($exclude_all_searchindex=FALSE) {
-    $rv = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
-    $rv = array_filter($rv);
+    $categories = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
+    $categories = array_filter($categories);
+
+    $rv = array();
+    foreach ($categories as $name) {
+      $rv[$name] = $this->searchIndexPulldown[$name];
+    }
+
     if ($exclude_all_searchindex) {
       unset($rv['All']);
-    }
-    foreach ($rv as $name => $friendly_name) {
-      $rv[$name] = $this->searchIndexPulldown[$name];
     }
     return $rv;
   }
