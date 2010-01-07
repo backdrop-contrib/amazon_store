@@ -1433,9 +1433,13 @@ function amazon_store_addcart_form(&$form_state, $asin, $context='normal') {
 
   $form['fields']['offer'."-$asin"]['#default_value'] = $curValue;
   $form['submits']['#type'] = 'fieldset';
-  $form['submits']['offer-info'."-$asin"]['#value']
-      = "<span class='offer-status'><span class='sold-by'>" . t('Sold by') . " <span class='merchantname'>{$nextSelect[$key][$curValue]['merchantname']}</span></span>:
-  <span class='availability'>{$nextSelect[$key][$curValue]['availability']}</span></span>";
+  $form['submits']['offer-info'."-$asin"] = array(
+    '#type' => 'markup',
+    '#prefix' => '<div class="offer-info-div">',
+    '#suffix' => '</div>',
+    '#value' => "<span class='offer-status'><span class='sold-by'>" . t('Sold by') . " <span class='merchantname'>{$nextSelect[$key][$curValue]['merchantname']}</span></span>:
+  <span class='availability'>{$nextSelect[$key][$curValue]['availability']}</span></span>",
+  );
 
   $form['submits']['submit'."-$asin"] = array(
       '#type' => 'submit',
@@ -1455,7 +1459,6 @@ function amazon_store_addcart_form(&$form_state, $asin, $context='normal') {
     $form['submits']['submit'."-$asin"]['#disabled'] = TRUE;
     $form['submits']['submit'."-$asin"]['#value'] = t('Kindle Edition: Not available to purchase');
   }
-  $form['submits']['offer-info'."-$asin"]['#type'] = 'markup';
 
   $form['info-update'] = array(
       '#value' => "<div id='info-$asin'></div>",
