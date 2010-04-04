@@ -10,7 +10,7 @@
  * http://docs.amazonwebservices.com/AWSECommerceService/latest/DG/index.html?APPNDX_SortValuesArticle.html
  */
 
-function amazon_store_locale() {
+function _amazon_store_locale() {
   $locale = array(
 'DE' => array(
    'All' => array('friendly_name' => t('All'),

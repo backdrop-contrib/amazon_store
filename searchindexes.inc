@@ -29,7 +29,7 @@ class SearchIndexes {
    */
   function __construct($locale) {
     include_once(strtolower("locales/amazon_store.locale.$locale.inc"));
-    $this->data = amazon_store_locale();
+    $this->data = _amazon_store_locale();
 
     if (!empty($this->data[$locale])) {
       foreach ($this->data[$locale] as $index => $item) {

@@ -1,7 +1,7 @@
 <?php
 
 
-function amazon_store_locale() {
+function _amazon_store_locale() {
 
   $locale = array('FR' => array(
       'All' => array('friendly_name' => t('All'),

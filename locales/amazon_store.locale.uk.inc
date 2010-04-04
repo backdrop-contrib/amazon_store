@@ -12,7 +12,7 @@
  * No parameters_allowed or sorts information available for Sporting Goods or Tools - used US Info
  */
 
- function amazon_store_locale() {
+ function _amazon_store_locale() {
   $locale = array('UK' => array(
     'All' => array('friendly_name' => t('All'),
   'BrowseNode' => 2000,
