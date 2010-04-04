@@ -36,7 +36,7 @@ function amazon_store_item_image_render($subtype, $conf, $panel_args, $context) 
  * Display the administrative title for a panel pane in the drag & drop UI
  */
 function amazon_store_item_image_admin_title($subtype, $conf, $context) {
-  return t("Product Image (@s) - {$conf['size_selection']}", array('@s' => $context->identifier));
+  return t("Product Image (@s) - @size", array('@s' => $context->identifier, '@size' => $conf['size_selection']));
 }
 
 

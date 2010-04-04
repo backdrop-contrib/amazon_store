@@ -29,7 +29,7 @@ function amazon_store_init() {
  */
 function amazon_store_menu() {
   $items['amazon_store'] = array(
-      'title' => t('Amazon Store'),
+      'title' => 'Amazon Store',
       'page callback' => '_amazon_store_page',
       'access callback' => TRUE,
       'type' => MENU_NORMAL_ITEM,
@@ -43,7 +43,7 @@ function amazon_store_menu() {
   $items['amazon_store/cart'] = array(
       'page callback' => 'amazon_store_show_cart',
       'access callback' => TRUE,
-      'title' => t("Your Amazon Cart"),
+      'title' => 'Your Amazon Cart',
       'type' => MENU_NORMAL_ITEM,
   );
   $items['amazon_store/item'] = array(
@@ -646,11 +646,11 @@ function _amazon_store_add_to_cart($asin,  $offerListingId=NULL, $quantity=1, $n
     } else if ((string)$results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.CartInfoMismatch") {
       // Probably the sponsored cause, and thus the associate id, has changed
       // Fall through
-        watchdog('amazon',"Failed adding item to cart but will now create new cart - code=" . (string)$results->Request->Errors->Error->Code);
+        watchdog('amazon',"Failed adding item to cart but will now create new cart - code=%code", array('%code' => (string)$results->Request->Errors->Error->Code));
       }
       else {
         drupal_set_message("Failed adding item to cart");
-        watchdog('amazon',"Failed adding item to cart - code=" . (string)$results->Cart->Request->Errors->Error->Code);
+        watchdog('amazon',"Failed adding item to cart - code=%code", array('%code' => (string)$results->Cart->Request->Errors->Error->Code));
         return FALSE;
       }
   }
@@ -663,8 +663,8 @@ function _amazon_store_add_to_cart($asin,  $offerListingId=NULL, $quantity=1, $n
   // In Initial stages, we should probably show the cart after doing an add
   $results = amazon_store_http_request('CartCreate', $parameters);
   if ($results->error) {
-    drupal_set_message("Failed to create cart");
-    watchdog("amazon","Failed to create cart");
+    drupal_set_message(t("Failed to create cart"));
+    watchdog("amazon", "Failed to create cart");
     return FALSE;
   } elseif ($results->Cart->Request->IsValid == 'True') {
     amazon_store_set_cart_info((string)$results->Cart->CartId,(string)$results->Cart->HMAC);
@@ -714,11 +714,11 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
   $actual_quantity = $quantity > 0 ? (int)$results->Cart->CartItems->CartItem[0]->Quantity : $quantity;
 
   if (empty($results->error)) {
-    drupal_set_message("Cart quantity updated to $actual_quantity");
+    drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
     return TRUE;
   } else {
-    drupal_set_message("Failed to update cart quantity");
-    watchdog('amazon',"Failed to update cart quantity. " .print_r($results->Cart->Request->Errors,TRUE));
+    drupal_set_message(t("Failed to update cart quantity"));
+    watchdog('amazon',"Failed to update cart quantity. Errors=%errors", array('%errors' => print_r($results->Cart->Request->Errors,TRUE)));
     return FALSE;
   }
   return FALSE;
@@ -844,7 +844,7 @@ function amazon_store_report_error($errors) {
     $i++;
     $msg .= "($i): {$error->Code}: {$error->Message} <br/>";
   }
-  watchdog('amazon',$msg);
+  watchdog('amazon', 'Error processing SimpleXML: @msg', array('@msg' => $msg));
 }
 
 
@@ -931,7 +931,7 @@ function amazon_store_http_request($op, $parameters) {
   $results = amazon_http_request($op, $parameters);
   if (empty($results)) {
     watchdog('amazon_store','Failed call to amazon_http_request; op=%op, parameters = %parameters', array('%op' => $op, '%parameters' => print_r($parameters,TRUE)));
-    drupal_set_message("amazon_http_request failed; op=$op, parameters=".print_r($parameters,TRUE));
+    drupal_set_message(t("amazon_http_request failed; op=@op, parameters=@parameters.", array('@op' => $op, '@parameters' => print_r($parameters,TRUE))));
     return NULL;
   }
 
@@ -943,8 +943,7 @@ function amazon_store_http_request($op, $parameters) {
 
   if (isset($error_set)) {
     $errors="";
-    watchdog('amazon',$msg . " ///" . print_r($results,TRUE));
-    // drupal_set_message("Sorry - there was an error accessing Amazon.com. Details are in the " . l("system log", "admin/reports/dblog") . " (and here:) $msg");
+    watchdog('amazon', 'There was an error accessing amazon. Message=@msg, results=@results', array('@msg' => $msg, '@results' => print_r($results,TRUE)));
     $results->error = $msg;
   }
   return ($results);
@@ -1415,7 +1414,7 @@ function amazon_store_addcart_form(&$form_state, $asin, $context='normal') {
     $selects = array(t('Make other selections first'));
   }
   $form['fields']['offer'."-$asin"] = array(
-      '#title' => "Merchant",
+      '#title' => t('Merchant'),
       '#type' => 'select',
       '#options' => $selects,
       '#ahah' => array(
@@ -1556,7 +1555,7 @@ function amazon_store_addcart_form_submit($form,&$form_state) {
   $result = _amazon_store_add_to_cart(NULL,$offer);
   if ($result) {
     $directory = drupal_get_path('module', 'amazon_store');
-    drupal_set_message(t('%item  was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), 'amazon_store/cart'))));
+    drupal_set_message(t('%item was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), 'amazon_store/cart'))));
   } else {
     drupal_set_message(t('Error: Item not added to cart'));
   }
@@ -1712,7 +1711,7 @@ function amazon_store_sort_form(&$form_state) {
   );
   $form['sortby-submit'] = array(
       '#type' => 'submit',
-      '#value' => 'Sort',
+      '#value' => t('Sort'),
       '#name' => t('Sort'),
       '#attributes' => array('class' => 'no-js'),
   );
@@ -1738,20 +1737,18 @@ function amazon_store_sort_form_submit($form,&$form_state) {
 function amazon_store_searchbin_sets_form(&$form_state, $searchBinSets) {
 
   $form = array(
-      '#tree' => TRUE,
-      '#title' => t('Narrow your search'),
-      '#submit' => array('amazon_store_searchbin_sets_form_submit'),
-
+    '#tree' => TRUE,
+    '#title' => t('Narrow your search'),
+    '#submit' => array('amazon_store_searchbin_sets_form_submit'),
   );
   $form['searchbins'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Narrow your search'),
+    '#type' => 'fieldset',
+    '#title' => t('Narrow your search'),
   );
 
   // For each search bin set, create a select control and a submit button
   foreach ($searchBinSets->SearchBinSet as $binset) {
     $narrowBy = (string)$binset->attributes()->NarrowBy;
-
 
     $form['searchbins'][$narrowBy]['select'] = array(
         '#type' => 'select',
@@ -1806,10 +1803,9 @@ function amazon_store_searchbin_sets_form_submit($form,&$form_state) {
  * since Drupal can't handle multiple forms of the same type on a page,
  * especially with AHAH
  *
- * @param unknown_type $form_state
- * @param unknown_type $cart_entry
- * @param unknown_type $item_number
- * @return unknown
+ * @param $form_state
+ * @param $cart_entry
+ * @param $item_number
  */
 function _amazon_store_cart_quantity_form(&$form_state,$cart_entry, $item_number) {
 

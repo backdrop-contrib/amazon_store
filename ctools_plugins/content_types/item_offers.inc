@@ -32,10 +32,7 @@ function amazon_store_item_offers_render($subtype, $conf, $panel_args, $context)
 
   $block->content = theme('amazon_store_item_offers',$amazon_object);
   return $block;
-
 }
-
-
 
 function amazon_store_item_offers_edit_form(&$form, &$form_state) {
 
