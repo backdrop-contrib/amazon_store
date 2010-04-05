@@ -22,6 +22,6 @@ if (!empty($amazon_item->LargeImage)) {
 $img_code = theme('image', $image, $amazon_item->ItemDetails->Title, $amazon_item->ItemDetails->Title, array('class' => 'amazon-product-image', 'height' => $height, 'width' => $width), FALSE);
 $output = $img_code;
 if (!empty($largeImage)) {
-  $output = l($img_code, $largeImage, array('attributes' => array('html' => TRUE, 'attributes' => array('title' => $amazon_item->ItemAttributes->Title, 'class' => 'thickbox', 'rel' => 'nofollow')));
+  $output = l($img_code, $largeImage, array('html' => TRUE, 'attributes' => array('title' => $amazon_item->ItemAttributes->Title, 'class' => 'thickbox', 'rel' => 'nofollow')));
 }
 print $output;
