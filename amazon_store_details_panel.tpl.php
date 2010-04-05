@@ -38,13 +38,13 @@ function amazon_store_manufacturer_format($item) {
   return theme('amazon_store_search_results_manufacturer',(string)$item);
 }
 function amazon_store_author_format($item) {
-    return l($item,"amazon_store",array('query'=>"author=$item"));
+    return l($item,"amazon_store", array('attributes' => array('rel' => 'nofollow'), 'query'=>"author=$item"));
 }
 function amazon_store_artist_format($item) {
-  return l($item,"amazon_store",array('query'=>"artist=$item"));
+  return l($item,"amazon_store",array('attributes' => array('rel' => 'nofollow'), 'query'=>"artist=$item"));
 }
 function amazon_store_composer_format($item) {
-  return l($item,"amazon_store",array('query'=>"composer=$item"));
+  return l($item,"amazon_store",array('attributes' => array('rel' => 'nofollow'), 'query'=>"composer=$item"));
 }
 
 function amazon_store_feature_format($item) {

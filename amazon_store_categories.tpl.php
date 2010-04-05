@@ -16,7 +16,7 @@ print "<table class='search-indexes-table'><tr><td>";
 $count = 1;
 $column = 1;
 foreach ($categories as $category => $friendly_name) {
-  $link = l($friendly_name, "amazon_store", array('query' => array('SearchIndex' => $category)));
+  $link = l($friendly_name, "amazon_store", array('attributes' => array('rel' => 'nofollow'), 'query' => array('SearchIndex' => $category)));
   print "<p>$link</p>";
   if (($count % $td_length == 0) && $column < $num_columns) {
     print "</td><td>";

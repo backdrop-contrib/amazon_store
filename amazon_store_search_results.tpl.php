@@ -50,7 +50,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 
 		<!--  BEGIN ITEM PROCESSING -->
 		<tr>
-			<td><?php if (!empty($result->LargeImage)) : ?> <a
+			<td><?php if (!empty($result->LargeImage)) : ?> <a rel="nofollow"
 				href="<?php print $result->LargeImage->URL; ?>" class="thickbox"
 				title="<?php print $result->ItemAttributes->Title ?>"> <img
 				src="<?php print $result->MediumImage->URL ?>"
@@ -59,7 +59,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
         <?php print theme('image',"$directory/images/no_image_med.jpg"); ?>
        <?php endif; ?></td>
 			<td>
-			<p class="title"><a
+			<p class="title"><a rel="nofollow"
 				href="<?php print url("amazon_store/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
 				<?php if (!empty($result->ItemAttributes->Manufacturer)){
 				  print theme('amazon_store_search_results_manufacturer',(string)$result->ItemAttributes->Manufacturer);
@@ -71,7 +71,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
           <a href="javascript:void(null)"
           class="togglebtn">Show/hide full description</a> or
           <?php } ?>
-          <a
+          <a rel="nofollow"
 				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
 			details</a>
 			<div class="toggle editorial">
@@ -100,7 +100,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 </div>
 <!--  end mid_right_column_wrap --><?php $nextpage = _amazon_store_nextpage($results->TotalPages); ?>
 		<?php if ($nextpage) { ?>
-<div class="nextpage"><a
+<div class="nextpage"><a rel="nofollow"
 	href="<?php print url("amazon_store",array('query' => _amazon_store_revise_query(array('ItemPage'=>$nextpage))));  ?>">&gt;&gt;Go
 to Page <?php print "$nextpage of {$results->TotalPages} pages " ?> of
 results</a></div>

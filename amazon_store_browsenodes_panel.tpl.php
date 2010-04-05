@@ -22,7 +22,7 @@ if ($item->BrowseNodes->BrowseNode) {
         break;
       }
 
-      $line .= l($item->Name,"amazon_store",array('query'=>"BrowseNode={$item->BrowseNodeId}&SearchIndex={$SearchIndex}"))." : ";
+      $line .= l($item->Name,"amazon_store",array('attributes' => array('rel' => 'nofollow'), 'query'=>"BrowseNode={$item->BrowseNodeId}&SearchIndex={$SearchIndex}"))." : ";
     } while ($item = $item->Ancestors->BrowseNode);
     if (strlen($line)) {
       print "<li>$line</li>";
