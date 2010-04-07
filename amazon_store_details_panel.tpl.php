@@ -39,6 +39,20 @@ function amazon_store_manufacturer_format($attributeType, $attributeValue) {
   return theme('amazon_store_search_results_manufacturer', (string)$attributeValue);
 }
 
+/**
+ * Format a participant detail.
+ *
+ * This works for author, artist, composer. It guesses the SearchIndex from
+ * the ProductGroup. There may be more than one author, so it returns an
+ * unordered list in that case.
+ *
+ * @param $attributeType
+ *   'Author' or 'Composer', etc.
+ * @param $attributeValue
+ *   An array of author/composer/artist names
+ * @param $allAttributes
+ *   The Attributes section from the original XML.
+ */
 function amazon_store_participant_format($attributeType, $attributeValue, $allAttributes) {
   $search_index = ProductGroup2SearchIndex((string)$allAttributes->ProductGroup);
   $output = "";
@@ -47,10 +61,7 @@ function amazon_store_participant_format($attributeType, $attributeValue, $allAt
   }
 
   foreach ($attributeValue as $value) {
-    $url =  url('amazon_store', array('query'=> array((string)$attributeType => (string)$value, 'SearchIndex' => $search_index)));
-    // Can't use l() because of bug where it escapes the '&' in query args.
-    // See http://drupal.org/node/399488#comment-2814912.
-    $link =  '<a href="' . $url . '" rel="nofollow">' . (string)$value . '</a>';
+    $link = l((string)$value, 'amazon_store', array('attributes' => array('rel' => 'nofollow'), 'query'=> array((string)$attributeType => (string)$value, 'SearchIndex' => $search_index)));
     if ($multi) {
       $link = "<li>$link</li>";
     }
