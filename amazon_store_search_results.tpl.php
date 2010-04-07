@@ -98,13 +98,12 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 </table>
 
 </div>
-<!--  end mid_right_column_wrap --><?php $nextpage = _amazon_store_nextpage($results->TotalPages); ?>
-		<?php if ($nextpage) { ?>
-<div class="nextpage"><a rel="nofollow"
-	href="<?php print url("amazon_store",array('query' => _amazon_store_revise_query(array('ItemPage'=>$nextpage))));  ?>">&gt;&gt;Go
-to Page <?php print "$nextpage of {$results->TotalPages} pages " ?> of
-results</a></div>
-<?php } ?>
+<!--  end mid_right_column_wrap -->
+<div>
+
+<?php print amazon_store_search_results_pager($results); ?>
+
+</div>
 
 		<?php endif; ?></div>
 <?php print "<br />" . theme('amazon_store_link_button', t("View Cart"), 'amazon_store/cart');

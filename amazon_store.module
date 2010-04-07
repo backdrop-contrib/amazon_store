@@ -541,10 +541,11 @@ function _amazon_store_page() {
   if (!empty($get_MerchantId)) {$parameters['MerchantId'] = check_plain($get_MerchantId); }
   if (!empty($get_Brand)) {$parameters['Brand'] = filter_xss($get_Brand); }
   if (!empty($get_Sort)) {$parameters['Sort'] = check_plain($get_Sort); }
-  if (!empty($get_ItemPage)) {
-    $parameters['ItemPage'] = intval($get_ItemPage);
+  if (!empty($get_page)) {
+    // Drupal pager is 0-based. Amazon is 1-based. Adjust for that.
+    $parameters['ItemPage'] = intval($get_page) +1;
   } else {
-    $get_ItemPage = 1;
+    $get_page = 1;
   }
 
   if (!empty($parameters['SearchIndex']) && $parameters['SearchIndex'] == 'All' && !empty($parameters['BrowseNode'])) {
@@ -1121,24 +1122,6 @@ function ProductGroup2SearchIndex($ProductGroup) {
 
 
 /**
- * Simply returns the next page based on the ItemPage URL entry, if it exists
- * @param $limit Limit results to that number of pages
- * @return -1 if past the number of pages, otherwise the next page
- */
-/**
- *
- * @return unknown_type
- */
-function _amazon_store_nextpage($limit) {
-  $thispage = empty($_GET['ItemPage']) ? 1 : $_GET['ItemPage'];
-
-  if ($thispage+1 <= $limit) {
-    return $thispage+1;
-  }
-  return 0;
-}
-
-/**
  * Rewrite the query expressed in the URL using
  * an associative array (key=>value) of parameters.
  * Mostly takes the existing URL and just adds to it, replacing
@@ -1152,7 +1135,7 @@ function _amazon_store_nextpage($limit) {
 function _amazon_store_revise_query($newstuff) {
   $newget = $_GET;
   $newget['q'] = 'amazon_store'; // Start with just this and rebuild
-  unset($newget['ItemPage']); // If we're rewriting the query, the page is not going to be relevant
+  unset($newget['page']); // If we're rewriting the query, the page is not going to be relevant
   if (empty($_GET['SearchIndex'])) {
     $newget['SearchIndex'] = variable_get('amazon_store_default_search_index','All');
   }
@@ -1897,4 +1880,29 @@ function amazon_store_allowed_parameter($SearchIndex, $parameter_name) {
   global $amazon_store_search_indexes;
   $parametersAllowed = $amazon_store_search_indexes->getParametersAllowed();
   return in_array($parameter_name, $parametersAllowed[$SearchIndex]);
+}
+
+
+
+  /**
+ * Compute pager options and invoke theme pager.
+ *
+ * @param int $searchResults
+ *   The actual Amazon search results, as simpleXML object.
+ * @param int $pager_element
+ *   An optional integer to distinguish between multiple pagers on one page.
+ *
+ * @return string
+ *   The pager as HTML.
+ */
+function amazon_store_search_results_pager($searchResults, $pager_element = 0) {
+  $GLOBALS['pager_page_array'] = explode(',', $_GET['page']);
+  $results_per_page = 10; // Amazon standard
+  $total_results = $searchResults->TotalResults;
+  $GLOBALS['pager_total_items'][$pager_element] = $totalResults;
+  $GLOBALS['pager_total'][$pager_element] = ceil($total_results / $results_per_page);
+  $GLOBALS['pager_page_array'][$pager_element] = max(0, min((int)$GLOBALS['pager_page_array'][$pager_element], ((int)$GLOBALS['pager_total'][$pager_element]) - 1));
+
+  // 10 items per page is wired in from Amazon API.
+  return theme('pager', array(), $results_per_page, $pager_element);
 }
