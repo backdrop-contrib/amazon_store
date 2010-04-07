@@ -13,9 +13,9 @@
 // These will be done in the order listed here.
 // If not found here, they will not be output
 $handlers = array(
-  'Author' => array('name'=>'Author', 'handler' => 'amazon_store_author_format'),
-  'Composer' => array('name'=>'Composer', 'handler'=>'amazon_store_composer_format'),
-  'Artist' => array('name'=>'Artist', 'handler'=>'amazon_store_artist_format'),
+  'Author' => array('name'=>'Author', 'handler' => 'amazon_store_participant_format'),
+  'Composer' => array('name'=>'Composer', 'handler'=>'amazon_store_participant_format'),
+  'Artist' => array('name'=>'Artist', 'handler'=>'amazon_store_participant_format'),
   'PublicationDate' => array('name'=>"Publication Date"),
   'Publisher' => array('name'=>"Publisher"),
 
@@ -34,22 +34,37 @@ $handlers = array(
   'ISBN' => array('name'=>"ISBN"),
   'Warranty' => array('name'=>"Warranty",),
 );
-function amazon_store_manufacturer_format($item) {
-  return theme('amazon_store_search_results_manufacturer',(string)$item);
-}
-function amazon_store_author_format($item) {
-    return l($item,"amazon_store", array('attributes' => array('rel' => 'nofollow'), 'query'=>"author=$item"));
-}
-function amazon_store_artist_format($item) {
-  return l($item,"amazon_store",array('attributes' => array('rel' => 'nofollow'), 'query'=>"artist=$item"));
-}
-function amazon_store_composer_format($item) {
-  return l($item,"amazon_store",array('attributes' => array('rel' => 'nofollow'), 'query'=>"composer=$item"));
+
+function amazon_store_manufacturer_format($attributeType, $attributeValue) {
+  return theme('amazon_store_search_results_manufacturer', (string)$attributeValue);
 }
 
-function amazon_store_feature_format($item) {
+function amazon_store_participant_format($attributeType, $attributeValue, $allAttributes) {
+  $search_index = ProductGroup2SearchIndex((string)$allAttributes->ProductGroup);
+  $output = "";
+  if (count($attributeValue) > 1) {
+    $multi = 1;
+  }
+
+  foreach ($attributeValue as $value) {
+    $url =  url('amazon_store', array('query'=> array((string)$attributeType => (string)$value, 'SearchIndex' => $search_index)));
+    // Can't use l() because of bug where it escapes the '&' in query args.
+    // See http://drupal.org/node/399488#comment-2814912.
+    $link =  '<a href="' . $url . '" rel="nofollow">' . (string)$value . '</a>';
+    if ($multi) {
+      $link = "<li>$link</li>";
+    }
+    $output .= $link;
+  }
+  if ($multi) {
+    $output = '<ul>' . $output . '</ul>';
+  }
+  return $output;
+}
+
+function amazon_store_feature_format($attributeType, $attributeValue, $allAttributes) {
   $output = "<ul>";
-  foreach ($item as $feature) {
+  foreach ($attributeValue as $feature) {
     // Strip items that contain links, which will be unuseful.
     if (!preg_match("/href=/i", $feature)) {
       $output .= "<li>" . check_plain($feature) . "</li>";
@@ -58,32 +73,44 @@ function amazon_store_feature_format($item) {
   $output .= "</ul>";
   return $output;
 }
-function amazon_store_binding_format($item,$allAttributes) {
-  $output = "$item";
+
+
+function amazon_store_binding_format($attributeType, $attributeValue, $allAttributes) {
+  $output = (string)$attributeValue;
   if (!empty($allAttributes->NumberOfPages)) {
     $output .= ", {$allAttributes->NumberOfPages} pages";
   }
   return $output;
 }
-function amazon_store_dimensions_format($item) {
+
+
+function amazon_store_dimensions_format($attributeType, $attributeValue, $allAttributes) {
   $output = "<ul>";
-  if ($item->Height) {
-    $output .= "<li>Dimensions: {$item->Length}L x {$item->Width}W x {$item->Height}H</li>";
+  if ($attributeValue->Height) {
+    $output .= "<li>Dimensions: {$attributeValue->Length}L x {$attributeValue->Width}W x {$attributeValue->Height}H</li>";
   }
-  if ($item->Weight) {
-    $output .= "<li>Weight: $item->Weight</li>";
+  if ($attributeValue->Weight) {
+    $output .= "<li>Weight: $attributeValue->Weight</li>";
   }
   $output .= "</ul>";
   return $output;
 }
-function amazon_store_format_attribute($item,$handler,$allAttributes) {
+
+/**
+ * Format an attribute based on various handlers.
+ *
+ * @param $attribute_value
+ * @param $handler
+ * @param $allAttributes
+ */
+function amazon_store_format_attribute($attributeType, $attribute_value, $handler, $allAttributes) {
   $output = "{$handler['name']}: ";
   if (!empty($handler['outputElement'])) {
-    $output .= $item->{$handler['outputElement']};
+    $output .= $attribute_value->{$handler['outputElement']};
   } else if (!empty($handler['handler'])) {
-    $output .= $handler['handler']($item,$allAttributes);
+    $output .= $handler['handler']($attributeType, $attribute_value, $allAttributes);
   } else {
-    $output .= (string)$item;
+    $output .= (string)$attribute_value;
   }
   return $output;
 }
@@ -96,9 +123,8 @@ foreach ($handlers as $itemName=>$handler) {
   $output = "";
   if ($item->ItemAttributes->$itemName) {
     $output ="<li>";
-    $output .= amazon_store_format_attribute($item->ItemAttributes->$itemName,
-      $handler,
-      $item->ItemAttributes);
+    $output .= amazon_store_format_attribute($itemName, $item->ItemAttributes->{$itemName},
+      $handler, $item->ItemAttributes);
     $output .= "</li>";
   }
   print $output;

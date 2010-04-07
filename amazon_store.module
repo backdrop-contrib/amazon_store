@@ -530,9 +530,6 @@ function _amazon_store_page() {
   $parameters = array();
 
 
-  // Note: The rules for Searchindex with Manufacturer/Artist/Author are
-  // way too arcane to implement, so must made them into general search
-
   // Grab the URL args that we'll allow and put them in as parameters for Amazon search
   extract($_GET,EXTR_PREFIX_ALL,"get");
   if (!empty($get_SearchIndex)) { $parameters['SearchIndex']=check_plain($get_SearchIndex); }
@@ -549,22 +546,18 @@ function _amazon_store_page() {
   } else {
     $get_ItemPage = 1;
   }
-  if (!empty($get_author)) {
-    $parameters += parametersForKeywordSearch($get_author);
-  }
-  if (!empty($get_composer)) {
-    $parameters += parametersForKeywordSearch($get_composer);
-  }
-  if (!empty($get_artist)) {
-    $parameters += parametersForKeywordSearch($get_artist);
-  }
-  if (!empty($get_manufacturer)) {
-    $parameters += parametersForKeywordSearch($get_manufacturer);
-  }
 
   if (!empty($parameters['SearchIndex']) && $parameters['SearchIndex'] == 'All' && !empty($parameters['BrowseNode'])) {
     $parameters['SearchIndex'] = variable_get('amazon_store_default_search_index',"Books");
   }
+
+  foreach (array('Author', 'Composer', 'Artist', 'Manufacturer') as $entity) {
+    $getarg = "get_$entity";
+    if (!empty($$getarg) && amazon_store_allowed_parameter($parameters['SearchIndex'], $entity)) {
+      $parameters[$entity] = $$getarg;
+    }
+  }
+
   // If we have no keywords, browse the SearchIndex.
   if (empty($parameters['Keywords']) && empty($parameters['BrowseNode']) && empty($parameters['ItemId'])) {
     $browseNodes=$GLOBALS['amazon_store_search_indexes']->getBrowseNodes();
@@ -586,7 +579,6 @@ function _amazon_store_page() {
         $parameters['ItemId'] = variable_get('amazon_store_default_item_list',"");
         break;
     }
-
   }
 
   if (!empty($parameters['ItemId'])) {
@@ -1072,52 +1064,52 @@ function ProductGroup2SearchIndex($ProductGroup) {
  */
 
   static $map = array(
-  "Amazon Devices" => "Electronics",
-  "Apparel" => "Apparel",
-  "Audible" => "Books",
-  "Automotive Parts and Accessories" => "Automotive",
-  "Automotive Parts and Accessories" => "Tools",
-  "Baby Product" => "Baby",
-  "Beauty" => "Beauty",
-  "BISS" => "All",
-  "Book" => "Books",
-  "CE" => "Electronics",
-  "Classical" => "Classical",
-  "Digital Music Album" => "MP3Downloads",
-  "Digital Music Artist" => "MP3Downloads",
-  "Digital Music Track" => "MP3Downloads",
-  "Digital Text Feeds" => "Books",
-  "DVD" => "DVD",
-  "eBooks" => "Books",
-  "Furniture" => "OfficeProducts",
-  "Gourmet" => "GourmetFood",
-  "Grocery" => "Grocery",
-  "Health and Beauty" => "HealthPersonalCare",
-  "Home" => "Tools",
-  "Home Improvement" => "HomeGarden",
-  "Jewelry" => "Jewelry",
-  "Kitchen" => "Kitchen",
-  "Lawn & Patio" => "HomeGarden",
-  "Loose Diamonds" => "Jewelry",
-  "Magazine" => "Magazines",
-  "Movie" => "UnboxVideo",
-  "Music" => "Music",
-  "Musical Instruments" => "MusicalInstruments",
-  "Office Product" => "OfficeProducts",
-  "Personal Computer" => "PCHardware",
-  "Pet Products" => "PetSupplies",
-  "Photography" => "Photo",
-  "Shoes" => "Shoes",
-  "Single Detail Page Misc" => "All",
-  "Software" => "Software",
-  "Sports" => "SportingGoods",
-  "Toy" => "Toys",
-  "TV Series Episode Video on Demand" => "UnboxVideo",
-  "TV Series Video on Demand" => "UnboxVideo",
-  "Video" => "DVD",
-  "Video Games" => "VideoGames",
-  "Watch" => "Jewelry",
-  "Wireless" => "Wireless",
+    "Amazon Devices" => "Electronics",
+    "Apparel" => "Apparel",
+    "Audible" => "Books",
+    "Automotive Parts and Accessories" => "Automotive",
+    "Automotive Parts and Accessories" => "Tools",
+    "Baby Product" => "Baby",
+    "Beauty" => "Beauty",
+    "BISS" => "All",
+    "Book" => "Books",
+    "CE" => "Electronics",
+    "Classical" => "Classical",
+    "Digital Music Album" => "MP3Downloads",
+    "Digital Music Artist" => "MP3Downloads",
+    "Digital Music Track" => "MP3Downloads",
+    "Digital Text Feeds" => "Books",
+    "DVD" => "DVD",
+    "eBooks" => "Books",
+    "Furniture" => "OfficeProducts",
+    "Gourmet" => "GourmetFood",
+    "Grocery" => "Grocery",
+    "Health and Beauty" => "HealthPersonalCare",
+    "Home" => "Tools",
+    "Home Improvement" => "HomeGarden",
+    "Jewelry" => "Jewelry",
+    "Kitchen" => "Kitchen",
+    "Lawn & Patio" => "HomeGarden",
+    "Loose Diamonds" => "Jewelry",
+    "Magazine" => "Magazines",
+    "Movie" => "UnboxVideo",
+    "Music" => "Music",
+    "Musical Instruments" => "MusicalInstruments",
+    "Office Product" => "OfficeProducts",
+    "Personal Computer" => "PCHardware",
+    "Pet Products" => "PetSupplies",
+    "Photography" => "Photo",
+    "Shoes" => "Shoes",
+    "Single Detail Page Misc" => "All",
+    "Software" => "Software",
+    "Sports" => "SportingGoods",
+    "Toy" => "Toys",
+    "TV Series Episode Video on Demand" => "UnboxVideo",
+    "TV Series Video on Demand" => "UnboxVideo",
+    "Video" => "DVD",
+    "Video Games" => "VideoGames",
+    "Watch" => "Jewelry",
+    "Wireless" => "Wireless",
   );
   $SearchIndex = $map[$ProductGroup];
   if (!empty($SearchIndex)) {
@@ -1891,4 +1883,18 @@ function amazon_store_buttonize_link(&$form_state, $name, $link) {
     '#value' => $name,
   );
   return $form;
+}
+
+/**
+ * Determine if a given parameter is allowed for given SearchIndex.
+ *
+ * @param $SearchIndex
+ *   The SearchIndex to test. Example: Apparel or Books
+ * @param $parameter_name
+ *   Parameter like 'Author' or  'Manufacturer'
+ */
+function amazon_store_allowed_parameter($SearchIndex, $parameter_name) {
+  global $amazon_store_search_indexes;
+  $parametersAllowed = $amazon_store_search_indexes->getParametersAllowed();
+  return in_array($parameter_name, $parametersAllowed[$SearchIndex]);
 }

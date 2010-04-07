@@ -50,7 +50,7 @@ class SearchIndexes {
     return $this->browseNodes;
   }
   function getParametersAllowed() {
-    return $this->parametersAllowed();
+    return $this->parametersAllowed;
   }
 
   /**

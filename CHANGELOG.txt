@@ -2,6 +2,7 @@
 
 amazon_store-6.x-2.0-RC2
 ------------------------
+[#620332] by rfay: Fixed Fix author, composer, performer links so they actually work
 [#735794] by rfay: Add rel=nofollow to amazon links.
 [#671682] by rfay: Fix up localization errors. Includes [#713648].
 [#740796] by rfay: Fix accidental implementation of hook_locale() which caused warnings.
