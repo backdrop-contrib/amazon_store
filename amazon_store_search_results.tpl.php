@@ -10,7 +10,7 @@
 <?php
   if (variable_get('amazon_store_show_searchform',TRUE)) {
     // Argument specifies how wide the keywords textfield should be, in chars.
-    print drupal_get_form('amazon_store_search_form', 50);
+    print drupal_render(drupal_get_form('amazon_store_search_form', 50));
   }
 ?>
 <div class="amazon-store-panel search-results"><!--
@@ -22,12 +22,12 @@
 
 <div class="change_sort"><?php
 if (variable_get('amazon_store_show_sort_form',TRUE)) {
-    print drupal_get_form('amazon_store_sort_form');
+    print drupal_render(drupal_get_form('amazon_store_sort_form'));
 }?>
 </div>
 <div class="search-sets narrow-by"><?php
 if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets)) {
-  $form = drupal_get_form('amazon_store_searchbin_sets_form',$results->SearchBinSets);
+  $form = drupal_render(drupal_get_form('amazon_store_searchbin_sets_form', $results->SearchBinSets));
   print $form;
 }
 ?></div>
@@ -45,7 +45,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 	  continue;
 	}
 	$asin = (string)$result->ASIN;
-	$form = drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN);
+	$form = drupal_render(drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN));
 	?>
 
 		<!--  BEGIN ITEM PROCESSING -->
@@ -62,7 +62,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 			<p class="title"><a rel="nofollow"
 				href="<?php print url("amazon_store/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
 				<?php if (!empty($result->ItemAttributes->Manufacturer)){
-				  print theme('amazon_store_search_results_manufacturer',(string)$result->ItemAttributes->Manufacturer);
+				  print theme('amazon_store_search_results_manufacturer', array('manufacturer' => (string)$result->ItemAttributes->Manufacturer));
 				}
 				?>
 
@@ -106,5 +106,5 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 </div>
 
 		<?php endif; ?></div>
-<?php print "<br />" . theme('amazon_store_link_button', t("View Cart"), 'amazon_store/cart');
+<?php print "<br />" . theme('amazon_store_link_button', array('text' => t("View Cart"), 'url' => 'amazon_store/cart'));
 ?>

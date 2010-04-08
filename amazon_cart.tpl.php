@@ -8,9 +8,9 @@
 <h2>Your Cart</h2>
 
 <?php
-print theme('amazon_store_link_button', t("Continue Shopping"), 'amazon_store');
+print theme('amazon_store_link_button', array('text' => t("Continue Shopping"), 'url' => 'amazon_store'));
 if ($cart->CartItems) {
-  print theme('amazon_store_link_button', t("Checkout at Amazon"), (string)$cart->PurchaseURL);
+  print theme('amazon_store_link_button', array('text' => t("Checkout at Amazon"), 'url' => (string)$cart->PurchaseURL));
 } ?>
 <div class="greyrule" ></div>
 <?php if (!$cart->CartItems):?> There are no
@@ -31,7 +31,7 @@ items in your cart. <?php else: ?>
 				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}"); ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
 			<img src="<?php print $fullinfo->SmallImage->URL ?>"
 				alt="<?php print $item->Title ?> " /></a> <?php else: ?>
-			<?php print theme('image',"$directory/images/no_image_small.jpg"); ?> <?php endif; ?></td>
+			<?php print theme('image', array('path' => "$directory/images/no_image_small.jpg")); ?> <?php endif; ?></td>
 			<td class="item_stats"><a class="product_name" rel="nofollow"
 				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
 			<strong class="company_name"> <?php print $fullinfo->ItemAttributes->Manufacturer ?>
@@ -57,7 +57,7 @@ items in your cart. <?php else: ?>
 			<td class="cart_subtotal">Subtotal: <span class="price"><?php print $cart->SubTotal->FormattedPrice ?></span>
 			<p>
       <?php if ($cart->CartItems) {
-        print theme('amazon_store_link_button', t("Checkout at Amazon"), $cart->PurchaseURL);
+        print theme('amazon_store_link_button', array('text' => t("Checkout at Amazon"), 'url' => $cart->PurchaseURL));
         print drupal_get_form('amazon_store_clear_cart');
 
       } ?>

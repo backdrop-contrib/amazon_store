@@ -321,7 +321,9 @@ function _amazon_store_locale() {
 
   'Tools' => array('friendly_name' => t('Tools'),
     // TODO: Find BrowseNode for Tools
+
   // 'BrowseNode' => ,
+
   'parameters_allowed' => array('Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
@@ -396,5 +398,5 @@ function _amazon_store_locale() {
   ),
 );
 
-return $locale;
+  return $locale;
 }

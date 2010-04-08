@@ -2,7 +2,7 @@
 
 function _amazon_store_locale() {
 
-$locale = array( 'US' => array(
+  $locale = array('US' => array(
   'All' => array('friendly_name' => t('All'),
   'BrowseNode' => 2000,
   'parameters_allowed' => array('Keywords'),
@@ -10,7 +10,7 @@ $locale = array( 'US' => array(
   ),
   'Apparel' => array('friendly_name' => t('Apparel'),
   'BrowseNode' => 15683091,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -22,7 +22,7 @@ $locale = array( 'US' => array(
   ),
   'Automotive' => array('friendly_name' => t('Automotive'),
   'BrowseNode' => 15690151,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'price' => t('Price: low to high'),
@@ -33,7 +33,7 @@ $locale = array( 'US' => array(
   ),
   'Baby' => array('friendly_name' => t('Baby'),
   'BrowseNode' => 3760931,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),
@@ -44,7 +44,7 @@ $locale = array( 'US' => array(
   ),
   'Beauty' => array('friendly_name' => t('Beauty'),
   'BrowseNode' => 11055981,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -56,7 +56,7 @@ $locale = array( 'US' => array(
   ),
   'Books' => array('friendly_name' => t('Books'),
   'BrowseNode' => 1000,
-  'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -70,7 +70,7 @@ $locale = array( 'US' => array(
   ),
   'Classical' => array('friendly_name' => t('Classical'),
   'BrowseNode' => 301668,
-  'parameters_allowed' => array( 'Artist', 'Author', 'Availability', 'BrowseNode', 'Composer', 'Conductor', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Orchestra', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Artist', 'Author', 'Availability', 'BrowseNode', 'Composer', 'Conductor', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Orchestra', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
   'sorts' =>  array(
   //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),
@@ -87,7 +87,7 @@ $locale = array( 'US' => array(
   'DigitalMusic' => array('friendly_name' => t('Digital Music'),
   'exclude_default' => TRUE,
   'BrowseNode' => 301668,
-  'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'songtitlerank' => t('Most popular'),
   'uploaddaterank' => t('Date added'),
@@ -96,7 +96,7 @@ $locale = array( 'US' => array(
 
   'DVD' => array('friendly_name' => t('DVD'),
   'BrowseNode' => 130,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -109,7 +109,7 @@ $locale = array( 'US' => array(
   ),
   'Electronics' => array('friendly_name' => t('Electronics'),
   'BrowseNode' => 493964,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -121,7 +121,7 @@ $locale = array( 'US' => array(
   ),
   'GourmetFood' => array('friendly_name' => t('Gourmet Food'),
   'BrowseNode' => 3580501,
-  'parameters_allowed' => array( 'BrowseNode', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -133,7 +133,7 @@ $locale = array( 'US' => array(
   ),
   'HealthPersonalCare' => array('friendly_name' => t('Health/Personal Care'),
   'BrowseNode' => 3760931,
-  'parameters_allowed' => array( 'request.', 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('request.', 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -146,7 +146,7 @@ $locale = array( 'US' => array(
 
   'HomeGarden' => array('friendly_name' => t('Home and Garden'),
   'BrowseNode' => 1063498,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'price' => t('Price: low to high'),
@@ -157,7 +157,7 @@ $locale = array( 'US' => array(
   ),
   'Industrial' => array('friendly_name' => t('Industrial'),
   'BrowseNode' => 228013,
-  'parameters_allowed' => array( 'BrowseNode', 'Keywords', 'Manufacturer', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Keywords', 'Manufacturer', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -169,7 +169,7 @@ $locale = array( 'US' => array(
   ),
   'Jewelry' => array('friendly_name' => t('Jewelry'),
   'BrowseNode' => 3880591,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' =>  array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -180,7 +180,7 @@ $locale = array( 'US' => array(
   ),
   'KindleStore' => array('friendly_name' => t('Kindle Store'),
   'exclude_default' => TRUE,
-  'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'TextStream', 'Title'),
   'sorts' => array(
   'daterank' => t('Publication date: newer to older'),
   '-edition-sales-velocity' => t('Quickest to slowest selling products.'),
@@ -192,7 +192,7 @@ $locale = array( 'US' => array(
   ),
   'Kitchen' => array('friendly_name' => t('Kitchen'),
   'BrowseNode' => 1063498,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -205,7 +205,7 @@ $locale = array( 'US' => array(
   'Magazines' => array('friendly_name' => t('Magazines'),
   'exclude_default' => TRUE,
   'BrowseNode' => 44264011,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'State', 'Sort', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'State', 'Sort', 'Title'),
   'sorts' => array(
   'subslot-salesrank' => t('Bestselling'),
   'reviewrank' => t('Average customer review: high to low'),
@@ -219,7 +219,7 @@ $locale = array( 'US' => array(
   'Merchants' => array('friendly_name' => t('Merchants'),
   'exclude_default' => TRUE,
   'BrowseNode' => 493964,
-  'parameters_allowed' => array( 'Keywords', 'Title', 'BrowseNode', 'Artist', 'Author', 'Actor', 'Director', 'AudienceRating', 'Manufacturer', 'MusicLabel', 'Composer', 'Publisher', 'Brand', 'Conductor', 'City', 'Neighborhood', 'Orchestra', 'TextStream'),
+  'parameters_allowed' => array('Keywords', 'Title', 'BrowseNode', 'Artist', 'Author', 'Actor', 'Director', 'AudienceRating', 'Manufacturer', 'MusicLabel', 'Composer', 'Publisher', 'Brand', 'Conductor', 'City', 'Neighborhood', 'Orchestra', 'TextStream'),
   'sorts' =>  array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -232,7 +232,7 @@ $locale = array( 'US' => array(
   'Miscellaneous' => array('friendly_name' => t('Miscellaneous'),
   'exclude_default' => TRUE,
   'BrowseNode' => 349028011,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -245,7 +245,7 @@ $locale = array( 'US' => array(
   ),
   'MP3Downloads' => array('friendly_name' => t('MP3 Downloads'),
   'exclude_default' => TRUE,
-  'parameters_allowed' => array( 'Browsenode', 'Keyword', 'Title'),
+  'parameters_allowed' => array('Browsenode', 'Keyword', 'Title'),
   'sorts' => array(
   'price' => t('Price: low to high'),
   '-price' => t('Price: high to low'),
@@ -256,7 +256,7 @@ $locale = array( 'US' => array(
   ),
   'Music' => array('friendly_name' => t('Music'),
   'BrowseNode' => 301668,
-  'parameters_allowed' => array( 'Artist', 'Availability', 'BrowseNode', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Artist', 'Availability', 'BrowseNode', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
   'sorts' => array(
   //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),
@@ -275,7 +275,7 @@ $locale = array( 'US' => array(
   ),
   'MusicalInstruments' => array('friendly_name' => t('Musical Instruments'),
   'BrowseNode' => 12923151,
-  'parameters_allowed' => array( 'request.', 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'Title'),
+  'parameters_allowed' => array('request.', 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -287,7 +287,7 @@ $locale = array( 'US' => array(
   ),
   'MusicTracks' => array('friendly_name' => t('Music Tracks'),
   'exclude_default' => TRUE,
-  'parameters_allowed' => array( 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State'),
+  'parameters_allowed' => array('Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State'),
   'sorts' => array(
   'titlerank' => t('Alphabetical: A to Z'),
   '-titlerank' => t('Alphabetical: Z to A'),
@@ -296,7 +296,7 @@ $locale = array( 'US' => array(
   ),
   'OfficeProducts' => array('friendly_name' => t('Office Products'),
   'BrowseNode' => 1084128,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' =>  array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -308,7 +308,7 @@ $locale = array( 'US' => array(
   ),
   'OutdoorLiving' => array('friendly_name' => t('Outdoor Living'),
   'BrowseNode' => 1063498,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' => array(
   //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),
@@ -320,7 +320,7 @@ $locale = array( 'US' => array(
   ),
   'PCHardware' => array('friendly_name' => t('PC Hardware'),
   'BrowseNode' => 493964,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' => array(
   // //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),
@@ -331,7 +331,7 @@ $locale = array( 'US' => array(
   ),
   'PetSupplies' => array('friendly_name' => t('Pet Supplies'),
   'BrowseNode' => 13900811,
-  'parameters_allowed' => array( 'Author', 'Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Author', 'Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   '+pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -343,7 +343,7 @@ $locale = array( 'US' => array(
   ),
   'Photo' => array('friendly_name' => t('Photo'),
   'BrowseNode' => 13900861,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -355,7 +355,7 @@ $locale = array( 'US' => array(
   ),
   'Shoes' => array('friendly_name' => t('Shoes'),
   'BrowseNode' => 3375301,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   '-launch-date' => t('Newest arrivals'),
   'pmrank' => t('Featured items'),
@@ -367,7 +367,7 @@ $locale = array( 'US' => array(
 
   ),
   'SilverMerchants' => array('friendly_name' => t('Silver Merchants'),
-  'parameters_allowed' => array( 'Keywords', 'Title', 'BrowseNode', 'Artist', 'Author', 'Actor', 'Director', 'AudienceRating', 'Manufacturer', 'MusicLabel', 'Composer', 'Publisher', 'Brand', 'Conductor', 'City', 'Neighborhood', 'Orchestra', 'TextStream'),
+  'parameters_allowed' => array('Keywords', 'Title', 'BrowseNode', 'Artist', 'Author', 'Actor', 'Director', 'AudienceRating', 'Manufacturer', 'MusicLabel', 'Composer', 'Publisher', 'Brand', 'Conductor', 'City', 'Neighborhood', 'Orchestra', 'TextStream'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -375,10 +375,10 @@ $locale = array( 'US' => array(
   'inverseprice' => t('Price: high to low'),
   '-launch-date' => t('Newest arrivals'),
   'sale-flag' => t('On sale'),
-  ), ),
+  ),),
   'Software' => array('friendly_name' => t('Software'),
   'BrowseNode' => 409488,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ItemPage', 'Keywords', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -389,7 +389,7 @@ $locale = array( 'US' => array(
   ),
   'SportingGoods' => array('friendly_name' => t('Sporting Goods'),
   'BrowseNode' => 1036682,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -401,7 +401,7 @@ $locale = array( 'US' => array(
   ),
   'Tools' => array('friendly_name' => t('Tools'),
   'BrowseNode' => 228013,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -413,7 +413,7 @@ $locale = array( 'US' => array(
   ),
   'Toys' => array('friendly_name' => t('Toys'),
   'BrowseNode' => 130,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -425,7 +425,7 @@ $locale = array( 'US' => array(
   ),
   'UnboxVideo' => array('friendly_name' => t('Unboxed Video'),
   'exclude_default' => TRUE,
-  'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MPAARating', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Actor', 'BrowseNode', 'Condition', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MPAARating', 'Publisher', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -438,7 +438,7 @@ $locale = array( 'US' => array(
   'VHS' => array('friendly_name' => t('VHS'),
   'exclude_default' => TRUE,
   'BrowseNode' => 404272,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' =>  array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -451,7 +451,7 @@ $locale = array( 'US' => array(
   ),
   'Video' => array('friendly_name' => t('Video'),
   'BrowseNode' => 130,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'relevancerank' => t('Relevance'),
   'salesrank' => t('Bestselling'),
@@ -464,7 +464,7 @@ $locale = array( 'US' => array(
   ),
   'VideoGames' => array('friendly_name' => t('Video Games'),
   'BrowseNode' => 44263011,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'pmrank' => t('Featured items'),
   'salesrank' => t('Bestselling'),
@@ -475,7 +475,7 @@ $locale = array( 'US' => array(
   ),
   'Watches' => array('friendly_name' => t('Watches'),
   'BrowseNode' => 378516011,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
   'price' => t('Price: low to high'),
   '-price' => t('Price: high to low'),
@@ -486,7 +486,7 @@ $locale = array( 'US' => array(
   ),
   'Wireless' => array('friendly_name' => t('Wireless'),
   'BrowseNode' => 408234,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
   'daterank' => t('Publication date: newer to older'),
   'pricerank' => t('Price: low to high'),
@@ -499,7 +499,7 @@ $locale = array( 'US' => array(
   ),
   'WirelessAccessories' => array('friendly_name' => t('Wireless Accessories'),
   'BrowseNode' => 408234,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
   //       array('psrank' => t('Bestseller ranking taking into consideration projected      sales.The lower the value, the better the sales.')),
   'salesrank' => t('Bestselling'),

@@ -193,7 +193,7 @@ function _amazon_store_locale() {
 ),
 'Toys' => array('friendly_name' => t('Toys'),
   'BrowseNode' => 548014,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
        'pmrank' => t('Featured items'),
        'salesrank' => t('Bestselling'),
@@ -251,5 +251,5 @@ function _amazon_store_locale() {
 ),
 );
 
-return $locale;
+  return $locale;
 }

@@ -26,7 +26,8 @@ function amazon_store_item_details_render($subtype, $conf, $panel_args, $context
   $amazon_object = $context->data;
 
   $block->title = t("Product Details");
-  $block->content = theme('amazon_store_details_panel',$context->data);
+  // TODO: Check the theme array.
+  $block->content = theme('amazon_store_details_panel', array('item' => $context->data));
 
   return $block;
 }

@@ -2,7 +2,7 @@
 // $Id$
 /**
  @file
-  Implements browsenodes content type for amazon_store
+ Implements browsenodes content type for amazon_store
  */
 
 /**
@@ -29,7 +29,8 @@ function amazon_store_item_browsenodes_render($subtype, $conf, $panel_args, $con
   $block->module = 'item_browsenodes';
   $amazon_object = $context->data;
   $block->title = t('Browse Categories');
-  $block->content = theme('amazon_store_browsenodes_panel',$context->data);
+  // TODO: Check that the theme arg is correct.
+  $block->content = theme('amazon_store_browsenodes_panel', array('item' => $context->data));
   return $block;
 }
 

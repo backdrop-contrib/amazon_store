@@ -2,8 +2,8 @@
 // $Id$
 /**
  @file
-   Item_offers content_type ctools plugin
-*/
+ Item_offers content_type ctools plugin
+ */
 
 /**
  * Callback function to supply a list of content types.
@@ -30,7 +30,7 @@ function amazon_store_item_offers_render($subtype, $conf, $panel_args, $context)
   $amazon_object = $context->data;
   $block->title = t("Buying Options");
 
-  $block->content = theme('amazon_store_item_offers',$amazon_object);
+  $block->content = theme('amazon_store_item_offers', array('amazon_item' => $amazon_object));
   return $block;
 }
 

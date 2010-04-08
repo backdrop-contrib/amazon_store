@@ -12,7 +12,7 @@
  * No parameters_allowed or sorts information available for Sporting Goods or Tools - used US Info
  */
 
- function _amazon_store_locale() {
+function _amazon_store_locale() {
   $locale = array('UK' => array(
     'All' => array('friendly_name' => t('All'),
   'BrowseNode' => 2000,
@@ -22,7 +22,7 @@
 
   'Apparel' => array('friendly_name' => t('Apparel'),
   'BrowseNode' => 83451031,
-  'parameters_allowed' => array( 'Author', 'Availability', 'Brand', 'BrowseNode', 'Condition', 'Count', 'DeliveryMethod', 'Format', 'ISPUPostalCode', 'ItemPage', 'Keywords', 'Magazines', 'Manufacturer', 'MerchantId', 'Performer', 'PostalCode', 'Sort', 'State', 'Title' ),
+  'parameters_allowed' => array('Author', 'Availability', 'Brand', 'BrowseNode', 'Condition', 'Count', 'DeliveryMethod', 'Format', 'ISPUPostalCode', 'ItemPage', 'Keywords', 'Magazines', 'Manufacturer', 'MerchantId', 'Performer', 'PostalCode', 'Sort', 'State', 'Title' ),
   'sorts' => array(
     '-launch-date' => t('Launch Date'),
 	'price' => t('Price, Low to High'),
@@ -35,7 +35,7 @@
 
   'Baby' => array('friendly_name' => t('Baby'),
   'BrowseNode' => 60032031,
-  'parameters_allowed' => array( 'Author', 'Availability', 'Brand', 'BrowseNode', 'Condition', 'Count', 'DeliveryMethod', 'Format', 'ISPUPostalCode', 'ItemPage', 'Keywords', 'Magazines', 'Manufacturer', 'MerchantId', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Author', 'Availability', 'Brand', 'BrowseNode', 'Condition', 'Count', 'DeliveryMethod', 'Format', 'ISPUPostalCode', 'ItemPage', 'Keywords', 'Magazines', 'Manufacturer', 'MerchantId', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'Value' => t('Description'),
 	  'price' => t('Price, Low to High'),
@@ -47,7 +47,7 @@
 
   'Beauty' => array('friendly_name' => t('Beauty'),
   'BrowseNode' => 66280031,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MinimumPrice', 'Manufacturer', 'MerchantId', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MinimumPrice', 'Manufacturer', 'MerchantId', 'Sort', 'Title'),
   'sorts' => array(
     'price' => t('Price, Low to High'),
     '-price' => t('Price, High to Low'),
@@ -59,7 +59,7 @@
 
   'Books' => array('friendly_name' => t('Books'),
   'BrowseNode' => 1025612,
-  'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
+  'parameters_allowed' => array('Author', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
     'reviewrank' => t('Average customer review'),
@@ -74,7 +74,7 @@
 
   'Classical' => array('friendly_name' => t('Classical'),
   'BrowseNode' => 505510,
-  'parameters_allowed' => array( 'Actor', 'Availability', 'BrowseNode', 'Composer', 'Conductor', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Orchestra', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'Availability', 'BrowseNode', 'Composer', 'Conductor', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Orchestra', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -88,7 +88,7 @@
 
   'DVD' => array('friendly_name' => t('DVD'),
   'BrowseNode' => 283926,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -104,7 +104,7 @@
 
   'Electronics' => array('friendly_name' => t('Electronics'),
   'BrowseNode' => 560800,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -118,7 +118,7 @@
 
   'HealthPersonalCare' => array('friendly_name' => t('Health Personal Care'),
   'BrowseNode' => 66280031,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -132,7 +132,7 @@
 
   'HomeGarden' => array('friendly_name' => t('Home Garden'),
   'BrowseNode' => 11052591,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -146,7 +146,7 @@
 
   'Jewelry' => array('friendly_name' => t('Jewelry'),
   'BrowseNode' => 193717031,
-  'parameters_allowed' => array( 'Availability', 'BrowseNode', 'DeliveryMethod', 'Keywords', 'MerchantId', 'Sort', 'Title' ),
+  'parameters_allowed' => array('Availability', 'BrowseNode', 'DeliveryMethod', 'Keywords', 'MerchantId', 'Sort', 'Title' ),
   'sorts' => array(
     'price' => t('Price, Low to High'),
   	'-price' => t('Price, High to Low'),
@@ -158,7 +158,7 @@
 
   'Kitchen' => array('friendly_name' => t('Kitchen'),
   'BrowseNode' => 11052591,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -173,7 +173,7 @@
   'MP3Downloads' => array('friendly_name' => t('MP3 Downloads'),
   'exclude_default' => TRUE,
   'BrowseNode' => 77198031,
-  'parameters_allowed' => array( 'Author', 'Availability', 'BrowseNode', 'Count', 'DeliveryMethod', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ResponseGroup', 'ReviewSort', 'SearchIndex', 'Sort', 'TagPage', 'TagsPerPage', 'TagSort', 'Title'),
+  'parameters_allowed' => array('Author', 'Availability', 'BrowseNode', 'Count', 'DeliveryMethod', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'ResponseGroup', 'ReviewSort', 'SearchIndex', 'Sort', 'TagPage', 'TagsPerPage', 'TagSort', 'Title'),
   'sorts' => array(
     'price' => t('Price, Low to High'),
   	'-price' => t('Price, High to Low'),
@@ -186,7 +186,7 @@
 
   'Music' => array('friendly_name' => t('Music'),
   'BrowseNode' => 505510,
-  'parameters_allowed' => array( 'Artist', 'Availability', 'BrowseNode', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Artist', 'Availability', 'BrowseNode', 'Count', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'MusicLabel', 'Performer', 'PostalCode', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -200,7 +200,7 @@
 
   'OfficeProducts' => array('friendly_name' => t('OfficeProducts'),
   'BrowseNode' => 560800,
-  'parameters_allowed' => array( 'Availability', 'Brand', 'BrowseNode', 'DeliveryMethod', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title' ),
+  'parameters_allowed' => array('Availability', 'Brand', 'BrowseNode', 'DeliveryMethod', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title' ),
   'sorts' => array(
     'price' => t('Price, Low to High'),
   	'-price' => t('Price, High to Low'),
@@ -212,7 +212,7 @@
 
   'OutdoorLiving' => array('friendly_name' => t('Outdoor Living'),
   'BrowseNode' => 11052591,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -226,7 +226,7 @@
 
   'Software' => array('friendly_name' => t('Software'),
   'BrowseNode' => 1025614,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -240,7 +240,7 @@
 
   'SoftwareVideoGames' => array('friendly_name' => t('Software Video Games'),
   'BrowseNode' => 1025616,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -267,7 +267,7 @@
 
 'Tools' => array('friendly_name' => t('Tools'),
   'BrowseNode' => 11052591,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'pmrank' => t('Featured items'),
     'salesrank' => t('Bestselling'),
@@ -280,7 +280,7 @@
 
 'Toys' => array('friendly_name' => t('Toys'),
   'BrowseNode' => 712832,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title' ),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title' ),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'price' => t('Price, Low to High'),
@@ -293,7 +293,7 @@
 'VHS' => array('friendly_name' => t('VHS'),
   'exclude_default' => TRUE,
   'BrowseNode' => 283926,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -309,7 +309,7 @@
 
 'Video' => array('friendly_name' => t('Video'),
   'BrowseNode' => 283926,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'Availability', 'BrowseNode', 'Count', 'Director', 'Format', 'ItemPage', 'Keywords', 'Magazines', 'Performer', 'PostalCode', 'Publisher', 'Sort', 'State', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -325,7 +325,7 @@
 
 'VideoGames' => array('friendly_name' => t('Video Games'),
   'BrowseNode' => 1025616,
-  'parameters_allowed' => array( 'Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
     'salesrank' => t('Bestselling'),
   	'reviewrank' => t('Average customer review'),
@@ -339,7 +339,7 @@
 
 'Watches' => array('friendly_name' => t('Watches'),
   'BrowseNode' => 595312,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'TextStream', 'Title'),
   'sorts' => array(
     '-launch-date' => t('Launch Date'),
   	'salesrank' => t('Bestselling'),
@@ -352,6 +352,6 @@
  ),
  ),
  );
- return $locale;
- }
+  return $locale;
+}
 

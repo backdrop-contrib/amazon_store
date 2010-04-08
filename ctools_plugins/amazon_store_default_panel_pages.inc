@@ -3,22 +3,22 @@
 /**
  * @file Default panels for amazon_store
  *
- * Implementation of hook_default_panel_pages()
+ * Implements hook_default_panel_pages().
  * To offer a default panel for the item detail page
  * @return unknown_type
  */
 function amazon_store_default_panel_pages() {
-$page = new stdClass;
-$page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-$page->api_version = 1;
-$page->name = 'amazon_item';
-$page->task = 'panel_page';
-$page->admin_title = 'amazon_item';
-$page->path = 'amazon_store/item/%asin';
-$page->access = FALSE;
-$page->multiple = FALSE;
-$page->menu = FALSE;
-$page->arguments = array(
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'amazon_item';
+  $page->task = 'panel_page';
+  $page->admin_title = 'amazon_item';
+  $page->path = 'amazon_store/item/%asin';
+  $page->access = FALSE;
+  $page->multiple = FALSE;
+  $page->menu = FALSE;
+  $page->arguments = array(
   'asin' => array(
     'id' => 1,
     'identifier' => 'ASIN (Amazon item identifier)',
@@ -26,22 +26,22 @@ $page->arguments = array(
     'settings' => array(),
   ),
 );
-$page->conf = array(
+  $page->conf = array(
   'no_blocks' => 0,
   'css_id' => '',
   'css' => '',
   'contexts' => array(),
   'relationships' => array(),
 );
-$display = new panels_display;
-$display->layout = 'twocol';
-$display->layout_settings = array();
-$display->panel_settings = array();
-$display->cache = array();
-$display->title = '';
-$display->hide_title = FALSE;
-$display->content = array();
-$display->panels = array();
+  $display = new panels_display;
+  $display->layout = 'twocol';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->hide_title = FALSE;
+  $display->content = array();
+  $display->panels = array();
   $pane = new stdClass;
   $pane->pid = 'new-1';
   $pane->panel = 'left';
@@ -178,7 +178,7 @@ $display->panels = array();
   $pane->position = 3;
   $display->content['new-7'] = $pane;
   $display->panels['right'][3] = 'new-7';
-$page->conf['display'] = $display;
+  $page->conf['display'] = $display;
 
   $pages['amazon_store_item_panel'] = $page;
   return $pages;

@@ -14,8 +14,8 @@
  *
  */
 class SearchIndexes {
-  protected $allCategories = array();   // All categories.
-  protected $recommendedCategories = array();  // Categories which will be on by default.
+  protected $allCategories = array(); // All categories.
+  protected $recommendedCategories = array(); // Categories which will be on by default.
   protected $parametersAllowed = array();
   protected $browseNodes = array();
   protected $sorts = array(); // Allowable sorts for each SearchIndex
@@ -28,7 +28,9 @@ class SearchIndexes {
    * @return unknown_type
    */
   function __construct($locale) {
-    include_once(strtolower("locales/amazon_store.locale.$locale.inc"));
+    $locale_file = DRUPAL_ROOT . "/" . drupal_get_path('module', 'amazon_store') . "/locales/amazon_store.locale." . strtolower($locale) . ".inc";
+    include_once($locale_file);
+
     $this->data = _amazon_store_locale();
 
     if (!empty($this->data[$locale])) {
@@ -61,7 +63,7 @@ class SearchIndexes {
    *   Keyed array. Key is the descriptor, like 'OutdoorLiving', value is the
    *   friendly name, like 'Outdoor Living'.
    */
-  function getSearchIndexPulldown($exclude_all_searchindex=FALSE) {
+  function getSearchIndexPulldown($exclude_all_searchindex = FALSE) {
     $categories = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
     $categories = array_filter($categories);
 

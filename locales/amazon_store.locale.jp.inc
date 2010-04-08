@@ -3,11 +3,11 @@
 
 function _amazon_store_locale() {
 
-$locale = array('JP' => array(
-  'All' => array('friendly_name' => t('All'),
-  'BrowseNode' => 2000,
-  'parameters_allowed' => array('Keywords'),
-  'sorts' => NULL,
+  $locale = array('JP' => array(
+    'All' => array('friendly_name' => t('All'),
+    'BrowseNode' => 2000,
+    'parameters_allowed' => array('Keywords'),
+    'sorts' => NULL,
   ),
 
 'Apparel' => array('friendly_name' => t('Apparel'),
@@ -25,6 +25,7 @@ $locale = array('JP' => array(
   'parameters_allowed' => array('Brand', 'BrowseNode', 'Condition', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'State', 'Title'),
   'sorts' => array(
 //       'psrank' => t('Bestseller ranking taking into consideration projected sales.The lower the value, the better the sales.')),
+
        'salesrank' => t('Bestselling'),
        'price' => t('Price: low to high'),
        '-price' => t('Price: high to low'),
@@ -296,5 +297,5 @@ $locale = array('JP' => array(
 ),
 ),
 );
-return $locale;
+  return $locale;
 }

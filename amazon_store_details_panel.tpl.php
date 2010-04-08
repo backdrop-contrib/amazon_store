@@ -36,7 +36,7 @@ $handlers = array(
 );
 
 function amazon_store_manufacturer_format($attributeType, $attributeValue) {
-  return theme('amazon_store_search_results_manufacturer', (string)$attributeValue);
+  return theme('amazon_store_search_results_manufacturer', array('manufacturer' => (string)$attributeValue));
 }
 
 /**

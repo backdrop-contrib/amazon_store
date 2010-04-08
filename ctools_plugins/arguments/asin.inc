@@ -5,7 +5,7 @@
 /**
  * @file arguments/asin.inc
  *
- * Plugin to provide an argument for Amazon ASIN 
+ * Plugin to provide an argument for Amazon ASIN
  */
 function amazon_store_asin_ctools_arguments() {
   $args['asin'] = array(

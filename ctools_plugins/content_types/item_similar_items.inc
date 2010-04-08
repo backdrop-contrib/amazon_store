@@ -2,8 +2,8 @@
 // $Id$
 /**
  @file
-  Similar items ctools plugin for amazon_store
-*/
+ Similar items ctools plugin for amazon_store
+ */
 
 /**
  * Callback function to supply a list of content types.
@@ -30,7 +30,7 @@ function amazon_store_item_similar_items_render($subtype, $conf, $panel_args, $c
   $block->module = 'item_similar_items';
   $amazon_object = $context->data;
   $block->title = t('Similar Products');
-  $block->content = theme('amazon_store_similar_items_panel',$context->data);
+  $block->content = theme('amazon_store_similar_items_panel', array('item' => $context->data));
   return $block;
 }
 

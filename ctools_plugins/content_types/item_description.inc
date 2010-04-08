@@ -2,9 +2,9 @@
 // $Id$
 /**
  @file
-  Provides item description for amazon item
+ Provides item description for amazon item
 
-/**
+ /**
  * Callback function to supply a list of content types.
  */
 function amazon_store_item_description_ctools_content_types() {
@@ -29,8 +29,8 @@ function amazon_store_item_description_render($subtype, $conf, $panel_args, $con
   $block = new stdClass();
   $block->module = 'item_description';
 
-  $block->title = (string)$context->data->EditorialReviews->EditorialReview[0]->Source;
-  $block->content = filter_xss((string)$context->data->EditorialReviews->EditorialReview[0]->Content);
+  $block->title = (string) $context->data->EditorialReviews->EditorialReview[0]->Source;
+  $block->content = filter_xss((string) $context->data->EditorialReviews->EditorialReview[0]->Content);
 
   return $block;
 }

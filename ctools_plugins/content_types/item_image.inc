@@ -26,8 +26,9 @@ function amazon_store_item_image_render($subtype, $conf, $panel_args, $context) 
   $block->module = 'item_image';
   $amazon_object = $context->data;
   // TODO: $conf doesn't seem to be coming through
-  $size=$conf['size_selection'];
-  $block->content = theme('amazon_store_item_image',$amazon_object,$size);
+  $size = $conf['size_selection'];
+  // TODO: Check this theme call.
+  $block->content = theme('amazon_store_item_image', array('amazon_item' => $amazon_object, 'size' => $size));
   return $block;
 }
 
@@ -50,7 +51,7 @@ function amazon_store_item_image_admin(&$form, &$form_state) {
       '#title' => t("Product Image Size"),
       '#type' => 'select',
       '#description' => t("Which of the three Amazon Product Images would you like"),
-      '#options' => array('SmallImage' => t('Small'), 'MediumImage'=>t('Medium'), 'LargeImage'=>t('Large')),
+      '#options' => array('SmallImage' => t('Small'), 'MediumImage' => t('Medium'), 'LargeImage' => t('Large')),
       '#default_value' => !empty($conf['size_selection']) ? $conf['size_selection'] : 'MediumImage',
   );
   return $form;

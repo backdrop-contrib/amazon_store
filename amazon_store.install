@@ -1,17 +1,17 @@
 <?php
+// $Id$
+
 /**
- * $Id$
  * @file
- *   Install for amazon_store.module
+ * Install, update and uninstall functions for the amazon_store module.
  *
  */
 
+
 function amazon_store_install() {
-  drupal_install_schema('amazon_store');
 }
 
 function amazon_store_uninstall() {
-  drupal_uninstall_schema('amazon_store');
 
   $vars = "amazon_store_default_browsenode_id
           amazon_store_default_items
@@ -28,7 +28,7 @@ function amazon_store_uninstall() {
           amazon_store_categories_block_num_columns
           amazon_store_show_sort_form";
 
-  foreach(preg_split("/\s+/", $vars) as $var) {
+  foreach (preg_split("/\s+/", $vars) as $var) {
     variable_del($var);
   }
 }
@@ -40,12 +40,4 @@ function amazon_store_schema() {
   $schema['cache_amazon_store_searches']['description'] = 'Store Amazon Store searches.';
 
   return $schema;
-}
-
-// We only have 2 cache tables, so create them.
-function amazon_store_update_6201() {
-  $ret = array();
-  $schema = drupal_get_schema_unprocessed('system', 'cache');
-  db_create_table($ret, 'cache_amazon_store_searches', $schema);
-  return $ret;
 }

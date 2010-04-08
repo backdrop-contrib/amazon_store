@@ -31,9 +31,9 @@ function amazon_store_item_title_render($subtype, $conf, $panel_args, $context) 
   $block = new stdClass();
   $block->module = 'item_title';
 
-  $block->title = (string)$context->data->ItemAttributes->Title;
-  $block->content = " ";   // without something, block doesn't get displayed
-  
+  $block->title = (string) $context->data->ItemAttributes->Title;
+  $block->content = " "; // without something, block doesn't get displayed
+
   return $block;
 }
 

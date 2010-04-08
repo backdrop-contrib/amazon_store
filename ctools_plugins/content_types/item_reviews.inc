@@ -2,8 +2,8 @@
 // $Id$
 /**
  @file
-   item_reviews ctools plugin for amazon_store
-*/
+ item_reviews ctools plugin for amazon_store
+ */
 
 /**
  * Callback function to supply a list of content types.
@@ -29,7 +29,7 @@ function amazon_store_item_reviews_render($subtype, $conf, $panel_args, $context
   $block->module = 'item_reviews';
 
   $block->title = t('Customer Reviews');
-  $block->content = theme('amazon_store_item_reviews_panel',$context->data);
+  $block->content = theme('amazon_store_item_reviews_panel', array('item' => $context->data));
 
 
   return $block;

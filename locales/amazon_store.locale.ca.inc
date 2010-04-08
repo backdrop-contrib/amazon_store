@@ -13,7 +13,7 @@ function _amazon_store_locale() {
   'Books' => array(
     'friendly_name' => t('Books'),
     'BrowseNode' => 927726,
-    'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
+    'parameters_allowed' => array('Author', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
     'sorts' => array(
       'salesrank' => t('Bestselling'),
       'pricerank' => t('Price: low to high'),
@@ -24,7 +24,7 @@ function _amazon_store_locale() {
   ),
   'Classical' => array('friendly_name' => t('Classical'),
   'BrowseNode' => 962454,
-  'parameters_allowed' => array( 'Author', 'BrowseNode', 'Composer', 'Condition', 'Conductor', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MusicLabel', 'Sort', 'Title'),
+  'parameters_allowed' => array('Author', 'BrowseNode', 'Composer', 'Condition', 'Conductor', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MusicLabel', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'titlerank' => t('Alphabetical: A to Z'),
@@ -33,7 +33,7 @@ function _amazon_store_locale() {
   ),
   'DVD' => array('friendly_name' => t('DVD'),
   'BrowseNode' => 14113311,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'titlerank' => t('Alphabetical: A to Z'),
@@ -53,7 +53,7 @@ function _amazon_store_locale() {
   ),
   'ForeignBooks' => array('friendly_name' => t('ForeignBooks'),
   'BrowseNode' => 927726,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Power', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'pricerank' => t('Price: low to high'),
@@ -64,7 +64,7 @@ function _amazon_store_locale() {
   ),
   'Music' => array('friendly_name' => t('Music'),
   'BrowseNode' => 962454,
-  'parameters_allowed' => array( 'Artist', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MusicLabel', 'Power', 'Sort', 'Title'),
+  'parameters_allowed' => array('Artist', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'MusicLabel', 'Power', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'titlerank' => t('Alphabetical: A to Z'),
@@ -73,7 +73,7 @@ function _amazon_store_locale() {
   ),
   'Software' => array('friendly_name' => t('Software'),
   'BrowseNode' => 3234171,
-  'parameters_allowed' => array( 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'pricerank' => t('Price: low to high'),
@@ -84,7 +84,7 @@ function _amazon_store_locale() {
   ),
   'SoftwareVideoGames' => array('friendly_name' => t('Software Video Games'),
   'BrowseNode' => 3323751,
-  'parameters_allowed' => array( 'Author', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Author', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'pricerank' => t('Price: low to high'),
@@ -96,7 +96,7 @@ function _amazon_store_locale() {
   'VHS' => array('friendly_name' => t('VHS'),
   'exclude_default' => TRUE,
   'BrowseNode' => 962072,
-  'parameters_allowed' => array( 'Actor', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
+  'parameters_allowed' => array('Actor', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   '-titlerank' => t('Alphabetical: Z to A'),
@@ -104,7 +104,7 @@ function _amazon_store_locale() {
   ),
   'Video' => array('friendly_name' => t('Video'),
   'BrowseNode' => 962454,
-  'parameters_allowed' => array( 'Actor', 'AudienceRating', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
+  'parameters_allowed' => array('Actor', 'AudienceRating', 'BrowseNode', 'Condition', 'Count', 'Director', 'ItemPage', 'Keywords', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Publisher', 'Sort', 'Title'),
   'sorts' => array(
   'salesrank' => t('Bestselling'),
   'titlerank' => t('Alphabetical: A to Z'),
@@ -113,7 +113,7 @@ function _amazon_store_locale() {
   ),
   'VideoGames' => array('friendly_name' => t('Video Games'),
   'BrowseNode' => 110218011,
-  'parameters_allowed' => array( 'Author', 'Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
+  'parameters_allowed' => array('Author', 'Brand', 'BrowseNode', 'Condition', 'Count', 'ItemPage', 'Keywords', 'Manufacturer', 'MaximumPrice', 'MerchantId', 'MinimumPrice', 'Sort', 'Title'),
 'salesrank' => t('Bestselling'),
 'pricerank' => t('Price: low to high'),
 'inverse-pricerank' => t('Price: high to low'),

@@ -8,10 +8,10 @@
 
 <div id="main-wrapper" class="item-detail-wrapper">
 <div class="columns-wrapper">
-<?php drupal_set_title($amazon_item->ItemAttributes->Title); ?>
+<?php drupal_set_title((string)$amazon_item->ItemAttributes->Title); ?>
 <!--  Top section, with title and navigation, cart -->
 <div id="topnav">
-<h3 id="title"><?php print $amazon_item->ItemAttributes->Title ?></h3>
+<h3 id="title"><?php print (string)$amazon_item->ItemAttributes->Title ?></h3>
 
 <a href="<?php print url("amazon_store") ?>">Continue Shopping</a> or <a
   href='<?php print url("amazon_store/cart")?>'>See your cart</a></div>
@@ -22,30 +22,30 @@
 <p id="product-description">
 <?php
 if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
-  print check_markup($amazon_item->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */, FALSE);
+  print check_markup($amazon_item->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */);
 }
 ?>
 </p>
 
 <h3>Product Details</h3>
-<p id="product-details"><?php print theme('amazon_store_details_panel',$amazon_item); ?>
+<p id="product-details"><?php print theme('amazon_store_details_panel', array('item' => $amazon_item)); ?>
 </p>
 </div>
 <!-- End item-details -->
 
 <div id="right-column" class="column">
-<?php print theme('amazon_store_item_image',$amazon_item,'MediumImage'); ?>
+<?php print theme('amazon_store_item_image', array('item' => $amazon_item, 'size' => 'MediumImage')); ?>
 
 <h3>Buying Options</h3>
-<?php print theme('amazon_store_item_offers',$amazon_item); ?>
+<?php print theme('amazon_store_item_offers', array('item' => $amazon_item)); ?>
 
 <h3>Similar Items</h3>
-<?php print theme('amazon_store_similar_items_panel',$amazon_item); ?>
+<?php print theme('amazon_store_similar_items_panel', array('item' => $amazon_item)); ?>
 </div>
 
 </div>
 <div id="bottom-section" class="column">
 <h3>Customer Reviews</h3>
-<?php print theme('amazon_store_item_reviews_panel',$amazon_item); ?></div>
+<?php print theme('amazon_store_item_reviews_panel', array('item' => $amazon_item)); ?></div>
 
 </div>

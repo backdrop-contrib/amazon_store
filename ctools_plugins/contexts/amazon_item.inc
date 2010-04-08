@@ -36,7 +36,8 @@ function amazon_store_amazon_item_context($empty, $data = NULL, $conf = FALSE) {
 
   if ($conf) {
     $asin = $data['asin'];
-  } else {
+  }
+  else {
     $asin = $data;
   }
   if (!empty($asin)) {
