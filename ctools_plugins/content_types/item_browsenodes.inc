@@ -29,7 +29,6 @@ function amazon_store_item_browsenodes_render($subtype, $conf, $panel_args, $con
   $block->module = 'item_browsenodes';
   $amazon_object = $context->data;
   $block->title = t('Browse Categories');
-  // TODO: Check that the theme arg is correct.
   $block->content = theme('amazon_store_browsenodes_panel', array('item' => $context->data));
   return $block;
 }

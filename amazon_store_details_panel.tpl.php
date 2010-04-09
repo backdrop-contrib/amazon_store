@@ -56,8 +56,9 @@ function amazon_store_manufacturer_format($attributeType, $attributeValue) {
 function amazon_store_participant_format($attributeType, $attributeValue, $allAttributes) {
   $search_index = ProductGroup2SearchIndex((string)$allAttributes->ProductGroup);
   $output = "";
+  $multi = FALSE;
   if (count($attributeValue) > 1) {
-    $multi = 1;
+    $multi = TRUE;
   }
 
   foreach ($attributeValue as $value) {

@@ -5,8 +5,8 @@ dependencies[] = amazon
 core = 7.x
 php = 5.2
 
-files[] = amazon_cart.tpl.php
-files[] = amazon_item_detail.tpl.php
+files[] = amazon_store_cart.tpl.php
+files[] = amazon_store_item_detail.tpl.php
 files[] = amazon_store.install
 files[] = amazon_store.module
 files[] = amazon_store.pages_default.inc

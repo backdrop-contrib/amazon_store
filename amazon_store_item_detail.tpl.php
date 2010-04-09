@@ -22,7 +22,7 @@
 <p id="product-description">
 <?php
 if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
-  print check_markup($amazon_item->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */);
+  print check_markup((string)$amazon_item->EditorialReviews->EditorialReview[0]->Content, 3 /* full html */);
 }
 ?>
 </p>
@@ -34,10 +34,10 @@ if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
 <!-- End item-details -->
 
 <div id="right-column" class="column">
-<?php print theme('amazon_store_item_image', array('item' => $amazon_item, 'size' => 'MediumImage')); ?>
+<?php print theme('amazon_store_item_image', array('amazon_item' => $amazon_item, 'size' => 'MediumImage')); ?>
 
 <h3>Buying Options</h3>
-<?php print theme('amazon_store_item_offers', array('item' => $amazon_item)); ?>
+<?php print theme('amazon_store_item_offers', array('amazon_item' => $amazon_item)); ?>
 
 <h3>Similar Items</h3>
 <?php print theme('amazon_store_similar_items_panel', array('item' => $amazon_item)); ?>

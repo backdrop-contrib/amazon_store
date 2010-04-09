@@ -48,7 +48,7 @@ function amazon_store_menu() {
       'type' => MENU_NORMAL_ITEM,
   );
   $items['amazon_store/item'] = array(
-      'page callback' => 'amazon_item_detail',
+      'page callback' => 'amazon_store_item_detail',
       'access callback' => TRUE,
       'type' => MENU_CALLBACK,
   );
@@ -72,70 +72,74 @@ function amazon_store_menu() {
 
 
 
-
+/**
+ * Implements hook_block_info.
+ */
+function amazon_store_block_info() {
+  $blocks['amazon_store_search']['info'] = t('Amazon Store Search');
+  $blocks['categories']['info'] = t('Amazon Store Categories');
+  return $blocks;
+}
 
 /**
- * Implements hook_block().
- *
- * Block 0: Simple Amazon search form.
- * Block 'categories': A list of links to Amazon categories.
+ * Implements hook_block_view.
  */
-function amazon_store_block_OLD($op = 'list', $delta = "0", $edit = array()) {
-  // TODO Remaining code in this function needs to be moved to the appropriate new hook function.
-  switch ($op) {
-    case 'list':
-      $blocks[0]['info'] = t('Search Amazon');
-      $blocks['categories']['info'] = t('Amazon Store Categories');
-      return $blocks;
-    case 'view':
-      $block = array();
-      switch ($delta) {
-        case "0":
-          $block['subject'] = t("Search Amazon");
-          $block['content'] = theme('amazon_store_search_block');
-          break;
-        case 'categories':
-          $block['subject'] = t('Search Amazon Categories');
-          $block['content'] = theme('amazon_store_categories');
-          break;
-          return $block;
-      }
-      return $block;
+function amazon_store_block_view($delta) {
+  $block = array();
+  switch ($delta) {
+    case 'amazon_store_search':
+      $block['subject'] = t("Search Amazon");
+      $block['content'] = theme('amazon_store_search_block');
       break;
-    case 'configure':
-      switch ($delta) {
-        case "0":
-          $form = array();
-          $form['amazon_store_search_block_keywords_width'] = array(
+    case 'categories':
+      $block['subject'] = t('Search Amazon Categories');
+      $block['content'] = theme('amazon_store_categories');
+      break;
+      return $block;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_block_configure.
+ */
+function amazon_store_block_configure($delta) {
+  switch ($delta) {
+    case 'amazon_store_search':
+      $form = array();
+      $form['amazon_store_search_block_keywords_width'] = array(
             '#type' => 'textfield',
             '#title' => t('Width (in characters) of keywords element'),
             '#size' => 5,
-            '#default_value' => variable_get('amazon_store_search_block_keywords_width',   15),
+            '#default_value' => variable_get('amazon_store_search_block_keywords_width',    15),
           );
-          return $form;
-        case "categories":
-          $form = array();
-          $form['amazon_store_categories_block_num_columns'] = array(
+      return $form;
+    case "categories":
+      $form = array();
+      $form['amazon_store_categories_block_num_columns'] = array(
             '#type' => 'select',
             '#options' => drupal_map_assoc(array(1, 2, 3, 4, 5)),
             '#title' => t('Number of columns'),
-            '#default_value' => variable_get('amazon_store_categories_block_num_columns',   2),
+            '#default_value' => variable_get('amazon_store_categories_block_num_columns',    2),
           );
-          return $form;
+      return $form;
 
-      }
-      break;
-    case 'save':
-      switch ($delta) {
-        case '0':
-          variable_set('amazon_store_search_block_keywords_width', $edit['amazon_store_search_block_keywords_width']);
-          break;
-        case "categories":
-          variable_set('amazon_store_categories_block_num_columns', $edit['amazon_store_categories_block_num_columns']);
-          break;
-      }
-      return;
   }
+}
+
+/**
+ * Implements hook_block_save.
+ */
+function amazon_store_block_save($delta, $edit) {
+  switch ($delta) {
+    case 'amazon_store_search':
+      variable_set('amazon_store_search_block_keywords_width', $edit['amazon_store_search_block_keywords_width']);
+      break;
+    case "categories":
+      variable_set('amazon_store_categories_block_num_columns', $edit['amazon_store_categories_block_num_columns']);
+      break;
+  }
+  return;
 }
 
 /**
@@ -147,13 +151,13 @@ function amazon_store_theme() {
         'variables' => array('results' => NULL),
         'template' => 'amazon_store_search_results',
     ),
-    'amazon_cart' => array(
+    'amazon_store_cart' => array(
       'variables' => array('cart' => NULL,),
-      'template' => 'amazon_cart'
+      'template' => 'amazon_store_cart'
     ),
-    'amazon_item_detail' => array(
-      'variables' => array('asin' => NULL),
-      'template' => 'amazon_item_detail',
+    'amazon_store_item_detail' => array(
+      'variables' => array('amazon_item' => NULL),
+      'template' => 'amazon_store_item_detail',
     ),
     'amazon_store_browsenodes_panel' => array(
       'variables' => array('item' => NULL),
@@ -190,7 +194,6 @@ function amazon_store_theme() {
       'template' => 'amazon_store_categories',
     ),
     'amazon_store_link_button' => array(
-      'template' => 'amazon_store_link_button',
       'variables' => array('text' => NULL, 'url' => NULL),
     ),
 
@@ -241,12 +244,12 @@ function amazon_store_forms($form_id) {
       'callback arguments' => $args[1],
     );
   }
-  if (preg_match('/^amazon_store_buttonize_link/', $form_id)) {
-    $forms[$form_id] = array(
-      'callback' => 'amazon_store_buttonize_link',
-      'callback arguments' => $args[1],
-    );
-  }
+//  if (preg_match('/^amazon_store_buttonize_link/', $form_id)) {
+//    $forms[$form_id] = array(
+//      'callback' => 'amazon_store_buttonize_link',
+//      'callback arguments' => $args[1],
+//    );
+//  }
   return $forms;
 }
 
@@ -291,12 +294,8 @@ function amazon_store_preprocess_amazon_item(&$variables) {
   $variables['detailpageurl'] = url('amazon_store/item/' . $variables['asin'], array('absolute' => TRUE));
 }
 
-function amazon_store_preprocess_amazon_item_detail(&$variables) {
 
-  $variables['amazon_item'] = amazon_store_retrieve_item($variables['asin']);
-}
-
-function amazon_store_preprocess_amazon_cart(&$variables) {
+function amazon_store_preprocess_amazon_store_cart(&$variables) {
   $cart = & $variables['cart'];
   $variables['fullrecords'] = array();
   $fullrecords = & $variables['fullrecords'];
@@ -420,6 +419,7 @@ function amazon_store_admin_form($form, &$form_state) {
  *   A simplexml item.
  */
 function amazon_store_cache_item($xml) {
+
   $cache_timeout = variable_get('amazon_store_refresh_schedule', 43200);
   $locale = variable_get('amazon_locale', 'US');
 
@@ -601,7 +601,6 @@ function _amazon_store_page() {
     $results = _amazon_store_search($parameters );
   }
 
-  // TODO: Check this. Is the array 'results'?
   $output .= theme('amazon_store_search_results', array('results' => $results));
   return $output;
 }
@@ -740,19 +739,16 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
  * Empty the cart
  *
  */
-function amazon_store_clear_cart(&$form_state, $destination = "amazon_store") {
+function amazon_store_clear_cart($form, &$form_state, $destination = "amazon_store") {
   $form = array();
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t("Clear cart")
   );
-  $form['destination'] = array(
-    '#type' => 'value',
-    '#value' => $destination,
-  );
+  $form_state['redirect'] = $destination;
   return $form;
 }
-function amazon_store_clear_cart_submit($form, $form_state) {
+function amazon_store_clear_cart_submit($form, &$form_state) {
   amazon_store_get_cart_info($cart_id, $cart_HMAC);
 
   // Do CartAdd operation with cart_id
@@ -771,7 +767,6 @@ function amazon_store_clear_cart_submit($form, $form_state) {
     }
   }
   drupal_set_message(t("Your shopping cart is now empty"));
-  drupal_goto($form_state['values']['destination']);
 }
 
 
@@ -802,7 +797,7 @@ function amazon_store_show_cart() {
   }
   // Display the cart
   if (!empty($results->Cart)) {
-    $result = theme('amazon_cart', array('cart' => $results->Cart));
+    $result = theme('amazon_store_cart', array('cart' => $results->Cart));
   }
   else {
     $result = t("There is nothing in your cart.");
@@ -810,13 +805,13 @@ function amazon_store_show_cart() {
   return "<div>$result</div>";
 }
 
-function amazon_item_detail($asin) {
+function amazon_store_item_detail($asin) {
   $item = amazon_store_retrieve_item($asin);
   if (empty($item)) {
     $output = t('Sorry, this is either an invalid URL or this item is no longer available from Amazon');
   }
   else {
-    $output = theme('amazon_item_detail', array('asin' => $asin));
+    $output = theme('amazon_store_item_detail', array('amazon_item' => $item));
   }
   return $output;
 }
@@ -900,7 +895,7 @@ function amazon_store_search_form($form, &$form_state, $keyword_width = 15) {
 }
 
 function amazon_store_search_form_submit($form, &$form_state) {
-  $form_state['redirect'] = array('amazon_store', "Keywords=" . $form_state['values']['Keywords'] . "&SearchIndex=" . $form_state['values']['SearchIndex']);
+  $form_state['redirect'] = array('amazon_store', array('query' => array('Keywords' => $form_state['values']['Keywords'], 'SearchIndex' => $form_state['values']['SearchIndex'])));
 }
 
 /**
@@ -967,11 +962,9 @@ function amazon_store_filter_results($unfiltered_items) {
   $filtered_results = clone $unfiltered_items;
   for ($i = count($unfiltered_items->Item) -1; $i >= 0; $i--) {
     $item = $unfiltered_items->Item[$i];
-    if ($item->Offers->TotalOffers == 0 || $item->OfferSummary->TotalNew == 0) {
+    // Drop the item if it has no variations and also has no offers.
+    if (!count($item->Variations) && ($item->Offers->TotalOffers == 0 || $item->OfferSummary->TotalNew == 0)) {
       unset($filtered_results->Item[$i]);
-    }
-    if ($item->ItemAttributes->Binding == 'Kindle Edition') {
-      // unset($filtered_results->Item[$i]);
     }
   }
   return $filtered_results;
@@ -987,7 +980,10 @@ function amazon_store_filter_results($unfiltered_items) {
  */
 function _amazon_store_search($parameters = array()) {
   $locale = variable_get('amazon_locale', 'US');
-  $response_groups = 'BrowseNodes,Variations,ItemAttributes,Images,EditorialReview,OfferFull,Reviews,Similarities,AlternateVersions,Large';
+  $response_groups = "Variations,Images,ItemAttributes,OfferFull";
+  if ($parameters['SearchIndex'] != 'Apparel') {
+    $response_groups .= ',EditorialReview,Similarities,AlternateVersions,Large';
+  }
   if ($locale == 'US') { // SearchBins not currently supported outside US
     $response_groups .= ',SearchBins';
   }
@@ -1001,10 +997,11 @@ function _amazon_store_search($parameters = array()) {
   if (! ($filtered_results = amazon_store_retrieve_cached_search($parameters))) {
     $results = amazon_store_http_request('ItemSearch', $parameters);
     if (empty($results->error) && !empty($results->Items->Item)) {
+      // Filter results to exclude things that have no offers or variations.
       $filtered_results = amazon_store_filter_results($results->Items);
       amazon_store_cache_search($parameters, $filtered_results);
-      foreach ($filtered_results->Item as $xml) {
-        amazon_store_cache_item($xml);
+      foreach ($filtered_results->Item as $item) {
+        amazon_store_cache_item($item);
       }
     }
   }
@@ -1015,19 +1012,20 @@ function _amazon_store_search($parameters = array()) {
 /**
  * Just like search, but takes a comma-separated item list of ASINs instead
  * @param $itemlist
+ *   Parameters to pass. Normal would be array('ItemId' => 'asin1,asin2,...')
  * @return unknown_type
  */
 function _amazon_store_itemlist($parameters = array()) {
   $parameters += array(
-      'ResponseGroup' => 'BrowseNodes,Variations,ItemAttributes,Images,EditorialReview,OfferFull,Reviews,Similarities,AlternateVersions,Large',
+    'ResponseGroup' => 'Variations,ItemAttributes,Images,EditorialReview,OfferFull,AlternateVersions,Large',
   );
 
   if (! ($results = amazon_store_retrieve_cached_search($parameters))) {
     $results = amazon_store_http_request('ItemLookup', $parameters);
     if (empty($results->error) && !empty($results->Items->Item)) {
       amazon_store_cache_search($parameters, $results);
-      foreach ($results->Items->Item as $xml) {
-        amazon_store_cache_item($xml);
+      foreach ($results->Items->Item as $item) {
+        amazon_store_cache_item($item);
       }
     }
   }
@@ -1539,8 +1537,7 @@ function amazon_store_addcart_form_validate($form, &$form_state) {
     }
   }
   if (empty($form_state['values']['fields']['offer' . "-$asin"])) { // We don't have an offer selected yet
-    // TODO: This should really be a form_error() call
-    drupal_set_message(t('Please choose a merchant'));
+    form_set_error("fields[offer-$asin]", ('Please choose a merchant'));
     $form_state['rebuild'] = TRUE;
     return;
   }
@@ -1588,7 +1585,10 @@ function amazon_store_addcart_form_submit($form, &$form_state) {
  *
  */
 function _amazon_store_addcart_callback($form, &$form_state) {
-  return $form;
+  $commands[] = ajax_command_replace(NULL, drupal_render($form));
+  $commands[] = ajax_command_append(NULL, theme('status_messages'));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 
@@ -1811,18 +1811,17 @@ function _amazon_store_cart_quantity_form_submit($form, &$form_state) {
  * @return form.
  */
 function amazon_store_buttonize_link($form, &$form_state, $name, $link) {
-  $parts = parse_url($link);
-  if (!empty($parts['scheme'])) {
-    $url = "{$parts['scheme']}://{$parts['host']}{$parts['path']}";
-    $link = array($url, $parts['query']);
-  }
-  $form = array(
-    '#redirect' => $link,
-  );
+//  $parts = parse_url($link);
+//  if (!empty($parts['scheme'])) {
+//    $url = "{$parts['scheme']}://{$parts['host']}{$parts['path']}";
+//    $link = array($url, array('query' => $parts['query']));
+//  }
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => $name,
+    '#value' => $name . "($link)",
   );
+  $form_state['redirect'] = $link;
+  $form_state['cache'] = TRUE;
   return $form;
 }
 
@@ -1863,4 +1862,11 @@ function amazon_store_search_results_pager($searchResults, $pager_element = 0) {
 
   // 10 items per page is wired in from Amazon API.
   return theme('pager', array('tags' => array(), 'element' => $pager_element));
+}
+
+
+
+function theme_amazon_store_link_button($variables) {
+  return l($variables['text'], $variables['url']);
+  // return drupal_render(drupal_get_form("amazon_store_buttonize_link", $variables['text'], $variables['url']));
 }

@@ -56,7 +56,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 				src="<?php print $result->MediumImage->URL ?>"
 				alt="Image of <?php print $result->ItemAttributes->Title ?>"
 				class="product-image" /></a> <?php else: ?>
-        <?php print theme('image',"$directory/images/no_image_med.jpg"); ?>
+        <?php print theme('image', array('path' => "$directory/images/no_image_med.jpg")); ?>
        <?php endif; ?></td>
 			<td>
 			<p class="title"><a rel="nofollow"
