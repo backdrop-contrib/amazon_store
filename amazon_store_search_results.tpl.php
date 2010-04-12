@@ -10,7 +10,8 @@
 <?php
   if (variable_get('amazon_store_show_searchform',TRUE)) {
     // Argument specifies how wide the keywords textfield should be, in chars.
-    print drupal_render(drupal_get_form('amazon_store_search_form', 50));
+    $form = drupal_get_form('amazon_store_search_form', 50);
+    print drupal_render($form);
   }
 ?>
 <div class="amazon-store-panel search-results"><!--
@@ -22,13 +23,14 @@
 
 <div class="change_sort"><?php
 if (variable_get('amazon_store_show_sort_form',TRUE)) {
-    print drupal_render(drupal_get_form('amazon_store_sort_form'));
+    $form = drupal_get_form('amazon_store_sort_form');
+    print drupal_render($form);
 }?>
 </div>
 <div class="search-sets narrow-by"><?php
 if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets)) {
-  $form = drupal_render(drupal_get_form('amazon_store_searchbin_sets_form', $results->SearchBinSets));
-  print $form;
+  $form = drupal_get_form('amazon_store_searchbin_sets_form', $results->SearchBinSets);
+  print drupal_render($form);
 }
 ?></div>
 
@@ -45,7 +47,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 	  continue;
 	}
 	$asin = (string)$result->ASIN;
-	$form = drupal_render(drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN));
+	$form = drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN);
 	?>
 
 		<!--  BEGIN ITEM PROCESSING -->
@@ -82,7 +84,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 			?>
       </div>
 			</div>
-			<?php print $form; ?></td>
+			<?php print drupal_render($form); ?></td>
 
 		</tr>
 		<!--  END ITEM PROCESSING -->

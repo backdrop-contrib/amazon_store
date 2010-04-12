@@ -42,7 +42,7 @@ items in your cart. <?php else: ?>
 			<p class="availability">Sold by <?php print $item->SellerNickname . ": ".  $item->Availability ?>
 			</p>
 
-			<td class="enter_quantity"><?php print drupal_render(drupal_get_form('_amazon_store_cart_quantity_form'."-$item->ASIN",$item, $i++)); ?></td>
+			<td class="enter_quantity"><?php $form = drupal_get_form('_amazon_store_cart_quantity_form'."-$item->ASIN",$item, $i++); print drupal_render($form); ?></td>
 
 		</tr>
 
@@ -58,8 +58,8 @@ items in your cart. <?php else: ?>
 			<p>
       <?php if ($cart->CartItems) {
         print theme('amazon_store_link_button', array('text' => t("Checkout at Amazon"), 'url' => (string)$cart->PurchaseURL));
-        print drupal_render(drupal_get_form('amazon_store_clear_cart'));
-
+        $form = drupal_get_form('amazon_store_clear_cart');
+        print drupal_render($form);
       } ?>
 
     </p>
