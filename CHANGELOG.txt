@@ -1,5 +1,8 @@
 // $Id$
 
+amazon_store-7.x-???
+[#878048] by the_g_bomb: Fix cart-add confirmation message.
+
 amazon_store-6.x-2.0-RC2
 ------------------------
 [#764116] by rfay: Implement a real pager for search results!
