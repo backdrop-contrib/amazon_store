@@ -83,3 +83,8 @@
   vertical-align: top;
   line-height: 120%;
 }
+
+.customer_review_iframe {
+  width: 100%;
+  height: 500px;
+}
