@@ -3,6 +3,7 @@
 amazon_store-7.x-???
 [#878048] by the_g_bomb: Fix cart-add confirmation message.
 [#597362] by frando: Fix tpl.php that had functions in it.
+[#965512] by rfay: Change to new menu settings (admin/config/amazon_settings/amazon_store)
 
 amazon_store-6.x-2.0-RC2
 ------------------------
