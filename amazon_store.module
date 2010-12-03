@@ -639,7 +639,6 @@ function _amazon_store_add_to_cart($asin,   $offerListingId = NULL, $quantity = 
       'Item.1.Quantity' => $quantity,
   );
 
-
   $items = array();
   if ($cart_id) { // If we already have a cart, try this.
     $results = amazon_store_http_request('CartAdd', $parameters);
@@ -647,8 +646,9 @@ function _amazon_store_add_to_cart($asin,   $offerListingId = NULL, $quantity = 
       return TRUE;
     }
     if ((string) $results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.ItemAlreadyInCart") {
-      $current_quantity = amazon_store_get_current_cart_quantity($id);
-      amazon_store_update_cart_quantity($id, $current_quantity + 1);
+      $cart_item_id = $results->Cart->CartItems->CartItem[0]->CartItemId;
+      $requested_quantity = (int)$results->Cart->CartItems->CartItem[0]->Quantity;
+      amazon_store_update_cart_quantity((string)$cart_item_id, $requested_quantity);
       return TRUE;
     }
     else if ((string) $results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.CartInfoMismatch") {
