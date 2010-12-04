@@ -5,6 +5,7 @@ amazon_store-7.x-???
 [#597362] by frando: Fix tpl.php that had functions in it.
 [#965512] by rfay: Change to new menu settings (admin/config/amazon_settings/amazon_store)
 [#905200] by rfay: Amazon has removed Customer Reviews. Adjust things.
+[#883484] by rfay: Provide colorbox support (instead of thickbox)
 
 amazon_store-6.x-2.0-RC2
 ------------------------

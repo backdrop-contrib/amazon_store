@@ -17,11 +17,11 @@ if (!empty($configured_image)) {
 }
 
 if (!empty($amazon_item->LargeImage)) {
-  $largeImage=$amazon_item->LargeImage->URL;
+  $largeImage = (string)$amazon_item->LargeImage->URL;
 }
 $img_code = theme('image', array('path' => $image, 'alt' => (string)$amazon_item->ItemDetails->Title, 'title' => $amazon_item->ItemDetails->Title, 'attributes' => array('class' => array('amazon-product-image'), 'height' => $height, 'width' => $width), 'getsize' => FALSE));
 $output = $img_code;
 if (!empty($largeImage)) {
-  $output = l($img_code, $largeImage, array('html' => TRUE, 'attributes' => array('title' => $amazon_item->ItemAttributes->Title, 'class' => 'thickbox', 'rel' => 'nofollow')));
+  $output = l($img_code, $largeImage, array('html' => TRUE, 'attributes' => array('title' => $amazon_item->ItemAttributes->Title, 'class' => 'colorbox-inline', 'rel' => 'nofollow')));
 }
 print $output;

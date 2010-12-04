@@ -53,7 +53,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 		<!--  BEGIN ITEM PROCESSING -->
 		<tr>
 			<td><?php if (!empty($result->LargeImage)) : ?> <a rel="nofollow"
-				href="<?php print $result->LargeImage->URL; ?>" class="thickbox"
+				href="<?php print $result->LargeImage->URL; ?>" class="colorbox-inline"
 				title="<?php print $result->ItemAttributes->Title ?>"> <img
 				src="<?php print $result->MediumImage->URL ?>"
 				alt="Image of <?php print $result->ItemAttributes->Title ?>"

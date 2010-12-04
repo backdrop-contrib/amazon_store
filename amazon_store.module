@@ -407,7 +407,16 @@ function amazon_store_admin_form($form, &$form_state) {
       '#default_value' => variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories()),
   );
 
-  return system_settings_form($form);
+  $form = system_settings_form($form);
+  $form['#submit'][] = 'amazon_store_admin_form_submit';
+  return $form;
+}
+
+/**
+ * Rebuild menu when settings submitted, as they might have changed the menu.
+ */
+function amazon_store_admin_form_submit($form, &$form_state) {
+  menu_rebuild();
 }
 
 /**
