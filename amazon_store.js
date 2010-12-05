@@ -1,8 +1,13 @@
 // $Id$
 
-Drupal.behaviors.amazonStoreShowHide = function () {
-  $(".togglebtn").click(function () {
-    // Looks down from 2 levels up for an element with class=toggle
-    $(this).parent().parent().find('.toggle').toggle();
-  });
-}
+(function ($) {
+
+  Drupal.behaviors.exampleModule = {
+    attach: function(context, settings) {
+      $('.togglebtn', context).click(function () {
+        $(this).parent().find('.toggle').toggle();
+      });
+    }
+  };
+
+})(jQuery);
