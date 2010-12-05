@@ -1492,7 +1492,7 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
       '#value' => t("Reset selections"),
       '#validate' => array('amazon_store_addcart_form_reset'),
       '#executes_submit_callback' => FALSE,
-      '#attributes' => array('class' => array('no-js')),
+      '#attributes' => array('class' => array('amazon-store-no-js')),
 
   );
   return $form;
@@ -1660,7 +1660,7 @@ function amazon_store_sort_form($form, &$form_state) {
       '#type' => 'submit',
       '#value' => t('Sort'),
       '#name' => t('Sort'),
-      '#attributes' => array('class' => array('no-js')),
+      '#attributes' => array('class' => array('amazon-store-no-js')),
   );
   $form['clear'] = array(
     '#type' => 'markup',
@@ -1707,7 +1707,7 @@ function amazon_store_searchbin_sets_form($form, &$form_state, $searchBinSets) {
         '#value' => t('Narrow by') . $narrowBy,
         '#name' => $narrowBy,
         '#submit' => array('amazon_store_searchbin_sets_form_submit'),
-        '#attributes' => array('class' => array('no-js')),
+        '#attributes' => array('class' => array('amazon-store-no-js')),
 
     );
 
