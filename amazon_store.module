@@ -6,7 +6,6 @@
  * Implement an amazon shopping cart with search and remote cart capabilities
  *
  */
-//TODO: May not have to do all the funky stuff with HTML_ID and such!
 
 define('AS_DEBUG', FALSE); // Turn on to execute debug code
 
@@ -228,7 +227,6 @@ function amazon_store_flush_caches() {
  * search results page and also on the cart page, we have to
  * tell the system where to find the processing function
  */
-// TODO: We should be able to get rid of this stuff!
 function amazon_store_forms($form_id) {
   $args = func_get_args();
   $forms = array();
@@ -244,12 +242,12 @@ function amazon_store_forms($form_id) {
       'callback arguments' => $args[1],
     );
   }
-//  if (preg_match('/^amazon_store_buttonize_link/', $form_id)) {
-//    $forms[$form_id] = array(
-//      'callback' => 'amazon_store_buttonize_link',
-//      'callback arguments' => $args[1],
-//    );
-//  }
+  if (preg_match('/^amazon_store_buttonize_link/', $form_id)) {
+    $forms[$form_id] = array(
+      'callback' => 'amazon_store_buttonize_link',
+      'callback arguments' => $args[1],
+    );
+  }
   return $forms;
 }
 
@@ -1815,6 +1813,7 @@ function _amazon_store_cart_quantity_form_submit($form, &$form_state) {
  * Turn a link or path into a form button.
  * This is only intended to handle internal paths and simple links like
  * the one to the amazon checkout.
+ * @param $form
  * @param $form_state
  * @param $name
  *   button name.
@@ -1822,18 +1821,12 @@ function _amazon_store_cart_quantity_form_submit($form, &$form_state) {
  *   URL we'll link to.
  * @return form.
  */
-function amazon_store_buttonize_link($form, &$form_state, $name, $link) {
-//  $parts = parse_url($link);
-//  if (!empty($parts['scheme'])) {
-//    $url = "{$parts['scheme']}://{$parts['host']}{$parts['path']}";
-//    $link = array($url, array('query' => $parts['query']));
-//  }
+function amazon_store_buttonize_link(&$form, &$form_state, $name, $link) {
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => $name . "($link)",
+    '#value' => $name,
   );
-  $form_state['redirect'] = $link;
-  $form_state['cache'] = TRUE;
+  $form_state['storage']['linkbutton_link'] = $link;
   return $form;
 }
 
@@ -1877,10 +1870,15 @@ function amazon_store_search_results_pager($searchResults, $pager_element = 0) {
 }
 
 
-
+/**
+ * Theme a link into a button using the current theme's button definition.
+ * @param $variables
+ */
 function theme_amazon_store_link_button($variables) {
-  return l($variables['text'], $variables['url']);
-  // return drupal_render(drupal_get_form("amazon_store_buttonize_link", $variables['text'], $variables['url']));
+  $hash = drupal_hash_base64($variables['url']);
+  $form = drupal_get_form("amazon_store_buttonize_link_" . $hash, $variables['text'], $variables['url']);
+  $markup = drupal_render($form);
+  return $markup;
 }
 
 
