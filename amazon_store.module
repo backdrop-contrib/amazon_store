@@ -533,7 +533,7 @@ function _amazon_store_page() {
     $parameters['SearchIndex'] = check_plain($get_SearchIndex);
   }
   if (!empty($get_Keywords)) {
-    $parameters['Keywords'] = ereg_replace('[\'\"]', '', $get_Keywords);
+    $parameters['Keywords'] = preg_replace('/[\'\"]/', '', $get_Keywords);
   }
   if (!empty($get_ItemId)) {
     $parameters['ItemId'] = filter_xss($get_ItemId);
