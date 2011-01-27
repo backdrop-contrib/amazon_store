@@ -9,7 +9,7 @@
 
 define('AS_DEBUG', FALSE); // Turn on to execute debug code
 
-include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'amazon_store') . '/' . "searchindexes.inc"; // Definition of searchindex-specific object
+module_load_include('inc', 'amazon_store', 'searchindexes');
 
 /**
  * Implements hook_init().

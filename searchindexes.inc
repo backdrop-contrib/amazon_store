@@ -28,8 +28,8 @@ class SearchIndexes {
    * @return unknown_type
    */
   function __construct($locale) {
-    $locale_file = DRUPAL_ROOT . "/" . drupal_get_path('module', 'amazon_store') . "/locales/amazon_store.locale." . strtolower($locale) . ".inc";
-    include_once($locale_file);
+    $locale_file = '/locales/amazon_store.locale.' . strtolower($locale);
+    module_load_include('inc', 'amazon_store', $locale_file);
 
     $this->data = _amazon_store_locale();
 
