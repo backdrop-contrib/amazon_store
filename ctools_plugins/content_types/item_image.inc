@@ -44,7 +44,7 @@ function amazon_store_item_image_admin_title($subtype, $conf, $context) {
 /**
  * 'Edit' callback for the author pane content type.
  */
-function amazon_store_item_image_admin(&$form, &$form_state) {
+function amazon_store_item_image_admin($form, &$form_state) {
   $conf = $form_state['conf'];
 
   $form['size_selection'] = array(
@@ -57,7 +57,7 @@ function amazon_store_item_image_admin(&$form, &$form_state) {
   return $form;
 }
 
-function amazon_store_item_image_admin_submit(&$form, &$form_state) {
+function amazon_store_item_image_admin_submit($form, &$form_state) {
   $form_state['conf']['size_selection'] = $form_state['values']['size_selection'];
 }
 

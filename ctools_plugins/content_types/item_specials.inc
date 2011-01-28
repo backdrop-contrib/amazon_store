@@ -41,6 +41,6 @@ function amazon_store_item_specials_render($subtype, $conf, $panel_args, $contex
 }
 
 
-function amazon_store_item_specials_items_edit_form(&$form, &$form_state) {
+function amazon_store_item_specials_items_edit_form($form, &$form_state) {
 
 }

@@ -36,6 +36,6 @@ function amazon_store_item_description_render($subtype, $conf, $panel_args, $con
 }
 
 
-function amazon_store_item_description_edit_form(&$form, &$form_state) {
+function amazon_store_item_description_edit_form($form, &$form_state) {
 
 }

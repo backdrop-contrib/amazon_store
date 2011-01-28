@@ -35,6 +35,6 @@ function amazon_store_item_browsenodes_render($subtype, $conf, $panel_args, $con
 
 
 // Per merlinofchaos, currently a bug there, so you have to have an edit form.
-function amazon_store_item_browsenodes_edit_form(&$form, &$form_state) {
+function amazon_store_item_browsenodes_edit_form($form, &$form_state) {
 
 }

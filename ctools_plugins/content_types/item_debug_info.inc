@@ -41,7 +41,7 @@ function amazon_store_item_debug_info_render($subtype, $conf, $panel_args, $cont
 
 }
 
-function amazon_store_item_debug_info_edit_form(&$form, &$form_state) {
+function amazon_store_item_debug_info_edit_form($form, &$form_state) {
 
 }
 

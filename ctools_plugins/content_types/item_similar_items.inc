@@ -35,6 +35,6 @@ function amazon_store_item_similar_items_render($subtype, $conf, $panel_args, $c
 }
 
 
-function amazon_store_item_similar_items_edit_form(&$form, &$form_state) {
+function amazon_store_item_similar_items_edit_form($form, &$form_state) {
 
 }

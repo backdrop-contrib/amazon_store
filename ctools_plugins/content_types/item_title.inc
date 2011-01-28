@@ -40,7 +40,7 @@ function amazon_store_item_title_render($subtype, $conf, $panel_args, $context) 
 
 
 // Per merlinofchaos, currently a bug there, so you have to have an edit form.
-function amazon_store_item_title_edit_form(&$form, &$form_state) {
+function amazon_store_item_title_edit_form($form, &$form_state) {
 
 }
 

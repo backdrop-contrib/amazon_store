@@ -32,6 +32,6 @@ function amazon_store_item_details_render($subtype, $conf, $panel_args, $context
   return $block;
 }
 
-function amazon_store_item_details_edit_form(&$form, &$form_state) {
+function amazon_store_item_details_edit_form($form, &$form_state) {
 
 }
