@@ -907,7 +907,6 @@ function amazon_store_search_form($form, &$form_state, $keyword_width = 15) {
 
 function amazon_store_search_form_submit($form, &$form_state) {
   $form_state['redirect'] = array('amazon_store', array('query' => array('Keywords' => $form_state['values']['Keywords'], 'SearchIndex' => $form_state['values']['SearchIndex'])));
-  dprint_r($form_state['redirect']);
 }
 
 /**
