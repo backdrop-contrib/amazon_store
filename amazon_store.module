@@ -1307,7 +1307,7 @@ function _amazon_store_get_variation_dimensions($item) {
  *   string as a hidden element in the form so it can be used later.
  * @return prepared form
  */
-function amazon_store_addcart_form(&$form, &$form_state, $asin, $context = 'normal') {
+function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'normal') {
   $moduledir = drupal_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
@@ -1605,7 +1605,7 @@ function _amazon_store_get_sort() {
  * @return
  * 	Form for changing sort order
  */
-function amazon_store_sort_form(&$form, &$form_state) {
+function amazon_store_sort_form($form, &$form_state) {
 
   $form['#tree'] = TRUE;
   $moduledir = drupal_get_path('module', 'amazon_store');
@@ -1652,7 +1652,7 @@ function amazon_store_sort_form_submit($form, &$form_state) {
  * @return
  * 	a form
  */
-function amazon_store_searchbin_sets_form(&$form, &$form_state, $searchBinSets) {
+function amazon_store_searchbin_sets_form($form, &$form_state, $searchBinSets) {
   $form = array(
     '#tree' => TRUE,
     '#title' => t('Narrow your search'),
@@ -1736,7 +1736,7 @@ function amazon_store_searchbin_sets_form_submit($form, &$form_state) {
  * @param $cart_entry
  * @param $item_number
  */
-function _amazon_store_cart_quantity_form(&$form, &$form_state, $cart_entry, $item_number) {
+function _amazon_store_cart_quantity_form($form, &$form_state, $cart_entry, $item_number) {
   $moduledir = drupal_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
@@ -1807,7 +1807,7 @@ function _amazon_store_cart_quantity_form_submit($form, &$form_state) {
  *   URL we'll link to.
  * @return form.
  */
-function amazon_store_buttonize_link(&$form, &$form_state, $name, $link) {
+function amazon_store_buttonize_link($form, &$form_state, $name, $link) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => $name,
