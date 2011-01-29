@@ -4,6 +4,7 @@ amazon_store-7.x-1.???
 ----------------------
 [#1044270] by Pancho: Fix info file format
 [#735464] by rfay: Standardize handling of Editorial Review (Item description)
+[#1010484] by the_g_bomb, rfay: Fix markup issues in item_detail.tpl.php
 
 
 amazon_store-7.x-1.x-beta2
