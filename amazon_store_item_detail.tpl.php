@@ -21,8 +21,8 @@
 <h3>Item Description</h3>
 <p id="product-description">
 <?php
-if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
-  print check_markup((string)$amazon_item->EditorialReviews->EditorialReview[0]->Content, 3 /* full html */);
+if (!empty($editorialreview)) {
+  print $editorialreview;
 }
 ?>
 </p>

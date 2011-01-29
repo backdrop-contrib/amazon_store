@@ -30,8 +30,10 @@ function amazon_store_item_description_render($subtype, $conf, $panel_args, $con
   $block->module = 'item_description';
 
   $block->title = (string) $context->data->EditorialReviews->EditorialReview[0]->Source;
-  $block->content = filter_xss((string) $context->data->EditorialReviews->EditorialReview[0]->Content);
-
+  if (!empty($context->data->EditorialReviews->EditorialReview[0]->Content)) {
+    $block->title = $context->data->EditorialReviews->EditorialReview[0]->Source;
+    $block->content =  _filter_htmlcorrector(filter_xss_admin($context->data->EditorialReviews->EditorialReview[0]->Content));
+ }
   return $block;
 }
 

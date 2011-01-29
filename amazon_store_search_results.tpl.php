@@ -79,7 +79,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 			<div class="toggle editorial">
 			<?php
 			if (!empty($result->EditorialReviews->EditorialReview[0]->Content)) {
-			  print check_markup($result->EditorialReviews->EditorialReview[0]->Content, 2 /* full html */, FALSE);
+			  print  _filter_htmlcorrector(filter_xss_admin($result->EditorialReviews->EditorialReview[0]->Content));
 			}
 			?>
       </div>

@@ -290,7 +290,19 @@ function amazon_store_preprocess_amazon_item(&$variables) {
 }
 
 
-function amazon_store_preprocess_amazon_store_cart(&$variables) {
+/**
+ * Process variables for amazon_store_item_detail.
+ */
+function template_preprocess_amazon_store_item_detail(&$variables) {
+  $amazon_item = $variables['amazon_item'];
+  $variables['asin'] = (string)$amazon_item->ASIN;
+  if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
+    $variables['editorialreview'] =  _filter_htmlcorrector(filter_xss_admin($amazon_item->EditorialReviews->EditorialReview[0]->Content));
+  }
+
+}
+
+function template_preprocess_amazon_store_cart(&$variables) {
   $cart = & $variables['cart'];
   $variables['fullrecords'] = array();
   $fullrecords = & $variables['fullrecords'];
@@ -1027,9 +1039,7 @@ function _amazon_store_search($parameters = array()) {
  * @return unknown_type
  */
 function _amazon_store_itemlist($parameters = array()) {
-  $parameters += array(
-    'ResponseGroup' => 'Variations,ItemAttributes,Images,EditorialReview,OfferFull,AlternateVersions,Large',
-  );
+  $parameters['ResponseGroup'] = 'Variations,ItemAttributes,Images,EditorialReview,OfferFull,Reviews,Similarities,AlternateVersions,Large';
 
   if (! ($results = amazon_store_retrieve_cached_search($parameters))) {
     $results = amazon_store_http_request('ItemLookup', $parameters);
@@ -1052,8 +1062,8 @@ function _amazon_store_itemlist($parameters = array()) {
  */
 function amazon_store_get_item_data($asin) {
   $parameters = array(
-      'ResponseGroup' => 'BrowseNodes,Variations,ItemAttributes,Images,EditorialReview,OfferFull,Reviews,Similarities,AlternateVersions,Large',
-      'ItemId' => $asin,
+      'ResponseGroup' => 'Variations,Images,ItemAttributes,OfferFull,Large,EditorialReview',
+  'ItemId' => $asin,
       'MerchantId' => "All",
   );
 

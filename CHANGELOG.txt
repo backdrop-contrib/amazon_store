@@ -3,6 +3,7 @@ CHANGELOG for Amazon Store
 amazon_store-7.x-1.???
 ----------------------
 [#1044270] by Pancho: Fix info file format
+[#735464] by rfay: Standardize handling of Editorial Review (Item description)
 
 
 amazon_store-7.x-1.x-beta2
