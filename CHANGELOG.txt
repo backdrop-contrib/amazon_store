@@ -1,4 +1,16 @@
-// $Id$
+CHANGELOG for Amazon Store
+
+amazon_store-7.x-1.???
+----------------------
+[#1044270] by Pancho: Fix info file format
+
+
+amazon_store-7.x-1.x-beta2
+--------------------------
+[#1040244] by Pancho: eradicate deprecated ereg_replace()
+[#1041088] by Pancho: use module_load_include() instead of include_once()
+[#1033566] by Pancho: remove debugging code
+[#1034774] by Pancho: fix callback signatures for all forms
 
 amazon_store-7.x-1.x-beta1
 --------------------------
