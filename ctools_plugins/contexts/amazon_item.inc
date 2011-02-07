@@ -6,7 +6,7 @@
  *
  */
 /**
- * Implementation of hook_ctools_contexts()
+ * Implementation of hook_ctools_contexts().
  */
 function amazon_store_amazon_item_ctools_contexts() {
 
@@ -51,7 +51,6 @@ function amazon_store_amazon_item_context($empty, $data = NULL, $conf = FALSE) {
   return NULL;
 
 }
-
 
 function amazon_store_amazon_item_settings_form($conf, $external = FALSE) {
   $form = array();

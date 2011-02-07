@@ -14,7 +14,7 @@ function amazon_store_asin_ctools_arguments() {
     'keyword' => 'ASIN',
     'description' => t('Creates an Amazon item from the ASIN.'),
     'context' => 'amazon_store_create_asin_context',
-    'native path' => 'amazon_store/item',
+    'native path' => AMAZON_STORE_PATH .'/item',
   );
   return $args;
 }
@@ -24,7 +24,6 @@ function amazon_store_create_asin_context($arg = NULL, $conf = NULL, $empty = FA
   if ($empty) {
     return ctools_context_create_empty('amazon_item');
   }
-
   return ctools_context_create('amazon_item', $arg);
 }
 

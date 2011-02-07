@@ -8,13 +8,13 @@
 <h2>Your Cart</h2>
 
 <?php
-print theme('amazon_store_link_button', array('text' => t("Continue Shopping"), 'url' => 'amazon_store'));
+print theme('amazon_store_link_button', array('text' => t("Continue Shopping"), 'url' => AMAZON_STORE_PATH));
 if ($cart->CartItems) {
   print theme('amazon_store_link_button', array('text' => t("Checkout at Amazon"), 'url' => (string)$cart->PurchaseURL));
 } ?>
 <div class="greyrule" ></div>
-<?php if (!$cart->CartItems):?> There are no
-items in your cart. <?php else: ?>
+<?php if (!$cart->CartItems):?> There are no items in your cart.
+<?php else: ?>
 
 <table cellspacing="0" cellpadding="0" class="items_in_cart">
 
@@ -28,12 +28,12 @@ items in your cart. <?php else: ?>
 	  ?>
 		<tr class="cart_item">
 			<td class="item_cart_image"><a rel="nofollow"
-				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}"); ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
+				href="<?php print url(AMAZON_STORE_PATH . "/item/{$fullinfo->ASIN}"); ?>"> <?php if (!empty($fullinfo->SmallImage)) : ?>
 			<img src="<?php print $fullinfo->SmallImage->URL ?>"
 				alt="<?php print $item->Title ?> " /></a> <?php else: ?>
 			<?php print theme('image', array('path' => "$directory/images/no_image_small.jpg")); ?> <?php endif; ?></td>
 			<td class="item_stats"><a class="product_name" rel="nofollow"
-				href="<?php print url("amazon_store/item/{$fullinfo->ASIN}") ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
+				href="<?php print url(AMAZON_STORE_PATH . "/item/{$fullinfo->ASIN}") ?>"><?php print $fullinfo->ItemAttributes->Title ?></a>
 			<strong class="company_name"> <?php print $fullinfo->ItemAttributes->Manufacturer ?>
 			</strong></td>
 			<td class="price_quantity">

@@ -12,7 +12,7 @@
     <!--  Top section, with title and navigation, cart -->
     <div id="topnav">
       <h3 id="title"><?php print (string)$amazon_item->ItemAttributes->Title ?></h3>
-      <a href="<?php print url("amazon_store") ?>">Continue Shopping</a> or <a href='<?php print url("amazon_store/cart")?>'>See your cart</a>
+      <a href="<?php print url(AMAZON_STORE_PATH) ?>">Continue Shopping</a> or <a href='<?php print url(AMAZON_STORE_PATH . "/cart")?>'>See your cart</a>
     </div>
     <!-- Left section: Item Description and Product Reviews -->
     <div id="item-details" class="left-column column">

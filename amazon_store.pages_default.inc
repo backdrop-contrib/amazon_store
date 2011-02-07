@@ -12,7 +12,7 @@ function amazon_store_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Amazon Store Item Detail Page';
   $page->admin_description = '';
-  $page->path = 'amazon_store/item/%asin';
+  $page->path = AMAZON_STORE_PATH .'/item/%asin';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(

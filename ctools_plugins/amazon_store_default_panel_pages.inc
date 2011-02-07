@@ -14,7 +14,7 @@ function amazon_store_default_panel_pages() {
   $page->name = 'amazon_item';
   $page->task = 'panel_page';
   $page->admin_title = 'amazon_item';
-  $page->path = 'amazon_store/item/%asin';
+  $page->path = AMAZON_STORE_PATH . '/item/%asin';
   $page->access = FALSE;
   $page->multiple = FALSE;
   $page->menu = FALSE;

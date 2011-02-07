@@ -15,7 +15,7 @@
   }
 ?>
 <div class="amazon-store-panel search-results"><!--
-<a href='<?php print url("amazon_store/cart") ?>'> Go to your cart</a>
+<a href='<?php print url(AMAZON_STORE_PATH . "/cart") ?>'> Go to your cart</a>
  -->
 
 
@@ -62,7 +62,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
        <?php endif; ?></td>
 			<td>
 			<p class="title"><a rel="nofollow"
-				href="<?php print url("amazon_store/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
+				href="<?php print url(AMAZON_STORE_PATH ."/item/{$result->ASIN}") ?>"> <?php print $result->ItemAttributes->Title ?></a></p>
 				<?php if (!empty($result->ItemAttributes->Manufacturer)){
 				  print theme('amazon_store_search_results_manufacturer', array('manufacturer' => (string)$result->ItemAttributes->Manufacturer));
 				}
@@ -74,7 +74,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
           class="togglebtn">Show/hide full description</a> or
           <?php } ?>
           <a rel="nofollow"
-				href="<?php print url("amazon_store/item/{$result->ASIN}"); ?>">See full
+				href="<?php print url(AMAZON_STORE_PATH ."/item/{$result->ASIN}"); ?>">See full
 			details</a>
 			<div class="toggle editorial">
 			<?php
@@ -108,5 +108,5 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 </div>
 
 		<?php endif; ?></div>
-<?php print "<br />" . theme('amazon_store_link_button', array('text' => t("View Cart"), 'url' => 'amazon_store/cart'));
+<?php print "<br />" . theme('amazon_store_link_button', array('text' => t("View Cart"), 'url' => AMAZON_STORE_PATH .'/cart'));
 ?>

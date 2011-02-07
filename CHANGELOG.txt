@@ -1,7 +1,10 @@
 CHANGELOG for Amazon Store
 
-amazon_store-7.x-1.???
-----------------------
+amazon_store-7.x-1.x-dev
+------------------------
+[#727800] by the_g_bomb, rfay, Pancho: Ability to change store path and name
+[#1052736] by Pancho: Rely on class registry for SearchIndexes class
+[#1052688] by Pancho: cleanup .info-file: remove code registry & add config link
 [#1044270] by Pancho: Fix info file format
 [#735464] by rfay: Standardize handling of Editorial Review (Item description)
 [#1010484] by the_g_bomb, rfay: Fix markup issues in item_detail.tpl.php
