@@ -25,10 +25,9 @@ function amazon_store_init() {
  * Implements hook_menu().
  */
 function amazon_store_menu() {
-	$amazon_store_path = variable_get('amazon_store_path', 'Amazon Store');
-  $amazon_store_store_name = variable_get('amazon_store_store_name', 'Amazon Store');
+	$amazon_store_path = amazon_store_get_amazon_store_path();
 	$items[$amazon_store_path] = array(
-      'title' => $amazon_store_store_name,
+      'title' => variable_get('amazon_store_store_name', 'Amazon Store'),
       'page callback' => '_amazon_store_page',
       'access callback' => TRUE,
       'type' => MENU_NORMAL_ITEM,
@@ -2003,5 +2002,5 @@ function amazon_store_format_attribute($attributeType, $attribute_value, $handle
  * Return the store path when other modules need to know it.
  */
 function amazon_store_get_amazon_store_path() {
-  return AMAZON_STORE_PATH;
+  return variable_get('amazon_store_path', 'amazon_store');
 }
