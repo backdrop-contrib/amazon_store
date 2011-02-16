@@ -43,10 +43,11 @@ function amazon_store_menu() {
       'title' => 'Your Amazon Cart',
       'type' => MENU_NORMAL_ITEM,
   );
-  $items["$amazon_store_path/item"] = array(
+  $items["$amazon_store_path/item/%"] = array(
       'page callback' => 'amazon_store_item_detail',
+      'page arguments' => array(2),
       'access callback' => TRUE,
-      'type' => MENU_CALLBACK,
+      'type' => MENU_NORMAL_ITEM,
   );
   $items["$amazon_store_path/clear_cache"] = array(
       'page callback' => 'amazon_store_clear_cache',

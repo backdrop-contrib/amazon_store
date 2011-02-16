@@ -2,6 +2,7 @@ CHANGELOG for Amazon Store
 
 amazon_store-7.x-1.x-beta3
 ------------------------
+[#1063182] by Pancho: Fix breadcrumb of item details page
 [#1053270] by Pancho: Cleanup: for variable_del walk thru array instead of preg_split
 [#727800] by the_g_bomb, rfay, Pancho: Ability to change store path and name
 [#1052736] by Pancho: Rely on class registry for SearchIndexes class
