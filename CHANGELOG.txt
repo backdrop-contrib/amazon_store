@@ -2,6 +2,7 @@ CHANGELOG for Amazon Store
 
 amazon_store-7.x-1.x-beta3
 ------------------------
+[#1068600] by Pancho: Remove MergeCart parameter and rewrite handling of cart credentials
 [#1065370] by Pancho: Split off admin page from main module
 [#1063182] by Pancho: Fix breadcrumb of item details page
 [#1053270] by Pancho: Cleanup: for variable_del walk thru array instead of preg_split

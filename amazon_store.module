@@ -531,69 +531,55 @@ function _amazon_store_page() {
  * @param $norecurse - If TRUE, do not call this again
  * @return TRUE on success
  */
-function _amazon_store_add_to_cart($asin,   $offerListingId = NULL, $quantity = 1, $norecurse = FALSE ) {
+function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1, $norecurse = FALSE) {
 
-  amazon_store_get_cart_info($cart_id, $cart_HMAC);
-  $parameters = array();
+  $cart_creds = amazon_store_get_cart_creds();
+  $add_items = array(
+    'Item.1.Quantity' => $quantity,
+  );
   if (!empty($offerListingId)) {
-    $type = "OfferListingId";
-    $id = $offerListingId;
-    $parameters['OfferListingId'] = $id;
-
+    $add_items['Item.1.OfferListingId'] = $offerListingId;
   }
   else {
-    $type = 'ASIN';
-    $parameters['ASIN'] = $asin;
-    $id = $asin;
+    $add_items['Item.1.ASIN'] = $asin;
   }
 
-  // Do CartAdd operation with cart_id
-  $parameters += array(
-      'MergeCart' => 'True',
-      'CartId' => $cart_id,
-      'HMAC' => $cart_HMAC,
-      "Item.1.$type" => $id,
-      'Item.1.Quantity' => $quantity,
-  );
-
   $items = array();
-  if ($cart_id) { // If we already have a cart, try this.
-    $results = amazon_store_http_request('CartAdd', $parameters);
+  if ($cart_creds) { // If we already have a cart, try this.
+    $results = amazon_store_http_request('CartAdd', $cart_creds + $add_items);
     if (empty($results->error)) {
       return TRUE;
     }
-    if ((string) $results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.ItemAlreadyInCart") {
-      $cart_item_id = $results->Cart->CartItems->CartItem[0]->CartItemId;
-      $requested_quantity = (int)$results->Cart->CartItems->CartItem[0]->Quantity;
-      amazon_store_update_cart_quantity((string)$cart_item_id, $requested_quantity);
-      return TRUE;
-    }
-    elseif ((string) $results->Cart->Request->Errors->Error->Code == "AWS.ECommerceService.CartInfoMismatch") {
-      // Probably the sponsored cause, and thus the associate id, has changed
-      // Fall through
-      watchdog('amazon', "Failed adding item to cart but will now create new cart - code=%code", array('%code' => (string) $results->Request->Errors->Error->Code));
-    }
-    else {
-      drupal_set_message("Failed adding item to cart");
-      watchdog('amazon', "Failed adding item to cart - code=%code", array('%code' => (string) $results->Cart->Request->Errors->Error->Code));
-      return FALSE;
+    switch ((string) $results->Cart->Request->Errors->Error->Code) {
+      case 'AWS.ECommerceService.ItemAlreadyInCart':
+        $cart_item_id = $results->Cart->CartItems->CartItem[0]->CartItemId;
+        $requested_quantity = (int)$results->Cart->CartItems->CartItem[0]->Quantity;
+        amazon_store_update_cart_quantity((string)$cart_item_id, $requested_quantity);
+        return TRUE;
+      case 'AWS.ECommerceService.CartInfoMismatch':
+        // Probably the sponsored cause, and thus the associate id, has changed
+        watchdog('amazon', "Failed adding item to cart but will now create new cart - code=%code", array('%code' => (string) $results->Request->Errors->Error->Code));
+        // Fall through and create new cart
+        break;
+      default:
+        drupal_set_message("Failed adding item to cart");
+        watchdog('amazon', "Failed adding item to cart - code=%code", array('%code' => (string) $results->Cart->Request->Errors->Error->Code));
+        return FALSE;
     }
   }
-
 
   // If CartAdd fails and falls through from above
   //    Do CartCreate with cart_id
   //    Get new cart_id and update user with it
   // In all cases, log resultsresults->
   // In Initial stages, we should probably show the cart after doing an add
-  $results = amazon_store_http_request('CartCreate', $parameters);
+  $results = amazon_store_http_request('CartCreate', $cart_creds + $add_items);
   if ($results->error) {
     drupal_set_message(t("Failed to create cart"));
     watchdog("amazon", "Failed to create cart");
-    return FALSE;
   }
   elseif ($results->Cart->Request->IsValid == 'True') {
-    amazon_store_set_cart_info((string) $results->Cart->CartId, (string) $results->Cart->HMAC);
+    amazon_store_set_cart_creds((string) $results->Cart->CartId, (string) $results->Cart->HMAC);
     return TRUE;
   }
 
@@ -602,17 +588,15 @@ function _amazon_store_add_to_cart($asin,   $offerListingId = NULL, $quantity = 
 
 
 function amazon_store_get_current_cart_quantity($cartItemId) {
-  amazon_store_get_cart_info($cart_id, $cart_HMAC);
-
-  $parameters = array(
-      'MergeCart' => 'True',
-      'CartId' => $cart_id,
-      'HMAC' => $cart_HMAC,
-      "Item.1.CartItemId" => $cartItemId,
-  );
-  $results = amazon_store_http_request('CartGet', $parameters);
-  $current_quantity = (int) $results->Cart->CartItems->CartItem[0]->Quantity;
-  return $current_quantity;
+  if ($cart_creds = amazon_store_get_cart_creds()) {;
+    $cart_items = array(
+      'Item.1.CartItemId' => $cartItemId,
+    );
+    $results = amazon_store_http_request('CartGet', $cart_creds + $cart_items);
+    $current_quantity = (int) $results->Cart->CartItems->CartItem[0]->Quantity;
+    return $current_quantity;
+  }
+  return FALSE;
 }
 
 
@@ -627,31 +611,27 @@ function amazon_store_get_current_cart_quantity($cartItemId) {
  * 	TRUE on success
  */
 function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
-
-  amazon_store_get_cart_info($cart_id, $cart_HMAC);
-
-  $parameters = array(
-      'MergeCart' => 'True',
-      'CartId' => $cart_id,
-      'HMAC' => $cart_HMAC,
-      "Item.1.CartItemId" => $cartItemId,
+  if ($cart_creds = amazon_store_get_cart_creds()) {
+    $parameters = $cart_creds + array(
+      'Item.1.CartItemId' => $cartItemId,
       'Item.1.Quantity' => $quantity,
-  );
+    );
 
-  $results = amazon_store_http_request('CartModify', $parameters);
-  foreach ($results->Cart->CartItems->CartItem as $cartitem) {
-    if ($cartitem->CartItemId == $cartItemId) {
-      $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
+    $results = amazon_store_http_request('CartModify', $parameters);
+    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
+      if ($cartitem->CartItemId == $cartItemId) {
+        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
+      }
     }
-  }
-  if (empty($results->error)) {
-    drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
-    return TRUE;
-  }
-  else {
-    drupal_set_message(t("Failed to update cart quantity"));
-    watchdog('amazon', "Failed to update cart quantity. Errors=%errors", array('%errors' => print_r($results->Cart->Request->Errors, TRUE)));
-    return FALSE;
+    if (empty($results->error)) {
+      drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
+      return TRUE;
+    }
+    else {
+      drupal_set_message(t("Failed to update cart quantity"));
+      watchdog('amazon', "Failed to update cart quantity. Errors=%errors", array('%errors' => print_r($results->Cart->Request->Errors, TRUE)));
+      return FALSE;
+    }
   }
   return FALSE;
 }
@@ -673,18 +653,10 @@ function amazon_store_clear_cart($form, &$form_state, $destination = "amazon_sto
   $form_state['redirect'] = $destination;
   return $form;
 }
-function amazon_store_clear_cart_submit($form, &$form_state) {
-  amazon_store_get_cart_info($cart_id, $cart_HMAC);
 
-  // Do CartAdd operation with cart_id
-  $parameters = array(
-      'MergeCart' => 'True',
-      'CartId' => $cart_id,
-      'HMAC' => $cart_HMAC,
-  );
-  $items = array();
-  if ($cart_id) {
-    $results = amazon_store_http_request('CartClear', $parameters);
+function amazon_store_clear_cart_submit($form, &$form_state) {
+  if ($cart_creds = amazon_store_get_cart_creds()) {
+    $results = amazon_store_http_request('CartClear', $cart_creds);
     if (!empty($results->error)) {
       watchdog('amazon', "Failed to clear shopping cart");
       drupal_set_message(t("failed to clear shopping cart"));
@@ -703,16 +675,8 @@ function amazon_store_show_cart() {
   // Prevent caching. This one shouldn't be cached.
   $GLOBALS['conf']['cache'] = FALSE;
 
-  amazon_store_get_cart_info($cart_id, $cart_HMAC);
-
-  $parameters = array(
-      'CartId' => $cart_id,
-      'HMAC' => $cart_HMAC,
-      'MergeCart' => 'True',
-  );
-  $items = array();
-  if ($cart_id) {
-    $results = amazon_store_http_request('CartGet', $parameters);
+  if ($cart_creds = amazon_store_get_cart_creds()) {
+    $results = amazon_store_http_request('CartGet', $cart_creds);
     // Check results
     if (!empty($results->error) || $results->Cart->Request->IsValid != 'True') {
       amazon_store_report_error($results->Cart->Request->Errors);
@@ -747,20 +711,50 @@ function amazon_store_item_detail($asin) {
  *
  * @param $cart_id
  * @param $cart_HMAC
+ * @deprecated
  */
 function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
-  $cart_id = empty($_SESSION['cart_id']) ? NULL : $_SESSION['cart_id'];
-  $cart_HMAC = empty($_SESSION['HMAC']) ? NULL : $_SESSION['HMAC'];
+	if ($cart_creds = amazon_store_get_cart_creds()) {
+	  $cart_id = $cart_creds['CartId'];
+	  $cart_HMAC = $cart_creds['HMAC'];
+	}	
 }
 
 /**
- * Set cart ID and HMAC in session variable
+ * Return cart credentials (cart ID and HMAC) from the session variable
+ *
+ * @return
+ *   Array containing the cart_id and the HMAC, if set. Otherwise FALSE.
+ */
+function amazon_store_get_cart_creds() {
+  if (!empty($_SESSION['cart_id']) && !empty($_SESSION['HMAC'])) {
+    return array(
+      'CartId' => $_SESSION['cart_id'],
+      'HMAC' => $_SESSION['HMAC'],
+    );
+  }
+  return FALSE;
+}
+
+/**
+ * Set cart credentials (cart ID and HMAC) in the session variable
+ *
+ * @param $cart_id
+ * @param $cart_HMAC
+ * @deprecated
+ */
+function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
+  amazon_store_set_cart_creds($cart_id, $cart_HMAC);
+}
+
+/**
+ * Set cart credentials (cart ID and HMAC) in the session variable
  *
  * @param $cart_id
  * @param $cart_HMAC
  */
-// TODO: Isolate amazon info in sessions and name it better
-function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
+// TODO: Isolate amazon info in sessions
+function amazon_store_set_cart_creds($cart_id, $cart_HMAC) {
   $_SESSION['cart_id'] = $cart_id;
   $_SESSION['HMAC'] = $cart_HMAC;
 }
