@@ -2,6 +2,7 @@ CHANGELOG for Amazon Store
 
 amazon_store-7.x-1.x-beta3
 ------------------------
+[#989680] by rfay: Avoid warnings after changing locale
 [#1068600] by Pancho: Remove MergeCart parameter and rewrite handling of cart credentials
 [#1065370] by Pancho: Split off admin page from main module
 [#1063182] by Pancho: Fix breadcrumb of item details page

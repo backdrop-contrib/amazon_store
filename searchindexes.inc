@@ -69,11 +69,11 @@ class SearchIndexes {
 
     $rv = array();
     foreach ($categories as $name) {
-      $rv[$name] = $this->searchIndexPulldown[$name];
-    }
-
-    if ($exclude_all_searchindex) {
-      unset($rv['All']);
+      if (!empty($this->searchIndexPulldown[$name])) {
+        if (!$exclude_all_searchindex || $name != 'All') {
+          $rv[$name] = $this->searchIndexPulldown[$name];
+        }
+      }
     }
     return $rv;
   }
