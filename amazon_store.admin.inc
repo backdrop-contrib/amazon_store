@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Form builder function for the admin settings form.

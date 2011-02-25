@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  * 	Contents of amazon_store_search_block
  */

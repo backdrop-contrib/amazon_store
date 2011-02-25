@@ -1,4 +1,3 @@
-$Id$
 
 Using Browsenodes with the Amazon Store module
 ----------------------------------------------

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  @file
  Implements browsenodes content type for amazon_store

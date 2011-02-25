@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  @file
  item_reviews ctools plugin for amazon_store

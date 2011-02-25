@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  * Debugging info content_type plugin for amazon_store

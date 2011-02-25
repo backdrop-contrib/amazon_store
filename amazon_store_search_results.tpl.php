@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  *   Template file for the searchresults page (/amazon_store)
  *

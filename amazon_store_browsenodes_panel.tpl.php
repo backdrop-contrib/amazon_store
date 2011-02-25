@@ -1,5 +1,4 @@
 <?php
-//$Id$
 /**
  @file
 	Template for the the BrowseNodes content_type panel for an amazon product page

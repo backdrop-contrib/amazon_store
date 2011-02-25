@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  * 	Template for Similar Products Panels plugin
  */

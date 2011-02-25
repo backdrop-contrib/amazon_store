@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file Default panels for amazon_store
  *

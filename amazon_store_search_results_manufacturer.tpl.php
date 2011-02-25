@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  * 	Manufacturer theme template for Search Results page.
  *  Alonovo had specific requirements for this one,

@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  *   Template file for item details panel plugin
  */

@@ -1,4 +1,3 @@
-$Id$
 Installation:
 
 1. Install and enable the module as usual. Prerequisites include

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  *   template for item_reviews panel

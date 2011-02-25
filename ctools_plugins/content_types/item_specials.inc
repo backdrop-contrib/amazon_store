@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  * Right now this provides nothing more than a link

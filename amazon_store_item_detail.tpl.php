@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @file
  *   Amazon item detail template
  */

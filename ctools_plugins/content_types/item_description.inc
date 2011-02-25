@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  @file
  Provides item description for amazon item

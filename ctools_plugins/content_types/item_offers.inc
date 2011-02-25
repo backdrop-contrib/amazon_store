@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  @file
  Item_offers content_type ctools plugin

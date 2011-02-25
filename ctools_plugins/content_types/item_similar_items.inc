@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  @file
  Similar items ctools plugin for amazon_store
