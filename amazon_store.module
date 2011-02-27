@@ -572,7 +572,7 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
   //    Get new cart_id and update user with it
   // In all cases, log resultsresults->
   // In Initial stages, we should probably show the cart after doing an add
-  $results = amazon_store_http_request('CartCreate', $cart_creds + $add_items);
+  $results = amazon_store_http_request('CartCreate', $add_items);
   if ($results->error) {
     drupal_set_message(t("Failed to create cart"));
     watchdog("amazon", "Failed to create cart");
