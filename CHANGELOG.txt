@@ -1,5 +1,8 @@
 CHANGELOG for Amazon Store
 
+Issue [#1068600] (followup) by Pancho: Streamline 'CartModify' parameters
+Issue [#1074294] by Pancho: Fix 'CartCreate' parameters
+
 amazon_store-7.x-1.x-beta3
 ------------------------
 [#989680] by rfay: Avoid warnings after changing locale
