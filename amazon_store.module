@@ -766,17 +766,18 @@ function amazon_store_set_cart_creds($cart_id, $cart_HMAC) {
  * @param $errors SimpleXML object containing errors
  */
 function amazon_store_report_error($message = 'Amazon request failed.', $errors = NULL) {
-	if ($errors) {
-		$message .= " Amazon's response was: <br /><ul>";
-		$msglines = array();
-	  foreach ($errors->Error as $error) {
-	  	$i++;
-	    $message .= "<li>%msg$i</li>";
-	  	$msglines["%msg$i"] = "[{$error->Code}]: {$error->Message}";
-	  }
-	  $message .= '</ul>';
-	}
-	watchdog('amazon_store', $message, $msglines);
+  if ($errors) {
+    $message .= " Amazon's response was: <br /><ul>";
+    $msglines = array();
+    $i = 0;
+    foreach ($errors->Error as $error) {
+      $i++;
+      $message .= "<li>%msg$i</li>";
+      $msglines["%msg$i"] = "[{$error->Code}]: {$error->Message}";
+    }
+    $message .= '</ul>';
+  }
+  watchdog('amazon_store', $message, $msglines);
 }
 
 /**
