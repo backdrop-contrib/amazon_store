@@ -561,7 +561,7 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
         // Fall through and create new cart
         break;
       default:
-        drupal_set_message("Failed adding item to cart");
+        drupal_set_message(t('Failed adding item to cart.'), 'error');
         watchdog('amazon', "Failed adding item to cart - code=%code", array('%code' => (string) $results->Cart->Request->Errors->Error->Code));
         return FALSE;
     }
@@ -574,7 +574,7 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
   // In Initial stages, we should probably show the cart after doing an add
   $results = amazon_store_http_request('CartCreate', $add_items);
   if ($results->error) {
-    drupal_set_message(t("Failed to create cart"));
+    drupal_set_message(t('Failed to create cart.'), 'error');
     watchdog("amazon", "Failed to create cart");
   }
   elseif ($results->Cart->Request->IsValid == 'True') {
@@ -627,7 +627,7 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
       return TRUE;
     }
     else {
-      drupal_set_message(t("Failed to update cart quantity"));
+      drupal_set_message(t('Failed to update cart quantity'), 'error');
       amazon_store_report_error('Failed to update cart quantity.', $results->Cart->Request->Errors);
       return FALSE;
     }
@@ -658,11 +658,11 @@ function amazon_store_clear_cart_submit($form, &$form_state) {
     $results = amazon_store_http_request('CartClear', $cart_creds);
     if (!empty($results->error)) {
       amazon_store_report_error('Failed to clear cart.', $results->Cart->Request->Errors);
-      drupal_set_message(t("failed to clear shopping cart"));
+      drupal_set_message(t('Failed to clear shopping cart.', 'error'));
       return;
     }
   }
-  drupal_set_message(t("Your shopping cart is now empty"));
+  drupal_set_message(t('Your shopping cart is now empty.'));
 }
 
 /**
@@ -679,7 +679,7 @@ function amazon_store_show_cart() {
     // Check results
     if (!empty($results->error) || $results->Cart->Request->IsValid != 'True') {
       amazon_store_report_error('Failed to get cart', $results->Cart->Request->Errors);
-      drupal_set_message(t("Failed to get cart"));
+      drupal_set_message(t('Failed to get cart.'), 'error');
     }
   }
   // Display the cart
@@ -867,7 +867,7 @@ function amazon_store_http_request($op, $parameters) {
   $results = amazon_http_request($op, $parameters);
   if (empty($results)) {
     watchdog('amazon_store', 'Failed call to amazon_http_request; op=%op, parameters = %parameters', array('%op' => $op, '%parameters' => print_r($parameters, TRUE)));
-    drupal_set_message(t("amazon_http_request failed; op=@op, parameters=@parameters.", array('@op' => $op, '@parameters' => print_r($parameters, TRUE))));
+    drupal_set_message(t("amazon_http_request failed; op=@op, parameters=@parameters.", array('@op' => $op, '@parameters' => print_r($parameters, TRUE))), 'error');
     return NULL;
   }
 
@@ -1422,7 +1422,7 @@ function amazon_store_addcart_form_validate($form, &$form_state) {
     }
     else { // There is no path forward from here, so the selections have changed and we'll rebuild
       $form_state['rebuild'] = TRUE;
-      drupal_set_message(t('Please make a selection for %dimension', array('%dimension' => $dimension)));
+      drupal_set_message(t('Please make a selection for %dimension', array('%dimension' => $dimension)), 'error');
       return;
     }
   }
@@ -1460,7 +1460,7 @@ function amazon_store_addcart_form_submit($form, &$form_state) {
     drupal_set_message(t('%item was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), AMAZON_STORE_PATH . '/cart'))));
   }
   else {
-    drupal_set_message(t('Error: Item not added to cart'));
+    drupal_set_message(t('Error: Item not added to cart.'), 'error');
   }
   $params = _amazon_store_revise_query_parameters();
   $form_state['redirect'] = array('amazon_store', array('query' => $params));
