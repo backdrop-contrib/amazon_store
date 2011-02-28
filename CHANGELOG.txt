@@ -2,6 +2,7 @@ CHANGELOG for Amazon Store
 
 amazon_store-7.x-1.x-beta4
 --------------------------
+Issue [#1075490] by Pancho: Split off registered callbacks, forms and themes from main module
 Issue [#1075434] by Pancho: Invalid argument error when updating cart quantity fails
 Issue [#1075416] by Pancho: Mark error messages as error
 Issue [#1075386] by Pancho: Fix and refactor amazon_store_report_error()
