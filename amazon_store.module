@@ -609,7 +609,7 @@ function amazon_store_get_current_cart_quantity($cartItemId) {
  * @return
  * 	TRUE on success
  */
-function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
+function amazon_store_update_cart_quantity($cartItemId, $quantity) {
   if ($cart_creds = amazon_store_get_cart_creds()) {
     $cart_items = array(
       'Item.1.CartItemId' => $cartItemId,
@@ -617,12 +617,13 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
     );
 
     $results = amazon_store_http_request('CartModify', $cart_creds + $cart_items);
-    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
-      if ($cartitem->CartItemId == $cartItemId) {
-        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
-      }
-    }
     if (empty($results->error)) {
+    	// watchdog(dprint_r($results);
+	    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
+	      if ($cartitem->CartItemId == $cartItemId) {
+	        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
+	      }
+	    }
       drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
       return TRUE;
     }
