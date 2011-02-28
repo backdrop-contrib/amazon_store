@@ -628,7 +628,7 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity ) {
     }
     else {
       drupal_set_message(t("Failed to update cart quantity"));
-      watchdog('amazon', "Failed to update cart quantity. Errors=%errors", array('%errors' => print_r($results->Cart->Request->Errors, TRUE)));
+      amazon_store_report_error('Failed to update cart quantity.', $results->Cart->Request->Errors);
       return FALSE;
     }
   }
@@ -657,7 +657,7 @@ function amazon_store_clear_cart_submit($form, &$form_state) {
   if ($cart_creds = amazon_store_get_cart_creds()) {
     $results = amazon_store_http_request('CartClear', $cart_creds);
     if (!empty($results->error)) {
-      watchdog('amazon', "Failed to clear shopping cart");
+      amazon_store_report_error('Failed to clear cart.', $results->Cart->Request->Errors);
       drupal_set_message(t("failed to clear shopping cart"));
       return;
     }
@@ -678,7 +678,7 @@ function amazon_store_show_cart() {
     $results = amazon_store_http_request('CartGet', $cart_creds);
     // Check results
     if (!empty($results->error) || $results->Cart->Request->IsValid != 'True') {
-      amazon_store_report_error($results->Cart->Request->Errors);
+      amazon_store_report_error('Failed to get cart', $results->Cart->Request->Errors);
       drupal_set_message(t("Failed to get cart"));
     }
   }
@@ -762,14 +762,21 @@ function amazon_store_set_cart_creds($cart_id, $cart_HMAC) {
  * Utility function for reporting errors as reported in the
  * errors portion of SimpleXML Amazon item object.
  *
- * @param $errors
+ * @param $message Custom error message
+ * @param $errors SimpleXML object containing errors
  */
-function amazon_store_report_error($errors) {
-  foreach ($errors->Error as $error) {
-    $i++;
-    $msg .= "($i): {$error->Code}: {$error->Message} <br/>";
-  }
-  watchdog('amazon', 'Error processing SimpleXML: @msg', array('@msg' => $msg));
+function amazon_store_report_error($message = 'Amazon request failed.', $errors = NULL) {
+	if ($errors) {
+		$message .= " Amazon's response was: <br /><ul>";
+		$msglines = array();
+	  foreach ($errors->Error as $error) {
+	  	$i++;
+	    $message .= "<li>%msg$i</li>";
+	  	$msglines["%msg$i"] = "[{$error->Code}]: {$error->Message}";
+	  }
+	  $message .= '</ul>';
+	}
+	watchdog('amazon_store', $message, $msglines);
 }
 
 /**
