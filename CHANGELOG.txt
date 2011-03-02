@@ -1,5 +1,9 @@
 CHANGELOG for Amazon Store
 
+amazon_store-7.x-1.x-beta5
+--------------------------
+Issue [#1078316] by Pancho: "Narrow your search" only with multiple items
+
 amazon_store-7.x-1.x-beta4
 --------------------------
 Issue [#1075490] by Pancho: Split off registered callbacks, forms and themes from main module

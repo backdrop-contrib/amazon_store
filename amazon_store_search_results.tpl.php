@@ -27,7 +27,7 @@ if (variable_get('amazon_store_show_sort_form',TRUE)) {
 }?>
 </div>
 <div class="search-sets narrow-by"><?php
-if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets)) {
+if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets) && (int)$results->TotalResults > 1) {
   $form = drupal_get_form('amazon_store_searchbin_sets_form', $results->SearchBinSets);
   print drupal_render($form);
 }
