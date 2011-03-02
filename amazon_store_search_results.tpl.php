@@ -21,9 +21,9 @@
 <?php if (!empty($results->Item)): ?>
 
 <div class="change_sort"><?php
-if (variable_get('amazon_store_show_sort_form',TRUE)) {
-    $form = drupal_get_form('amazon_store_sort_form');
-    print drupal_render($form);
+if (variable_get('amazon_store_show_sort_form',TRUE) && (int)$results->TotalResults > 1) {
+  $form = drupal_get_form('amazon_store_sort_form');
+  print drupal_render($form);
 }?>
 </div>
 <div class="search-sets narrow-by"><?php

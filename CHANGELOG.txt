@@ -2,7 +2,7 @@ CHANGELOG for Amazon Store
 
 amazon_store-7.x-1.x-beta5
 --------------------------
-Issue [#1078316] by Pancho: "Narrow your search" only with multiple items
+Issue [#1078316] by Pancho: "Narrow your search" and "Sort results by" only with multiple items
 
 amazon_store-7.x-1.x-beta4
 --------------------------
