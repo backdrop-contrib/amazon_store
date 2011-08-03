@@ -28,7 +28,11 @@ class SearchIndexes {
    */
   function __construct($locale) {
     $locale_file = '/locales/amazon_store.locale.' . strtolower($locale);
-    module_load_include('inc', 'amazon_store', $locale_file);
+    $file = module_load_include('inc', 'amazon_store', $locale_file);
+    // Protect against a selected locale that is not yet supported.
+    if (empty($file)) {
+      return;
+    }
 
     $this->data = _amazon_store_locale();
 
