@@ -46,6 +46,7 @@ if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->Sea
 	  continue;
 	}
 	$asin = (string)$result->ASIN;
+	module_load_include('inc', 'amazon_store', 'amazon_store.pages');
 	$form = drupal_get_form('amazon_store_addcart_form',(string)$result->ASIN);
 	?>
 
