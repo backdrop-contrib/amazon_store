@@ -43,9 +43,6 @@ function _amazon_store_page() {
   if (!empty($get_MaximumPrice)) {
     $parameters['MaximumPrice'] = intval($get_MaximumPrice);
   }
-  if (!empty($get_MerchantId)) {
-    $parameters['MerchantId'] = check_plain($get_MerchantId);
-  }
   if (!empty($get_Brand)) {
     $parameters['Brand'] = filter_xss($get_Brand);
   }
@@ -171,14 +168,9 @@ function template_preprocess_amazon_store_cart(&$variables) {
     foreach ($cart->CartItems->CartItem as $item) {
       $fullinfo = amazon_store_retrieve_item($item->ASIN);
       $fullrecords[] = $fullinfo;
-      $merchantId = (string) $item->MerchantId;
-      $query = "//Offer/Merchant[MerchantId=\"$merchantId\"]/../OfferListing/Availability";
-      $availability = $fullinfo->xpath($query);
-      if (empty($availability)) { // Might be a seller - try it that way
-        $query = "//Offer/Seller[SellerId=\"$merchantId\"]/../OfferListing/Availability";
-        $availability = $fullinfo->xpath($query);
-      }
-      $item->addChild("Availability", (string) $availability[0]);
+      $merchantId = (string) $fullinfo->Offers->Offer[0]->Merchant->Name;
+      $availability = (string) $fullinfo->Offers->Offer[0]->OfferListing->Availability;
+      $item->addChild("Availability",  $availability);
     }
   }
 }

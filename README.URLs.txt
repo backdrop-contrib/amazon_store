@@ -9,7 +9,6 @@ just puts the keywords "Featured" and searches for it in searchIndex "All". Prob
 Other items that can go on the URL:
 MinimumPrice=
 MaximumPrice=
-MerchantId=
 Brand=
 SearchIndex=
 Keywords=

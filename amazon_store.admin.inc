@@ -43,10 +43,10 @@ function amazon_store_admin_form($form, &$form_state) {
 
   $form['amazon_store_merchant_id'] = array(
     '#type' => 'radios',
-    '#title' => t('Default Merchant ID for search'),
-    '#default_value' => variable_get('amazon_store_merchant_id', 'All'),
-    '#options' => array('Amazon' => 'Amazon', 'All' => 'All'),
-    '#description' => t('You may search all sellers on Amazon or just the items that Amazon.com/uk/fr etc sells.'),
+    '#title' => t('Search Amazon or other merchants'),
+    '#default_value' => variable_get('amazon_store_merchant_id', 'Amazon'),
+    '#options' => array('Amazon' => 'Amazon', 'Other' => 'All'),
+    '#description' => t('You may search for items sold by Amazon or you can exclude Amazon.'),
   );
   $form['amazon_store_search_index_choice'] = array(
     '#type' => 'select',

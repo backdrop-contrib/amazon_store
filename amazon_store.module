@@ -155,12 +155,12 @@ function amazon_store_theme() {
     'amazon_store_cart' => array(
       'variables' => array('cart' => NULL,),
       'template' => 'amazon_store_cart',
-      'file' => 'amazon_store.pages.inc',    
+      'file' => 'amazon_store.pages.inc',
     ),
     'amazon_store_item_detail' => array(
       'variables' => array('amazon_item' => NULL),
       'template' => 'amazon_store_item_detail',
-      'file' => 'amazon_store.pages.inc',    
+      'file' => 'amazon_store.pages.inc',
     ),
     'amazon_store_browsenodes_panel' => array(
       'variables' => array('item' => NULL),
@@ -198,7 +198,7 @@ function amazon_store_theme() {
     ),
     'amazon_store_link_button' => array(
       'variables' => array('text' => NULL, 'url' => NULL),
-      'file' => 'amazon_store.pages.inc',    
+      'file' => 'amazon_store.pages.inc',
     ),
 
   );
@@ -518,7 +518,7 @@ function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
 	if ($cart_creds = amazon_store_get_cart_creds()) {
 	  $cart_id = $cart_creds['CartId'];
 	  $cart_HMAC = $cart_creds['HMAC'];
-	}	
+	}
 }
 
 /**
@@ -687,18 +687,6 @@ function amazon_store_http_request($op, $parameters) {
   return ($results);
 }
 
-function amazon_store_filter_results($unfiltered_items) {
-  $filtered_results = clone $unfiltered_items;
-  for ($i = count($unfiltered_items->Item) -1; $i >= 0; $i--) {
-    $item = $unfiltered_items->Item[$i];
-    // Drop the item if it has no variations and also has no offers.
-    if (!count($item->Variations) && ($item->Offers->TotalOffers == 0 || $item->OfferSummary->TotalNew == 0)) {
-      unset($filtered_results->Item[$i]);
-    }
-  }
-  return $filtered_results;
-}
-
 /**
  * Perform the search on AAWS
  *
@@ -718,24 +706,23 @@ function _amazon_store_search($parameters = array()) {
   }
   $parameters['ResponseGroup'] = $response_groups;
 
-  if (empty($parameters['MerchantId'])) {
-    $parameters['MerchantId'] = variable_get('amazon_store_merchant_id', 'All');
+  // MerchantId is now either Amazon or nothing; 10/2011.
+  if (empty($parameters['MerchantId']) && (variable_get('amazon_store_merchant_id', 'Amazon') == 'Amazon')) {
+    $parameters['MerchantId'] = 'Amazon';
   }
   $parameters['Condition'] = 'New';
 
-  if (! ($filtered_results = amazon_store_retrieve_cached_search($parameters))) {
+  if (!($results = amazon_store_retrieve_cached_search($parameters))) {
     $results = amazon_store_http_request('ItemSearch', $parameters);
     if (empty($results->error) && !empty($results->Items->Item)) {
-      // Filter results to exclude things that have no offers or variations.
-      $filtered_results = amazon_store_filter_results($results->Items);
-      amazon_store_cache_search($parameters, $filtered_results);
-      foreach ($filtered_results->Item as $item) {
+      amazon_store_cache_search($parameters, $results);
+      foreach ($results->Items->Item as $item) {
         amazon_store_cache_item($item);
       }
     }
   }
 
-  return $filtered_results;
+  return $results->Items;
 }
 
 /**
@@ -770,7 +757,6 @@ function amazon_store_get_item_data($asin) {
   $parameters = array(
       'ResponseGroup' => 'Variations,Images,ItemAttributes,OfferFull,Large,EditorialReview',
   'ItemId' => $asin,
-      'MerchantId' => "All",
   );
 
   $items = array();
