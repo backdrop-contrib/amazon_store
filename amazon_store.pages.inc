@@ -247,6 +247,16 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
   }
   $itemsByAttribute =  _amazon_store_process_variations($item);
   $nextSelect = & $itemsByAttribute;
+
+  // It may be that we have no offers, probably due to Amazon *either*
+  // returning things from Amazon OR from other sellers.
+  if (empty($nextSelect)) {
+    $form['not_available'] = array(
+      '#type' => 'item',
+      '#markup' => t('This item is not available from the configured sellers.'),
+    );
+    return $form;
+  }
   $dimensions = _amazon_store_get_variation_dimensions($item);
   $formwrapper = "addcart-form-$asin";
 
