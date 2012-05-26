@@ -1149,7 +1149,7 @@ function amazon_store_searchbin_sets_form_submit($form, &$form_state) {
     }
   }
   $new_params = _amazon_store_revise_query_parameters($changes);
-  $form_state['redirect'] = array('amazon_store', array('query' => $new_params));
+  $form_state['redirect'] = array(AMAZON_STORE_PATH, array('query' => $new_params));
 }
 
 /**
