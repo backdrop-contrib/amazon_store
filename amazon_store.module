@@ -10,6 +10,12 @@ define('AS_DEBUG', FALSE); // Turn on to execute debug code
 define('AMAZON_STORE_PATH', variable_get('amazon_store_path', 'amazon_store'));
 define('AMAZON_STORE_STORE_NAME', variable_get('amazon_store_store_name', "Amazon Store"));
 
+// This oddity was required by http://drupal.org/node/1343732
+// It might be a ctools or FAPI bug, but I wasn't able to figure a way to have the "offers" ctools content type
+// Work correctly without a validate function "not found". Obviously could have moved the whole form back inside
+// amazon_store.module, and that would have fixed it too.
+module_load_include('inc', 'amazon_store', 'amazon_store.pages');
+
 /**
  * Implements hook_init().
  */
