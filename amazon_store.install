@@ -42,3 +42,14 @@ function amazon_store_schema() {
 
   return $schema;
 }
+
+/**
+ * Move settings page to a tab on amazon api page.
+ */
+function amazon_store_update_7001() {
+/*  db_query('UPDATE {menu_router} set path=:new, type=132, weight=50 WHERE path=:prev', 
+    array(':new' => 'admin/config/services/amazon/store', 
+          ':prev' => 'admin/config/amazon_settings/amazon_store'
+    )); */
+  menu_rebuild();
+}

@@ -102,7 +102,7 @@ function amazon_store_admin_form($form, &$form_state) {
   $form['amazon_store_include_categories'] = array(
       '#type' => 'checkboxes',
       '#title' => t("Categories to include in search box, category search block, etc. It's often preferable to exclude some categories"),
-      '#description' => t("Note that this list changes if you change the locale, so you will have to revisit this page after changing the locale on the <a href='!amazon_settings_url'>Amazon Module Settings</a> page.", array('!amazon_settings_url' => url('admin/config/amazon_settings/amazon'))),
+      '#description' => t("Note that this list changes if you change the locale, so you will have to revisit this page after changing the locale on the <a href='!amazon_settings_url'>Amazon Module Settings</a> page.", array('!amazon_settings_url' => url('admin/config/services/amazon'))),
       '#options' => $GLOBALS['amazon_store_search_indexes']->getAllCategories(),
       '#default_value' => variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories()),
   );
