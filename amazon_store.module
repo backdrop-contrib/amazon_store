@@ -922,7 +922,11 @@ function _amazon_store_process_variations($item) {
       // For each sub-asin, record the values of its dimensions
       $curPtr = & $itemsByAttribute;
       foreach ($dimensions as $otherDimension) {
-        $attr = (string) $variation->ItemAttributes->$otherDimension;
+	foreach ($variation->VariationAttributes->VariationAttribute as $attribute) {
+	  if ($attribute->Name == $otherDimension) {
+	    $attr = (string) $attribute->Value;
+	  }
+	}
         if (empty($curPtr[$attr])) {
           $curPtr[$attr] = array();
         }
