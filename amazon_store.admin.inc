@@ -46,7 +46,7 @@ function amazon_store_admin_form($form, &$form_state) {
     '#title' => t('Search Amazon or other merchants'),
     '#default_value' => variable_get('amazon_store_merchant_id', 'Amazon'),
     '#options' => array('Amazon' => 'Amazon', 'Other' => 'All'),
-    '#description' => t('You may search for items sold by Amazon or you can exclude Amazon.'),
+    '#description' => t('You may search for items sold by Amazon or all Amazon Marketplace sellers (including Amazon).'),
   );
   $form['amazon_store_search_index_choice'] = array(
     '#type' => 'select',
