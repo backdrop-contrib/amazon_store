@@ -21,7 +21,7 @@ function _amazon_store_page() {
 
   $output = "";
   $parameters = array();
-
+  $do_search = FALSE;
 
   // Grab the URL args that we'll allow and put them in as parameters for Amazon search
   extract($_GET, EXTR_PREFIX_ALL, "get");
@@ -65,6 +65,7 @@ function _amazon_store_page() {
     $getarg = "get_$entity";
     if (!empty($$getarg) && amazon_store_allowed_parameter($parameters['SearchIndex'], $entity)) {
       $parameters[$entity] = $$getarg;
+      $do_search = TRUE;
     }
   }
 
@@ -91,7 +92,7 @@ function _amazon_store_page() {
     }
   }
 
-  if (!empty($parameters['ItemId'])) {
+  if (!empty($parameters['ItemId']) && $do_search == FALSE) {
     $results = _amazon_store_itemlist(array('ItemId' => $parameters['ItemId']));
   }
   else {
