@@ -65,13 +65,14 @@ function amazon_store_menu() {
   );
 
 // TODO: Consider making amazon_store a tab on amazon settings
-  $items['admin/config/amazon_settings/amazon_store'] = array(
-      'title' => t('Amazon Store Settings'),
+  $items['admin/config/services/amazon/store'] = array(
+      'title' => t('Store'),
       'page callback' => 'drupal_get_form',
       'page arguments' => array('amazon_store_admin_form'),
       'file' => 'amazon_store.admin.inc',
       'access arguments' => array('access administration pages'),
-      'type' => MENU_NORMAL_ITEM,
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 50,
   );
 
   return $items;

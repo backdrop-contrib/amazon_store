@@ -5,5 +5,5 @@ package = Amazon
 dependencies[] = amazon
 core = 7.x
 php = 5.2
-configure = admin/config/amazon_settings/amazon_store
+configure = admin/config/services/amazon/store
 files[] = searchindexes.inc
