@@ -495,12 +495,19 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity) {
     $results = amazon_store_http_request('CartModify', $cart_creds + $cart_items);
     if (empty($results->error)) {
     	// watchdog(dprint_r($results);
-	    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
-	      if ($cartitem->CartItemId == $cartItemId) {
-	        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
-	      }
-	    }
-      drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
+      if (isset($results->Cart->CartItems) && is_array($results->Cart->CartItems)) {
+  	    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
+  	      if ($cartitem->CartItemId == $cartItemId) {
+  	        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
+  	      }
+  	    }
+      }
+      if ($quantity <= 0 || !isset($actual_quantity)) {
+        drupal_set_message(t('Item removed from cart'));
+      }
+      else {
+        drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
+      }
       return TRUE;
     }
     else {
