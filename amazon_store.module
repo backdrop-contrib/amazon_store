@@ -424,7 +424,7 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
   $items = array();
   if ($cart_creds) { // If we already have a cart, try this.
     $results = amazon_store_http_request('CartAdd', $cart_creds + $add_items);
-    if (empty($results->error)) {
+    if (empty($results->Cart->Request->Errors)) {
       return TRUE;
     }
     switch ((string) $results->Cart->Request->Errors->Error->Code) {
@@ -666,6 +666,22 @@ function amazon_store_xpath($xml, $query) {
   return $result;
 }
 
+ /**
+ * Determine whether to report an Amazon API "Error" or not.
+ *
+ * Not all errors should actually be reported. Some are not real failures.
+ *
+ * @param $code
+ *   (string) The code to be checked.
+ */
+function amazon_store_error_is_reportable($code) {
+  $non_reportable = array('AWS.ECommerceService.ItemAlreadyInCart');
+  if (in_array($code, $non_reportable)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
 /**
  * Wrapper on amazon_http_request.
  * Checks for errors on all requests and logs them.
@@ -689,8 +705,10 @@ function amazon_store_http_request($op, $parameters) {
 
   $errors = amazon_store_xpath($results, '//a:Error');
   foreach ($errors as $error) {
-    $msg = "Amazon error returned. Code=$error->Code}, Message={$error->Message} //";
-    $error_set = TRUE;
+    if (amazon_store_error_is_reportable((string)$error->Code)) {
+      $msg = "Amazon error returned. Code=$error->Code}, Message={$error->Message} //";
+      $error_set = TRUE;
+    }
   }
 
   if (isset($error_set)) {
