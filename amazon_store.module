@@ -325,6 +325,7 @@ function amazon_store_cache_item($xml) {
   // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
   // So we cache the XML instead
   cache_set("ASIN-{$xml->ASIN}-{$locale}", $xml->asXML(), 'cache_amazon_store', REQUEST_TIME + $cache_timeout);
+  module_invoke_all('amazon_store_cache_item', $xml);
 }
 
 
