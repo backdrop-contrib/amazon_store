@@ -6,15 +6,15 @@
  */
 function amazon_store_item_image_ctools_content_types() {
   $items['item_image'] = array(
-      'title' => t('Amazon Product Image'),
-      'content_types' => 'amazon_store_item_image',
-      'single' => TRUE,
-      'render callback' => 'amazon_store_item_image_render',
-      'edit form' => 'amazon_store_item_image_admin',
-      'icon' => 'icon_amazon.png',
-      'description' => t('Amazon Item Title.'),
-      'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
-      'category' => array(t('Amazon'), -9),
+    'title' => t('Amazon Product Image'),
+    'content_types' => 'amazon_store_item_image',
+    'single' => TRUE,
+    'render callback' => 'amazon_store_item_image_render',
+    'edit form' => 'amazon_store_item_image_admin',
+    'icon' => 'icon_amazon.png',
+    'description' => t('Amazon Item Title.'),
+    'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
+    'category' => array(t('Amazon'), -9),
   );
   return $items;
 }
@@ -47,11 +47,15 @@ function amazon_store_item_image_admin($form, &$form_state) {
   $conf = $form_state['conf'];
 
   $form['size_selection'] = array(
-      '#title' => t("Product Image Size"),
-      '#type' => 'select',
-      '#description' => t("Which of the three Amazon Product Images would you like"),
-      '#options' => array('SmallImage' => t('Small'), 'MediumImage' => t('Medium'), 'LargeImage' => t('Large')),
-      '#default_value' => !empty($conf['size_selection']) ? $conf['size_selection'] : 'MediumImage',
+    '#title' => t("Product Image Size"),
+    '#type' => 'select',
+    '#description' => t("Which of the three Amazon Product Images would you like"),
+    '#options' => array(
+      'SmallImage' => t('Small'),
+      'MediumImage' => t('Medium'),
+      'LargeImage' => t('Large'),
+    ),
+    '#default_value' => !empty($conf['size_selection']) ? $conf['size_selection'] : 'MediumImage',
   );
   return $form;
 }

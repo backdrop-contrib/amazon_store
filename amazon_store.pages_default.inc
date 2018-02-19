@@ -12,16 +12,16 @@ function amazon_store_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Amazon Store Item Detail Page';
   $page->admin_description = '';
-  $page->path = AMAZON_STORE_PATH .'/item/%asin';
+  $page->path = AMAZON_STORE_PATH . '/item/%asin';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(
-      'asin' => array(
+    'asin' => array(
       'id' => 1,
       'identifier' => 'ASIN (Amazon item identifier)',
       'name' => 'asin',
       'settings' => array(),
-      ),
+    ),
   );
   $page->conf = array();
   $page->default_handlers = array();
@@ -34,23 +34,23 @@ function amazon_store_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-      'title' => 'Panel',
-      'no_blocks' => FALSE,
-      'css_id' => '',
-      'css' => '',
-      'contexts' => array(),
-      'relationships' => array(),
+    'title' => 'Panel',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
   );
   $display = new panels_display;
   $display->layout = 'twocol_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array(
-      'style' => 'rounded_corners',
-      'style_settings' => array(
+    'style' => 'rounded_corners',
+    'style_settings' => array(
       'default' => array(
-      'corner_location' => 'pane',
+        'corner_location' => 'pane',
       ),
-      ),
+    ),
   );
   $display->cache = array();
   $display->title = '%asin';
@@ -65,9 +65,9 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'context' => 'argument_asin_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+    'context' => 'argument_asin_1',
+    'override_title' => 0,
+    'override_title_text' => '',
   );
   $pane->cache = array();
   $pane->style = array();
@@ -84,9 +84,9 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'context' => 'argument_asin_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+    'context' => 'argument_asin_1',
+    'override_title' => 0,
+    'override_title_text' => '',
   );
   $pane->cache = array();
   $pane->style = array();
@@ -103,10 +103,10 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'size_selection' => 'MediumImage',
-      'context' => 'argument_asin_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+    'size_selection' => 'MediumImage',
+    'context' => 'argument_asin_1',
+    'override_title' => 0,
+    'override_title_text' => '',
   );
   $pane->cache = array();
   $pane->style = array();
@@ -123,9 +123,9 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'context' => 'argument_asin_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+    'context' => 'argument_asin_1',
+    'override_title' => 0,
+    'override_title_text' => '',
   );
   $pane->cache = array();
   $pane->style = array();
@@ -142,9 +142,9 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'context' => 'argument_asin_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+    'context' => 'argument_asin_1',
+    'override_title' => 0,
+    'override_title_text' => '',
   );
   $pane->cache = array();
   $pane->style = array();
@@ -161,9 +161,9 @@ function amazon_store_default_page_manager_pages() {
   $pane->shown = TRUE;
   $pane->access = array();
   $pane->configuration = array(
-      'context' => 'argument_asin_1',
-      'override_title' => 1,
-      'override_title_text' => '%title',
+    'context' => 'argument_asin_1',
+    'override_title' => 1,
+    'override_title_text' => '%title',
   );
   $pane->cache = array();
   $pane->style = array();

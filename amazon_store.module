@@ -7,8 +7,8 @@
  */
 
 define('AS_DEBUG', FALSE); // Turn on to execute debug code
-define('AMAZON_STORE_PATH', variable_get('amazon_store_path', 'amazon_store'));
-define('AMAZON_STORE_STORE_NAME', variable_get('amazon_store_store_name', "Amazon Store"));
+define('AMAZON_STORE_PATH', config_get('amazon_store.settings', 'amazon_store_path'));
+define('AMAZON_STORE_STORE_NAME', config_get('amazon_store.settings', 'amazon_store_store_name'));
 
 // This oddity was required by http://drupal.org/node/1343732
 // It might be a ctools or FAPI bug, but I wasn't able to figure a way to have the "offers" ctools content type
@@ -17,9 +17,10 @@ define('AMAZON_STORE_STORE_NAME', variable_get('amazon_store_store_name', "Amazo
 module_load_include('inc', 'amazon_store', 'amazon_store.pages');
 
 /**
- * Implements hook_init().
+ * Implements hook_init().().
  */
 function amazon_store_init() {
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
   //TODO: We probably don't need to load this in hook_init. Figure out where to do it
   $GLOBALS['amazon_store_search_indexes'] = new SearchIndexes($locale);
@@ -27,52 +28,62 @@ function amazon_store_init() {
 
 
 /**
- * Implements hook_menu().
+ * Implements hook_config_info().
+ */
+function amazon_store_config_info() {
+  $prefixes['amazon_store.settings'] = array(
+    'label' => t('Module name settings'),
+    'group' => t('Configuration'),
+  );
+}
+
+/**
+ * Implements hook_menu().().
  */
 function amazon_store_menu() {
-	$amazon_store_path = amazon_store_get_amazon_store_path();
-	$items[$amazon_store_path] = array(
-      'title' => variable_get('amazon_store_store_name', 'Amazon Store'),
-      'page callback' => '_amazon_store_page',
-      'file' => 'amazon_store.pages.inc',
-    	'access callback' => TRUE,
-      'type' => MENU_NORMAL_ITEM,
+  $amazon_store_path = amazon_store_get_amazon_store_path();
+  $items[$amazon_store_path] = array(
+    'title' => config_get('amazon_store.settings', 'amazon_store_store_name'),
+    'page callback' => '_amazon_store_page',
+    'file' => 'amazon_store.pages.inc',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
   );
   $items["$amazon_store_path/clear_cart"] = array(
-      'page callback' => 'amazon_store_clear_cart',
-      'file' => 'amazon_store.pages.inc',
-    	'access callback' => TRUE,
-      'type' => MENU_CALLBACK,
+    'page callback' => 'amazon_store_clear_cart',
+    'file' => 'amazon_store.pages.inc',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   $items["$amazon_store_path/cart"] = array(
-      'page callback' => 'amazon_store_show_cart',
-      'file' => 'amazon_store.pages.inc',
-    	'access callback' => TRUE,
-      'title' => 'Your Amazon Cart',
-      'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'amazon_store_show_cart',
+    'file' => 'amazon_store.pages.inc',
+    'access callback' => TRUE,
+    'title' => 'Your Amazon Cart',
+    'type' => MENU_NORMAL_ITEM,
   );
   $items["$amazon_store_path/item/%"] = array(
-      'page callback' => 'amazon_store_item_detail',
-      'file' => 'amazon_store.pages.inc',
-    	'page arguments' => array(2),
-      'access callback' => TRUE,
-      'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'amazon_store_item_detail',
+    'file' => 'amazon_store.pages.inc',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
   );
   $items["$amazon_store_path/clear_cache"] = array(
-      'page callback' => 'amazon_store_clear_cache',
-      'access callback' => TRUE,
-      'type' => MENU_CALLBACK,
+    'page callback' => 'amazon_store_clear_cache',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
 
-// TODO: Consider making amazon_store a tab on amazon settings
+  // TODO: Consider making amazon_store a tab on amazon settings
   $items['admin/config/services/amazon/store'] = array(
-      'title' => t('Store'),
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('amazon_store_admin_form'),
-      'file' => 'amazon_store.admin.inc',
-      'access arguments' => array('access administration pages'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 50,
+    'title' => t('Store'),
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('amazon_store_admin_form'),
+    'file' => 'amazon_store.admin.inc',
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 50,
   );
 
   return $items;
@@ -81,7 +92,7 @@ function amazon_store_menu() {
 
 
 /**
- * Implements hook_block_info.
+ * Implements hook_block_info.().
  */
 function amazon_store_block_info() {
   $blocks['amazon_store_search']['info'] = t('Amazon Store Search');
@@ -90,7 +101,7 @@ function amazon_store_block_info() {
 }
 
 /**
- * Implements hook_block_view.
+ * Implements hook_block_view.().
  */
 function amazon_store_block_view($delta) {
   $block = array();
@@ -109,110 +120,110 @@ function amazon_store_block_view($delta) {
 }
 
 /**
- * Implements hook_block_configure.
+ * Implements hook_block_configure.().
  */
 function amazon_store_block_configure($delta) {
+  $config = config('amazon_store.settings');
   switch ($delta) {
     case 'amazon_store_search':
       $form = array();
       $form['amazon_store_search_block_keywords_width'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Width (in characters) of keywords element'),
-            '#size' => 5,
-            '#default_value' => variable_get('amazon_store_search_block_keywords_width',    15),
-          );
+        '#type' => 'textfield',
+        '#title' => t('Width (in characters) of keywords element'),
+        '#size' => 5,
+        '#default_value' => $config->get('amazon_store_search_block_keywords_width'),
+      );
       return $form;
     case "categories":
       $form = array();
       $form['amazon_store_categories_block_num_columns'] = array(
-            '#type' => 'select',
-            '#options' => drupal_map_assoc(array(1, 2, 3, 4, 5)),
-            '#title' => t('Number of columns'),
-            '#default_value' => variable_get('amazon_store_categories_block_num_columns',    2),
-          );
+        '#type' => 'select',
+        '#options' => backdrop_map_assoc(array(1, 2, 3, 4, 5)),
+        '#title' => t('Number of columns'),
+        '#default_value' => $config->get('amazon_store_categories_block_num_columns'),
+      );
       return $form;
 
   }
 }
 
 /**
- * Implements hook_block_save.
+ * Implements hook_block_save.().
  */
 function amazon_store_block_save($delta, $edit) {
   switch ($delta) {
     case 'amazon_store_search':
-      variable_set('amazon_store_search_block_keywords_width', $edit['amazon_store_search_block_keywords_width']);
+      config_set('amazon_store.settings', 'amazon_store_search_block_keywords_width', $edit['amazon_store_search_block_keywords_width']);
       break;
     case "categories":
-      variable_set('amazon_store_categories_block_num_columns', $edit['amazon_store_categories_block_num_columns']);
+      config_set('amazon_store.settings', 'amazon_store_categories_block_num_columns', $edit['amazon_store_categories_block_num_columns']);
       break;
   }
   return;
 }
 
 /**
- * Implements hook_theme();().
+ * Implements hook_theme();().().
  */
 function amazon_store_theme() {
   return array(
     'amazon_store_search_results' => array(
       'variables' => array('results' => NULL),
-      'template' => 'amazon_store_search_results',
+      'template' => 'templates/amazon_store_search_results',
     ),
     'amazon_store_cart' => array(
-      'variables' => array('cart' => NULL,),
-      'template' => 'amazon_store_cart',
+      'variables' => array('cart' => NULL),
+      'template' => 'templates/amazon_store_cart',
       'file' => 'amazon_store.pages.inc',
     ),
     'amazon_store_item_detail' => array(
       'variables' => array('amazon_item' => NULL),
-      'template' => 'amazon_store_item_detail',
+      'template' => 'templates/amazon_store_item_detail',
       'file' => 'amazon_store.pages.inc',
     ),
     'amazon_store_browsenodes_panel' => array(
       'variables' => array('item' => NULL),
-      'template' => 'amazon_store_browsenodes_panel',
+      'template' => 'templates/amazon_store_browsenodes_panel',
     ),
     'amazon_store_similar_items_panel' => array(
       'variables' => array('item' => NULL),
-      'template' => 'amazon_store_similar_items_panel',
+      'template' => 'templates/amazon_store_similar_items_panel',
     ),
     'amazon_store_details_panel' => array(
       'variables' => array('item' => NULL),
-      'template' => 'amazon_store_details_panel',
+      'template' => 'templates/amazon_store_details_panel',
     ),
     'amazon_store_item_reviews_panel' => array(
       'variables' => array('item' => NULL),
-      'template' => 'amazon_store_item_reviews_panel',
+      'template' => 'templates/amazon_store_item_reviews_panel',
     ),
     'amazon_store_search_results_manufacturer' => array(
       'variables' => array('manufacturer' => NULL),
-      'template' => 'amazon_store_search_results_manufacturer',
+      'template' => 'templates/amazon_store_search_results_manufacturer',
     ),
     'amazon_store_search_block' => array(
-      'template' => 'amazon_store_search_block',
+      'template' => 'templates/amazon_store_search_block',
     ),
     'amazon_store_item_image' => array(
       'variables' => array('amazon_item' => NULL, 'size' => NULL),
-      'template' => 'amazon_store_item_image',
+      'template' => 'templates/amazon_store_item_image',
     ),
     'amazon_store_item_offers' => array(
       'variables' => array('amazon_item' => NULL),
-      'template' => 'amazon_store_item_offers',
+      'template' => 'templates/amazon_store_item_offers',
     ),
     'amazon_store_categories' => array(
-      'template' => 'amazon_store_categories',
+      'template' => 'templates/amazon_store_categories',
     ),
     'amazon_store_link_button' => array(
       'variables' => array('text' => NULL, 'url' => NULL),
       'file' => 'amazon_store.pages.inc',
     ),
-
   );
 }
 
 /**
- * Implements hook_cron();().
+ * Implements hook_cron();().().
  */
 function amazon_store_cron() {
   // Clear data which has expired.
@@ -223,7 +234,7 @@ function amazon_store_cron() {
 }
 
 /**
- * Implements hook_flush_caches();().
+ * Implements hook_flush_caches();().().
  *
  * When global cache clean is done (as from devel module)
  * the cache_amazon_store table will be truncated as well
@@ -233,7 +244,7 @@ function amazon_store_flush_caches() {
 }
 
 /**
- * Implements hook_forms().
+ * Implements hook_forms().().
  *
  * Since we have pages with multiple forms of the same type on the
  * search results page and also on the cart page, we have to
@@ -244,9 +255,9 @@ function amazon_store_forms($form_id) {
   $forms = array();
   if (preg_match('/^amazon_store_addcart_form/', $form_id)) {
     $forms[$form_id] = array(
-        'callback' => 'amazon_store_addcart_form',
-        'callback arguments' => $args[1],
-        'file' => 'amazon_store.pages.inc',
+      'callback' => 'amazon_store_addcart_form',
+      'callback arguments' => $args[1],
+      'file' => 'amazon_store.pages.inc',
     );
   }
   if (preg_match('/^_amazon_store_cart_quantity_form/', $form_id)) {
@@ -273,6 +284,10 @@ function amazon_store_forms($form_id) {
  * Tell ctools where to find plugins
  */
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return "ctools_plugins/$plugin";
@@ -282,7 +297,7 @@ function amazon_store_ctools_plugin_directory($module, $plugin) {
 
 // TODO: Update to ctools.
 /**
- * Implements hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().().
  */
 function amazon_store_ctools_plugin_api($module, $api) {
   if ($module == 'panels_mini' && $api == 'panels_default') {
@@ -306,8 +321,7 @@ function amazon_store_preprocess_amazon_item(&$variables) {
   $variables['detailpageurl'] = url(AMAZON_STORE_PATH . '/item/' . $variables['asin'], array('absolute' => TRUE));
 }
 
-function template_preprocess_amazon_store_all(&$variables) {
-}
+function template_preprocess_amazon_store_all(&$variables) { }
 
 /**
  * Cache an amazon item - pass in SimpleXML item.
@@ -319,7 +333,8 @@ function template_preprocess_amazon_store_all(&$variables) {
  */
 function amazon_store_cache_item($xml) {
 
-  $cache_timeout = variable_get('amazon_store_refresh_schedule', 43200);
+  $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
 
   // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
@@ -339,6 +354,7 @@ function amazon_store_cache_item($xml) {
  * 	Item as SimpleXML object
  */
 function amazon_store_retrieve_item($asin) {
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
 
   $item = cache_get("ASIN-{$asin}-{$locale}", 'cache_amazon_store');
@@ -361,7 +377,8 @@ function amazon_store_retrieve_item($asin) {
  * 	SimpleXML object with the search
  */
 function amazon_store_cache_search($parameters, $results) {
-  $cache_timeout = variable_get('amazon_store_refresh_schedule', 43200);
+  $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
 
   ksort($parameters);
@@ -377,6 +394,7 @@ function amazon_store_cache_search($parameters, $results) {
  * 	SimpleXML object or NULL if not found in cache
  */
 function amazon_store_retrieve_cached_search($parameters) {
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
 
   $xml = NULL;
@@ -393,9 +411,9 @@ function amazon_store_retrieve_cached_search($parameters) {
 
 function parametersForKeywordSearch($keywords) {
   return array(
-  'SearchIndex' => 'All',
-  'Keywords' => htmlentities("\"$keywords\""),
-  'Operation' => 'ItemSearch',
+    'SearchIndex' => 'All',
+    'Keywords' => htmlentities("\"$keywords\""),
+    'Operation' => 'ItemSearch',
   );
 }
 
@@ -431,8 +449,8 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
     switch ((string) $results->Cart->Request->Errors->Error->Code) {
       case 'AWS.ECommerceService.ItemAlreadyInCart':
         $cart_item_id = $results->Cart->CartItems->CartItem[0]->CartItemId;
-        $requested_quantity = (int)$results->Cart->CartItems->CartItem[0]->Quantity;
-        amazon_store_update_cart_quantity((string)$cart_item_id, $requested_quantity);
+        $requested_quantity = (int) $results->Cart->CartItems->CartItem[0]->Quantity;
+        amazon_store_update_cart_quantity((string) $cart_item_id, $requested_quantity);
         return TRUE;
       case 'AWS.ECommerceService.CartInfoMismatch':
         // Probably the sponsored cause, and thus the associate id, has changed
@@ -440,20 +458,20 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
         // Fall through and create new cart
         break;
       default:
-        drupal_set_message(t('Failed adding item to cart.'), 'error');
+        backdrop_set_message(t('Failed adding item to cart.'), 'error');
         watchdog('amazon', "Failed adding item to cart - code=%code", array('%code' => (string) $results->Cart->Request->Errors->Error->Code));
         return FALSE;
     }
   }
 
   // If CartAdd fails and falls through from above
-  //    Do CartCreate with cart_id
-  //    Get new cart_id and update user with it
+//    Do CartCreate with cart_id
+//    Get new cart_id and update user with it
   // In all cases, log resultsresults->
   // In Initial stages, we should probably show the cart after doing an add
   $results = amazon_store_http_request('CartCreate', $add_items);
   if ($results->error) {
-    drupal_set_message(t('Failed to create cart.'), 'error');
+    backdrop_set_message(t('Failed to create cart.'), 'error');
     watchdog("amazon", "Failed to create cart");
   }
   elseif ($results->Cart->Request->IsValid == 'True') {
@@ -464,8 +482,12 @@ function _amazon_store_add_to_cart($asin, $offerListingId = NULL, $quantity = 1,
   return FALSE;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_get_current_cart_quantity($cartItemId) {
-  if ($cart_creds = amazon_store_get_cart_creds()) {;
+  if ($cart_creds = amazon_store_get_cart_creds()) {
     $cart_items = array(
       'Item.1.CartItemId' => $cartItemId,
     );
@@ -496,24 +518,24 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity) {
     $results = amazon_store_http_request('CartModify', $cart_creds + $cart_items);
 
     if (empty($results->error)) {
-    	// watchdog(dprint_r($results);
+      // watchdog(dprint_r($results);
       if (isset($results->Cart->CartItems)) {
-  	    foreach ($results->Cart->CartItems->CartItem as $cartitem) {
-  	      if ($cartitem->CartItemId == $cartItemId) {
-  	        $actual_quantity = $quantity > 0 ? (int)$cartitem->Quantity : $quantity;
-  	      }
-  	    }
+        foreach ($results->Cart->CartItems->CartItem as $cartitem) {
+          if ($cartitem->CartItemId == $cartItemId) {
+            $actual_quantity = $quantity > 0 ? (int) $cartitem->Quantity : $quantity;
+          }
+        }
       }
       if ($quantity <= 0) {
-        drupal_set_message(t('Item removed from cart'));
+        backdrop_set_message(t('Item removed from cart'));
       }
       else {
-        drupal_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
+        backdrop_set_message(t("Cart quantity updated to @quantity", array('@quantity' => $actual_quantity)));
       }
       return TRUE;
     }
     else {
-      drupal_set_message(t('Failed to update cart quantity'), 'error');
+      backdrop_set_message(t('Failed to update cart quantity'), 'error');
       amazon_store_report_error('Failed to update cart quantity.', $results->Cart->Request->Errors);
       return FALSE;
     }
@@ -531,10 +553,10 @@ function amazon_store_update_cart_quantity($cartItemId, $quantity) {
  * @deprecated
  */
 function amazon_store_get_cart_info(&$cart_id, &$cart_HMAC) {
-	if ($cart_creds = amazon_store_get_cart_creds()) {
-	  $cart_id = $cart_creds['CartId'];
-	  $cart_HMAC = $cart_creds['HMAC'];
-	}
+  if ($cart_creds = amazon_store_get_cart_creds()) {
+    $cart_id = $cart_creds['CartId'];
+    $cart_HMAC = $cart_creds['HMAC'];
+  }
 }
 
 /**
@@ -571,6 +593,10 @@ function amazon_store_set_cart_info($cart_id, $cart_HMAC) {
  * @param $cart_HMAC
  */
 // TODO: Isolate amazon info in sessions
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_set_cart_creds($cart_id, $cart_HMAC) {
   $_SESSION['cart_id'] = $cart_id;
   $_SESSION['HMAC'] = $cart_HMAC;
@@ -602,34 +628,35 @@ function amazon_store_report_error($message = 'Amazon request failed.', $errors 
  * Basic Amazon search form.
  */
 function amazon_store_search_form($form, &$form_state, $keyword_width = 15) {
+  $config = config('amazon_store.settings');
 
-  $moduledir = drupal_get_path('module', 'amazon_store');
+  $moduledir = backdrop_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
 
-  if (variable_get('amazon_store_show_category_select', TRUE)) {
+  if ($config->get('amazon_store_show_category_select')) {
     $form['SearchIndex'] = array(
-        '#title' => t('Category'),
-        '#type' => 'select',
-        '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(),
-        '#default_value' => !empty($_GET['SearchIndex']) ? $_GET['SearchIndex'] : variable_get('amazon_store_search_index_choice', 'All'),
+      '#title' => t('Category'),
+      '#type' => 'select',
+      '#options' => $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(),
+      '#default_value' => !empty($_GET['SearchIndex']) ? $_GET['SearchIndex'] : $config->get('amazon_store_search_index_choice'),
     );
   }
   else {
     $form['SearchIndex'] = array(
       '#type' => 'value',
-      '#value' => variable_get('amazon_store_search_index_choice', 'All'),
+      '#value' => $config->get('amazon_store_search_index_choice'),
     );
   }
   $form['Keywords'] = array(
-      '#title' => t('Search For'),
-      '#type' => 'textfield',
-      '#size' => $keyword_width,
-      '#default_value' => isset($_GET['Keywords']) ? $_GET['Keywords'] : "",
+    '#title' => t('Search For'),
+    '#type' => 'textfield',
+    '#size' => $keyword_width,
+    '#default_value' => isset($_GET['Keywords']) ? $_GET['Keywords'] : "",
   );
   $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Search'),
+    '#type' => 'submit',
+    '#value' => t('Search'),
   );
   $form['clear'] = array(
     '#type' => 'markup',
@@ -639,8 +666,15 @@ function amazon_store_search_form($form, &$form_state, $keyword_width = 15) {
 
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_search_form_submit($form, &$form_state) {
-  $form_state['redirect'] = array(AMAZON_STORE_PATH, array('query' => array('Keywords' => $form_state['values']['Keywords'], 'SearchIndex' => $form_state['values']['SearchIndex'])));
+  $form_state['redirect'] = array(AMAZON_STORE_PATH, array('query' => array(
+        'Keywords' => $form_state['values']['Keywords'],
+        'SearchIndex' => $form_state['values']['SearchIndex'],
+      )));
 }
 
 /**
@@ -668,7 +702,7 @@ function amazon_store_xpath($xml, $query) {
   return $result;
 }
 
- /**
+/**
  * Determine whether to report an Amazon API "Error" or not.
  *
  * Not all errors should actually be reported. Some are not real failures.
@@ -696,18 +730,18 @@ function amazon_store_error_is_reportable($code) {
  */
 function amazon_store_http_request($op, $parameters) {
   if (AS_DEBUG) {
-    drupal_set_message("Request: op=$op, Parameters=" . print_r($parameters, TRUE));
+    backdrop_set_message("Request: op=$op, Parameters=" . print_r($parameters, TRUE));
   }
   $results = amazon_http_request($op, $parameters);
   if (empty($results)) {
     watchdog('amazon_store', 'Failed call to amazon_http_request; op=%op, parameters = %parameters', array('%op' => $op, '%parameters' => print_r($parameters, TRUE)));
-    drupal_set_message(t("amazon_http_request failed; op=@op, parameters=@parameters.", array('@op' => $op, '@parameters' => print_r($parameters, TRUE))), 'error');
+    backdrop_set_message(t("amazon_http_request failed; op=@op, parameters=@parameters.", array('@op' => $op, '@parameters' => print_r($parameters, TRUE))), 'error');
     return NULL;
   }
 
   $errors = amazon_store_xpath($results, '//a:Error');
   foreach ($errors as $error) {
-    if (amazon_store_error_is_reportable((string)$error->Code)) {
+    if (amazon_store_error_is_reportable((string) $error->Code)) {
       $msg = "Amazon error returned. Code=$error->Code}, Message={$error->Message} //";
       $error_set = TRUE;
     }
@@ -730,6 +764,7 @@ function amazon_store_http_request($op, $parameters) {
  * 	SimpleXML result with search results
  */
 function _amazon_store_search($parameters = array()) {
+  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = variable_get('amazon_locale', 'US');
   $response_groups = "Variations,Images,ItemAttributes,OfferFull";
   if ($parameters['SearchIndex'] != 'Apparel') {
@@ -741,7 +776,7 @@ function _amazon_store_search($parameters = array()) {
   $parameters['ResponseGroup'] = $response_groups;
 
   // MerchantId is now either Amazon or nothing; 10/2011.
-  if (empty($parameters['MerchantId']) && (variable_get('amazon_store_merchant_id', 'Amazon') == 'Amazon')) {
+  if (empty($parameters['MerchantId']) && (config_get('amazon_store.settings', 'amazon_store_merchant_id') == 'Amazon')) {
     $parameters['MerchantId'] = 'Amazon';
   }
   $parameters['Condition'] = 'New';
@@ -789,8 +824,8 @@ function _amazon_store_itemlist($parameters = array()) {
  */
 function amazon_store_get_item_data($asin) {
   $parameters = array(
-      'ResponseGroup' => 'Variations,Images,ItemAttributes,OfferFull,Large,EditorialReview',
-  'ItemId' => $asin,
+    'ResponseGroup' => 'Variations,Images,ItemAttributes,OfferFull,Large,EditorialReview',
+    'ItemId' => $asin,
   );
 
   $items = array();
@@ -811,7 +846,7 @@ function amazon_store_clear_cache($asin) {
   if (!empty($asin)) {
     cache_clear_all("ASIN-" . $asin, 'cache_amazon_store');
   }
-  drupal_goto();
+  backdrop_goto();
 }
 
 /**
@@ -897,7 +932,7 @@ function _amazon_store_revise_query_parameters($updated_params = array()) {
   $newget = $_GET;
   unset($newget['page'], $newget['q']); // If we're rewriting the query, the page is not going to be relevant
   if (empty($_GET['SearchIndex'])) {
-    $newget['SearchIndex'] = variable_get('amazon_store_default_search_index', 'All');
+    $newget['SearchIndex'] = config_get('amazon_store.settings', 'amazon_store_default_search_index');
   }
   foreach ($updated_params as $key => $value) {
     $newget[$key] = $value;
@@ -942,11 +977,11 @@ function _amazon_store_process_variations($item) {
       // For each sub-asin, record the values of its dimensions
       $curPtr = & $itemsByAttribute;
       foreach ($dimensions as $otherDimension) {
-	foreach ($variation->VariationAttributes->VariationAttribute as $attribute) {
-	  if ($attribute->Name == $otherDimension) {
-	    $attr = (string) $attribute->Value;
-	  }
-	}
+        foreach ($variation->VariationAttributes->VariationAttribute as $attribute) {
+          if ($attribute->Name == $otherDimension) {
+            $attr = (string) $attribute->Value;
+          }
+        }
         if (empty($curPtr[$attr])) {
           $curPtr[$attr] = array();
         }
@@ -1029,7 +1064,7 @@ function _amazon_store_get_variation_dimensions($item) {
  *
  */
 function _amazon_store_addcart_callback($form, &$form_state) {
-  $commands[] = ajax_command_replace(NULL, drupal_render($form));
+  $commands[] = ajax_command_replace(NULL, backdrop_render($form));
   $commands[] = ajax_command_append(NULL, theme('status_messages'));
 
   return array('#type' => 'ajax', '#commands' => $commands);
@@ -1072,7 +1107,7 @@ function _amazon_store_get_sort() {
 function amazon_store_sort_form($form, &$form_state) {
 
   $form['#tree'] = TRUE;
-  $moduledir = drupal_get_path('module', 'amazon_store');
+  $moduledir = backdrop_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
 
@@ -1087,7 +1122,7 @@ function amazon_store_sort_form($form, &$form_state) {
     '#type' => 'select',
     '#options' => $options,
     '#attributes' => array('class' => array('amazon-store-autosubmit')),
-    '#default_value' =>  _amazon_store_get_sort(),
+    '#default_value' => _amazon_store_get_sort(),
     // '#attributes' => array('onchange' => 'dest=this.options[this.options.selectedIndex].value; window.location = dest;'),
   );
   $form['sortby-submit'] = array(
@@ -1103,6 +1138,10 @@ function amazon_store_sort_form($form, &$form_state) {
   return $form;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_sort_form_submit($form, &$form_state) {
   $new_params = _amazon_store_revise_query_parameters(array('Sort' => $form_state['values']['sortby']));
   $form_state['redirect'] = array(AMAZON_STORE_PATH, array('query' => $new_params));
@@ -1121,7 +1160,7 @@ function amazon_store_searchbin_sets_form($form, &$form_state, $searchBinSets) {
     '#tree' => TRUE,
     '#title' => t('Narrow your search'),
   );
-  $moduledir = drupal_get_path('module', 'amazon_store');
+  $moduledir = backdrop_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
 
@@ -1154,9 +1193,9 @@ function amazon_store_searchbin_sets_form($form, &$form_state, $searchBinSets) {
     foreach ($binset->Bin as $bin) {
       $parameter_string = "";
       foreach ($bin->BinParameter as $parameter) {
-        $parameter_string .= $parameter->Name . '=' . (string)$parameter->Value . ';';
+        $parameter_string .= $parameter->Name . '=' . (string) $parameter->Value . ';';
       }
-      $form['searchbins'][$narrowBy]['select']['#options'][$parameter_string] = (string)$bin->BinName;
+      $form['searchbins'][$narrowBy]['select']['#options'][$parameter_string] = (string) $bin->BinName;
     }
   }
   $form['clear'] = array(
@@ -1173,7 +1212,7 @@ function amazon_store_searchbin_sets_form($form, &$form_state, $searchBinSets) {
  * This actually just redirects to a URL that describes the search.
  */
 function amazon_store_searchbin_sets_form_submit($form, &$form_state) {
-  foreach(element_children($form['searchbins']) as $child) {
+  foreach (element_children($form['searchbins']) as $child) {
     // Break up our key, which is in the form 'key1=value1;key2=value2;'.
     if (!empty($form_state['values']['searchbins'][$child]['select'])) {
       $new_strings = explode(';', $form_state['values']['searchbins'][$child]['select']);
@@ -1228,7 +1267,7 @@ function amazon_store_search_results_pager($searchResults, $pager_element = 0) {
   $total_results = $searchResults->TotalResults;
   $pager_total_items[$pager_element] = $total_results;
   $pager_total[$pager_element] = ceil($total_results / $results_per_page);
-  $pager_page_array[$pager_element] = max(0, min((int)$pager_page_array[$pager_element], ((int)$pager_total[$pager_element]) - 1));
+  $pager_page_array[$pager_element] = max(0, min((int) $pager_page_array[$pager_element], ((int) $pager_total[$pager_element]) - 1));
 
   // 10 items per page is wired in from Amazon API.
   return theme('pager', array('tags' => array(), 'element' => $pager_element));
@@ -1238,7 +1277,7 @@ function amazon_store_search_results_pager($searchResults, $pager_element = 0) {
  * Helper functions for amazon_store_details_panel.php.
  */
 function amazon_store_manufacturer_format($attributeType, $attributeValue) {
-  return theme('amazon_store_search_results_manufacturer', array('manufacturer' => (string)$attributeValue));
+  return theme('amazon_store_search_results_manufacturer', array('manufacturer' => (string) $attributeValue));
 }
 
 /**
@@ -1256,7 +1295,7 @@ function amazon_store_manufacturer_format($attributeType, $attributeValue) {
  *   The Attributes section from the original XML.
  */
 function amazon_store_participant_format($attributeType, $attributeValue, $allAttributes) {
-  $search_index = ProductGroup2SearchIndex((string)$allAttributes->ProductGroup);
+  $search_index = ProductGroup2SearchIndex((string) $allAttributes->ProductGroup);
   $output = "";
   $multi = FALSE;
   if (count($attributeValue) > 1) {
@@ -1264,7 +1303,7 @@ function amazon_store_participant_format($attributeType, $attributeValue, $allAt
   }
 
   foreach ($attributeValue as $value) {
-    $link = l((string)$value, AMAZON_STORE_PATH, array('attributes' => array('rel' => 'nofollow'), 'query'=> array((string)$attributeType => (string)$value, 'SearchIndex' => $search_index)));
+    $link = l((string) $value, AMAZON_STORE_PATH, array('attributes' => array('rel' => 'nofollow'), 'query' => array((string) $attributeType => (string) $value, 'SearchIndex' => $search_index)));
     if ($multi) {
       $link = "<li>$link</li>";
     }
@@ -1276,6 +1315,10 @@ function amazon_store_participant_format($attributeType, $attributeValue, $allAt
   return $output;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_feature_format($attributeType, $attributeValue, $allAttributes) {
   $output = "<ul>";
   foreach ($attributeValue as $feature) {
@@ -1289,14 +1332,22 @@ function amazon_store_feature_format($attributeType, $attributeValue, $allAttrib
 }
 
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_binding_format($attributeType, $attributeValue, $allAttributes) {
-  $output = (string)$attributeValue;
+  $output = (string) $attributeValue;
   if (!empty($allAttributes->NumberOfPages)) {
     $output .= ", {$allAttributes->NumberOfPages} pages";
   }
   return $output;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_dimensions_format($attributeType, $attributeValue, $allAttributes) {
   $output = "<ul>";
   if ($attributeValue->Height) {
@@ -1325,7 +1376,7 @@ function amazon_store_format_attribute($attributeType, $attribute_value, $handle
     $output .= $handler['handler']($attributeType, $attribute_value, $allAttributes);
   }
   else {
-    $output .= (string)$attribute_value;
+    $output .= (string) $attribute_value;
   }
   return $output;
 }
@@ -1334,5 +1385,14 @@ function amazon_store_format_attribute($attributeType, $attribute_value, $handle
  * Return the store path when other modules need to know it.
  */
 function amazon_store_get_amazon_store_path() {
-  return variable_get('amazon_store_path', 'amazon_store');
+  return config_get('amazon_store.settings', 'amazon_store_path');
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function amazon_store_autoload_info() {
+  return array(
+    'SearchIndexes' => 'searchindexes.inc',
+  );
 }

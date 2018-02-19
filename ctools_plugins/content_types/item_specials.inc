@@ -20,7 +20,6 @@ function amazon_store_item_specials_ctools_content_types() {
     'description' => t('Debugging Tools - Clear Cache for an item.'),
     'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
     'category' => array(t('Amazon'), -9),
-
   );
   return $items;
 }

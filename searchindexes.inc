@@ -27,6 +27,7 @@ class SearchIndexes {
    * @return unknown_type
    */
   function __construct($locale) {
+    dpm($locale);
     $locale_file = '/locales/amazon_store.locale.' . strtolower($locale);
     $file = module_load_include('inc', 'amazon_store', $locale_file);
     // Protect against a selected locale that is not yet supported.
@@ -67,7 +68,7 @@ class SearchIndexes {
    *   friendly name, like 'Outdoor Living'.
    */
   function getSearchIndexPulldown($exclude_all_searchindex = FALSE) {
-    $categories = variable_get('amazon_store_include_categories', $GLOBALS['amazon_store_search_indexes']->getRecommendedCategories());
+    $categories = config_get('amazon_store.settings', 'amazon_store_include_categories');
     $categories = array_filter($categories);
 
     $rv = array();

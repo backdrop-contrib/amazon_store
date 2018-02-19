@@ -14,14 +14,14 @@
  */
 
 function _amazon_store_locale() {
-  $locale = array('CN' => array(
+  $locale = array(
+    'CN' => array(
       'All' => array(
         'friendly_name' => t('All'),
         'BrowseNode' => 2000,
         'parameters_allowed' => array('Keywords'),
         'sorts' => NULL,
       ),
-
       'Apparel' => array(
         'friendly_name' => t('Apparel'),
         'BrowseNode' => 2016156051,
@@ -35,7 +35,6 @@ function _amazon_store_locale() {
           '-launchdate' => 'Latest arrivals',
         ),
       ),
-
       'Appliances' => array(
         'friendly_name' => t('Appliances'),
         'BrowseNode' => 80207071,
@@ -49,7 +48,6 @@ function _amazon_store_locale() {
           '-launchdate' => 'Latest arrivals',
         ),
       ),
-
       'Automotive' => array(
         'friendly_name' => t('Automotive'),
         'BrowseNode' => 1947899051,
@@ -63,7 +61,6 @@ function _amazon_store_locale() {
           '-launchdate' => 'Latest arrivals',
         ),
       ),
-
       'Baby' => array(
         'friendly_name' => t('Baby'),
         'BrowseNode' => 42692071,
@@ -76,7 +73,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'Beauty' => array(
         'friendly_name' => t('Beauty'),
         'BrowseNode' => 746776051,
@@ -89,7 +85,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'Books' => array(
         'friendly_name' => t('Books'),
         'BrowseNode' => 658390051,
@@ -104,7 +99,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'Electronics' => array(
         'friendly_name' => t('Electronics'),
         'BrowseNode' => 2016116051,
@@ -119,7 +113,6 @@ function _amazon_store_locale() {
           '-release-date' => 'Release date: Newer to older',
         ),
       ),
-
       'Grocery' => array(
         'friendly_name' => t('Grocery'),
         'BrowseNode' => 2127215051,
@@ -132,7 +125,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'HealthPersonalCare' => array(
         'friendly_name' => t('Health Personal Care'),
         'BrowseNode' => 852803051,
@@ -147,7 +139,6 @@ function _amazon_store_locale() {
           '-release-date' => 'Release date: Newer to older',
         ),
       ),
-
       'Home' => array(
         'friendly_name' => t('Home'),
         'BrowseNode' => 2016126051,
@@ -160,7 +151,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'HomeImprovement' => array(
         'friendly_name' => t('Home Improvement'),
         'BrowseNode' => 1952920051,
@@ -173,7 +163,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'Jewelry' => array(
         'friendly_name' => t('Jewelry'),
         'BrowseNode' => 816482051,
@@ -186,7 +175,6 @@ function _amazon_store_locale() {
           'reviewrank' => 'Average customer review: High to low',
         ),
       ),
-
       'Misc' => array(
         'friendly_name' => t('Miscellaneous'),
         'BrowseNode' => 899280051,
@@ -200,7 +188,6 @@ function _amazon_store_locale() {
           '-launch-date' => 'Launch date: Newer to older',
         ),
       ),
-
       'Music' => array(
         'friendly_name' => t('Music'),
         'BrowseNode' => 754386051,
@@ -216,7 +203,6 @@ function _amazon_store_locale() {
           '-orig-rel-date' => 'Original release date: latest to earliest',
         ),
       ),
-
       'OfficeProducts' => array(
         'friendly_name' => t('Office Products'),
         'BrowseNode' => 2127221051,
@@ -233,7 +219,6 @@ function _amazon_store_locale() {
           'titlerank' => 'Alphabetical: A to Z',
         ),
       ),
-
       'Photo' => array(
         'friendly_name' => t('Photo'),
         'BrowseNode' => 755653051,
@@ -252,7 +237,6 @@ function _amazon_store_locale() {
           '-launchdate' => 'Launch date: Latest to earliest',
         ),
       ),
-
       'Shoes' => array(
         'friendly_name' => t('Shoes'),
         'BrowseNode' => 2029189051,
@@ -266,7 +250,6 @@ function _amazon_store_locale() {
           '-launch-date' => 'Launch date: Latest to earliest',
         ),
       ),
-
       'Software' => array(
         'friendly_name' => t('Software'),
         'BrowseNode' => 863872051,
@@ -281,7 +264,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: Newest to oldest',
         ),
       ),
-
       'SportingGoods' => array(
         'friendly_name' => t('Sporting Goods'),
         'BrowseNode' => 836312051,
@@ -296,7 +278,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: Newest to oldest',
         ),
       ),
-
       'Toys' => array(
         'friendly_name' => t('Toys'),
         'BrowseNode' => 647070051,
@@ -312,7 +293,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: Newest to oldest',
         ),
       ),
-
       'Video' => array(
         'friendly_name' => t('Video'),
         'BrowseNode' => 2016136051,
@@ -327,7 +307,6 @@ function _amazon_store_locale() {
           '-orig-rel-date' => 'Original release date: Newest to oldest',
         ),
       ),
-
       'VideoGames' => array(
         'friendly_name' => t('Video Games'),
         'BrowseNode' => 897415051,
@@ -342,7 +321,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: Latest to earliest',
         ),
       ),
-
       'Watches' => array(
         'friendly_name' => t('Watches'),
         'BrowseNode' => 1953164051,

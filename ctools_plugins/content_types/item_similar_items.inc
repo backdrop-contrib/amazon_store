@@ -18,7 +18,6 @@ function amazon_store_item_similar_items_ctools_content_types() {
     'description' => t('Amazon Item Reviews (CustomerReview).'),
     'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
     'category' => array(t('Amazon'), -9),
-
   );
   return $items;
 }

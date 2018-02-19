@@ -1,0 +1,19 @@
+{
+    "_config_name": "amazon_store.settings",
+    "amazon_store_store_name": "Amazon Store",
+    "amazon_store_path": "amazon_store",
+    "amazon_store_show_searchform": "1",
+    "amazon_store_show_narrowby_form": "1",
+    "amazon_store_show_sort_form": "1",
+    "amazon_store_show_category_select": "TRUE",
+    "amazon_store_merchant_id": "Amazon",
+    "amazon_store_search_index_choice": "All",
+    "amazon_store_default_items": "searchindex",
+    "amazon_store_default_search_index": "\"Books\"",
+    "amazon_store_default_browsenode_id": "novalue",
+    "amazon_store_default_item_list": "\"\"",
+    "amazon_store_refresh_schedule": "43200",
+    "amazon_store_include_categories": [],
+    "amazon_store_search_block_keywords_width": 15,
+    "amazon_store_categories_block_num_columns": 2
+}

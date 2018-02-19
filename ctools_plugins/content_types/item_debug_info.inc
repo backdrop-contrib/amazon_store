@@ -31,7 +31,7 @@ function amazon_store_item_debug_info_render($subtype, $conf, $panel_args, $cont
   $block->title = 'Debug Info <a href="#" class="togglebtn" >click here</a>';
 
   $output = "<div id='debug_info'  >
-  <div class='item_xml toggle'><pre>". print_r($context->data, TRUE) ."</pre>
+  <div class='item_xml toggle'><pre>" . print_r($context->data, TRUE) . "</pre>
   </div>
   </div>";
   $block->content = $output;

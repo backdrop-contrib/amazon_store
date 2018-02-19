@@ -2,7 +2,7 @@
 /**
  * @file Default panels for amazon_store
  *
- * Implements hook_default_panel_pages().
+ * Implements hook_default_panel_pages().().
  * To offer a default panel for the item detail page
  * @return unknown_type
  */
@@ -18,20 +18,20 @@ function amazon_store_default_panel_pages() {
   $page->multiple = FALSE;
   $page->menu = FALSE;
   $page->arguments = array(
-  'asin' => array(
-    'id' => 1,
-    'identifier' => 'ASIN (Amazon item identifier)',
-    'name' => 'asin',
-    'settings' => array(),
-  ),
-);
+    'asin' => array(
+      'id' => 1,
+      'identifier' => 'ASIN (Amazon item identifier)',
+      'name' => 'asin',
+      'settings' => array(),
+    ),
+  );
   $page->conf = array(
-  'no_blocks' => 0,
-  'css_id' => '',
-  'css' => '',
-  'contexts' => array(),
-  'relationships' => array(),
-);
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
   $display = new panels_display;
   $display->layout = 'twocol';
   $display->layout_settings = array();

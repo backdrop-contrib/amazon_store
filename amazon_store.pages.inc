@@ -18,7 +18,9 @@
  * If no keywords are supplied, it goes to the top-level browsenode of the selected SearchIndex
  */
 function _amazon_store_page() {
+  $config = config('amazon_store.settings');
 
+  dpm($config);
   $output = "";
   $parameters = array();
   $do_search = FALSE;
@@ -50,7 +52,7 @@ function _amazon_store_page() {
     $parameters['Sort'] = check_plain($get_Sort);
   }
   if (!empty($get_page)) {
-    // Drupal pager is 0-based. Amazon is 1-based. Adjust for that.
+    // Backdrop pager is 0-based. Amazon is 1-based. Adjust for that.
     $parameters['ItemPage'] = intval($get_page) + 1;
   }
   else {
@@ -58,7 +60,7 @@ function _amazon_store_page() {
   }
 
   if (!empty($parameters['SearchIndex']) && $parameters['SearchIndex'] == 'All' && !empty($parameters['BrowseNode'])) {
-    $parameters['SearchIndex'] = variable_get('amazon_store_default_search_index', "Books");
+    $parameters['SearchIndex'] = $config->get('amazon_store_default_search_index');
   }
 
   foreach (array('Author', 'Composer', 'Artist', 'Manufacturer') as $entity) {
@@ -73,10 +75,10 @@ function _amazon_store_page() {
   if (empty($parameters['Keywords']) && empty($parameters['BrowseNode']) && empty($parameters['ItemId'])) {
     $browseNodes = $GLOBALS['amazon_store_search_indexes']->getBrowseNodes();
     if (empty($parameters['SearchIndex']) || $parameters['SearchIndex'] == 'All') {
-      $parameters['SearchIndex'] = variable_get('amazon_store_default_search_index', "Books");
+      $parameters['SearchIndex'] = $config->get('amazon_store_default_search_index');
     }
     // If they have configured a browsenode, use that
-    $defaultlist = variable_get('amazon_store_default_items', 'searchindex');
+    $defaultlist = $config->get('amazon_store_default_items');
     switch ($defaultlist) {
       case 'searchindex': // Use the default browsenode for searchindex
         if (!empty($browseNodes[$parameters['SearchIndex']])) {
@@ -84,16 +86,17 @@ function _amazon_store_page() {
         }
         break;
       case 'browsenode':
-        $parameters['BrowseNode'] = variable_get('amazon_store_default_browsenode_id', 0);
+        $parameters['BrowseNode'] = $config->get('amazon_store_default_browsenode_id');
         break;
       case 'itemlist':
-        $parameters['ItemId'] = variable_get('amazon_store_default_item_list', "");
+        $parameters['ItemId'] = $config->get('amazon_store_default_item_list');
         break;
     }
   }
 
   if (!empty($parameters['ItemId']) && $do_search == FALSE) {
     $results = _amazon_store_itemlist(array('ItemId' => $parameters['ItemId']));
+    dpm($results);
   }
   else {
     $results = _amazon_store_search($parameters );
@@ -114,22 +117,26 @@ function amazon_store_clear_cart($form, &$form_state, $destination = "amazon_sto
   $form = array();
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t("Clear cart")
+    '#value' => t("Clear cart"),
   );
   $form_state['redirect'] = $destination;
   return $form;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_clear_cart_submit($form, &$form_state) {
   if ($cart_creds = amazon_store_get_cart_creds()) {
     $results = amazon_store_http_request('CartClear', $cart_creds);
     if (!empty($results->error)) {
       amazon_store_report_error('Failed to clear cart.', $results->Cart->Request->Errors);
-      drupal_set_message(t('Failed to clear shopping cart.', 'error'));
+      backdrop_set_message(t('Failed to clear shopping cart.', 'error'));
       return;
     }
   }
-  drupal_set_message(t('Your shopping cart is now empty.'));
+  backdrop_set_message(t('Your shopping cart is now empty.'));
 }
 
 /**
@@ -146,7 +153,7 @@ function amazon_store_show_cart() {
     // Check results
     if (!empty($results->error) || $results->Cart->Request->IsValid != 'True') {
       amazon_store_report_error('Failed to get cart', $results->Cart->Request->Errors);
-      drupal_set_message(t('Failed to get cart.'), 'error');
+      backdrop_set_message(t('Failed to get cart.'), 'error');
     }
   }
   // Display the cart
@@ -171,11 +178,15 @@ function template_preprocess_amazon_store_cart(&$variables) {
       $fullrecords[] = $fullinfo;
       $merchantId = (string) $fullinfo->Offers->Offer[0]->Merchant->Name;
       $availability = (string) $fullinfo->Offers->Offer[0]->OfferListing->Availability;
-      $item->addChild("Availability",  $availability);
+      $item->addChild("Availability",   $availability);
     }
   }
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_item_detail($asin) {
   $item = amazon_store_retrieve_item($asin);
   if (empty($item)) {
@@ -192,7 +203,7 @@ function amazon_store_item_detail($asin) {
  */
 function amazon_store_preprocess_amazon_store_item_detail(&$variables) {
   $amazon_item = $variables['amazon_item'];
-  $variables['asin'] = (string)$amazon_item->ASIN;
+  $variables['asin'] = (string) $amazon_item->ASIN;
   if (!empty($amazon_item->EditorialReviews->EditorialReview[0]->Content)) {
     $variables['editorialreview'] =  _filter_htmlcorrector(filter_xss_admin($amazon_item->EditorialReviews->EditorialReview[0]->Content));
   }
@@ -203,7 +214,7 @@ function amazon_store_preprocess_amazon_store_item_detail(&$variables) {
  * or on item display page
  *
  * Most form elements and the form itself are identified with the ASIN
- * attached to their name. This is a result of Drupal's failure to handle
+ * attached to their name. This is a result of Backdrop's failure to handle
  * multiple forms on a page, especially with AJAX.  @TODO: This should be
  * fixed now!
  *
@@ -221,7 +232,7 @@ function amazon_store_preprocess_amazon_store_item_detail(&$variables) {
  * @return prepared form
  */
 function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'normal') {
-  $moduledir = drupal_get_path('module', 'amazon_store');
+  $moduledir = backdrop_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
 
@@ -262,26 +273,26 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
   $form['#validate'][] = 'amazon_store_addcart_form_validate';
   $form['#submit'][] = 'amazon_store_addcart_form_submit';
   $form['item_title'] = array(
-      '#type' => 'value',
-      '#value' => (string) $item->ItemAttributes->Title,
+    '#type' => 'value',
+    '#value' => (string) $item->ItemAttributes->Title,
   );
   $fieldswrapper = "fields-$asin-wrapper";
 
   $form['fields'] = array(
-      '#prefix' => "<div id='$fieldswrapper' class='fields-wrapper'>",
-      '#suffix' => "</div>",
-      '#type' => 'fieldset',
+    '#prefix' => "<div id='$fieldswrapper' class='fields-wrapper'>",
+    '#suffix' => "</div>",
+    '#type' => 'fieldset',
   );
 
   $form['fields']['asin'] = array(
-      '#type' => 'value',
-      '#value' => $asin,
+    '#type' => 'value',
+    '#value' => $asin,
   );
 
   // Hidden; used to inform hook_form_alter about how form was constructed.
   $form['fields']['context'] = array(
-      '#type' => 'value',
-      '#value' => $context,
+    '#type' => 'value',
+    '#value' => $context,
   );
 
   if (!empty($item->Variations)) {
@@ -295,7 +306,7 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
         '#type' => 'select',
         '#ajax' => array(
           'callback' => '_amazon_store_addcart_callback',
-          'wrapper' => "$formwrapper"
+          'wrapper' => "$formwrapper",
         ),
       );
       if (AS_DEBUG) {
@@ -355,7 +366,7 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
     '#options' => $selects,
     '#ajax' => array(
       'callback' => '_amazon_store_addcart_callback',
-      'wrapper' => "$formwrapper"
+      'wrapper' => "$formwrapper",
     ),
   );
   $curValue = empty($form_state['values']['fields']['offer' . "-$asin"]) ? NULL : $form_state['values']['fields']['offer' . "-$asin"];
@@ -384,7 +395,7 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
     '#value' => t('Add to cart'),
     '#ajax' => array(
       'callback' => '_amazon_store_addcart_callback',
-      'wrapper' => "$formwrapper"
+      'wrapper' => "$formwrapper",
     ),
   );
 
@@ -399,8 +410,8 @@ function amazon_store_addcart_form($form, &$form_state, $asin, $context = 'norma
   }
 
   $form['info-update'] = array(
-      '#value' => "<div id='info-$asin'></div>",
-      '#suffix' => AS_DEBUG ? "load_path=$load_path" : "",
+    '#value' => "<div id='info-$asin'></div>",
+    '#suffix' => AS_DEBUG ? "load_path=$load_path" : "",
   );
 
   return $form;
@@ -435,7 +446,7 @@ function amazon_store_addcart_form_validate($form, &$form_state) {
     }
     else { // There is no path forward from here, so the selections have changed and we'll rebuild
       $form_state['rebuild'] = TRUE;
-      drupal_set_message(t('Please make a selection for %dimension', array('%dimension' => $dimension)), 'error');
+      backdrop_set_message(t('Please make a selection for %dimension', array('%dimension' => $dimension)), 'error');
       return;
     }
   }
@@ -469,11 +480,11 @@ function amazon_store_addcart_form_submit($form, &$form_state) {
 
   $result = _amazon_store_add_to_cart(NULL, $offer);
   if ($result) {
-    $directory = drupal_get_path('module', 'amazon_store');
-    drupal_set_message(t('%item was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), AMAZON_STORE_PATH . '/cart'))));
+    $directory = backdrop_get_path('module', 'amazon_store');
+    backdrop_set_message(t('%item was added to your cart. <br/><em>!link</em>', array('%item' => $form['item_title']['#value'], '!link' => l(t("View Cart"), AMAZON_STORE_PATH . '/cart'))));
   }
   else {
-    drupal_set_message(t('Error: Item not added to cart.'), 'error');
+    backdrop_set_message(t('Error: Item not added to cart.'), 'error');
   }
   $params = _amazon_store_revise_query_parameters();
   $form_state['redirect'] = array('amazon_store', array('query' => $params));
@@ -482,7 +493,7 @@ function amazon_store_addcart_form_submit($form, &$form_state) {
 /**
  * Small form used to set item quantity for the Shopping Cart page.
  * Each element and the form itself have their names keyed to the ASIN,
- * since Drupal can't handle multiple forms of the same type on a page,
+ * since Backdrop can't handle multiple forms of the same type on a page,
  * especially with AJAX
  *
  * @param $form_state
@@ -490,7 +501,7 @@ function amazon_store_addcart_form_submit($form, &$form_state) {
  * @param $item_number
  */
 function _amazon_store_cart_quantity_form($form, &$form_state, $cart_entry, $item_number) {
-  $moduledir = drupal_get_path('module', 'amazon_store');
+  $moduledir = backdrop_get_path('module', 'amazon_store');
   $form['#attached']['css'] = array("$moduledir/amazon_store.css");
   $form['#attached']['js'] = array("$moduledir/amazon_store.js");
 
@@ -570,6 +581,10 @@ function amazon_store_buttonize_link($form, &$form_state, $name, $link) {
   return $form;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_buttonize_link_submit($form, &$form_state) {
   $form_state['redirect'] = $form_state['storage']['linkbutton_link'];
 }
@@ -579,9 +594,9 @@ function amazon_store_buttonize_link_submit($form, &$form_state) {
  * @param $variables
  */
 function theme_amazon_store_link_button($variables) {
-  $hash = drupal_hash_base64($variables['url']);
-  $form = drupal_get_form("amazon_store_buttonize_link_" . $hash, $variables['text'], $variables['url']);
-  $markup = drupal_render($form);
+  $hash = backdrop_hash_base64($variables['url']);
+  $form = backdrop_get_form("amazon_store_buttonize_link_" . $hash, $variables['text'], $variables['url']);
+  $markup = backdrop_render($form);
   return $markup;
 }
 

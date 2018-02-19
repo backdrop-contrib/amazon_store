@@ -14,7 +14,8 @@ function amazon_store_item_details_ctools_content_types() {
     'icon' => 'icon_amazon.png',
     'description' => t('Amazon Item Details.'),
     'required context' => new ctools_context_required(t('Amazon Item'), 'amazon_item'),
-    'category' => array(t('Amazon'), -9),  );
+    'category' => array(t('Amazon'), -9),
+  );
   return $items;
 }
 

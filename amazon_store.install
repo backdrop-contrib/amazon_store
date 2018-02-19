@@ -7,49 +7,73 @@
  */
 
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_install() {
+  $searchindexes = new SearchIndexes('US'); 
+  config_set('amazon_store.settings', 'amazon_store_include_categories', $searchindexes->getRecommendedCategories());
 }
 
-function amazon_store_uninstall() {
-  $vars = array(
-    'amazon_store_default_browsenode_id',
-    'amazon_store_default_items',
-    'amazon_store_default_item_list',
-    'amazon_store_default_search_index',
-    'amazon_store_include_categories',
-    'amazon_store_merchant_id',
-    'amazon_store_refresh_schedule',
-    'amazon_store_search_index_choice',
-    'amazon_store_show_category_select',
-    'amazon_store_show_narrowby_form',
-    'amazon_store_show_searchform',
-    'amazon_store_search_block_keywords_width',
-    'amazon_store_categories_block_num_columns',
-    'amazon_store_show_sort_form',
-    'amazon_store_store_name',
-    'amazon_store_path',
-  );
-  foreach ($vars as $var) {
-    variable_del($var);
-  }
-}
-
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_schema() {
-  $schema['cache_amazon_store'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_amazon_store'] = backdrop_get_schema_unprocessed('system', 'cache');
   $schema['cache_amazon_store']['description'] = 'Store amazon item data, keyed by ASIN.';
-  $schema['cache_amazon_store_searches'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_amazon_store_searches'] = backdrop_get_schema_unprocessed('system', 'cache');
   $schema['cache_amazon_store_searches']['description'] = 'Store Amazon Store searches.';
 
   return $schema;
 }
 
+// TODO The old hook_update_N functions cannot be applied to Backdrop.
+function amazon_store_update_7001() { }
+
 /**
- * Move settings page to a tab on amazon api page.
+ * Implements hook_update_last_removed().
  */
-function amazon_store_update_7001() {
-/*  db_query('UPDATE {menu_router} set path=:new, type=132, weight=50 WHERE path=:prev', 
-    array(':new' => 'admin/config/services/amazon/store', 
-          ':prev' => 'admin/config/amazon_settings/amazon_store'
-    )); */
-  menu_rebuild();
+function amazon_store_update_last_removed() {
+  return 7001;
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function amazon_store_update_1000() {
+  $config = config('amazon_store.settings');
+  $config->set('amazon_store_store_name', update_variable_get('amazon_store_store_name', 'Amazon Store'));
+  $config->set('amazon_store_path', update_variable_get('amazon_store_path', 'amazon_store'));
+  $config->set('amazon_store_show_searchform', update_variable_get('amazon_store_show_searchform', '1'));
+  $config->set('amazon_store_show_narrowby_form', update_variable_get('amazon_store_show_narrowby_form', '1'));
+  $config->set('amazon_store_show_sort_form', update_variable_get('amazon_store_show_sort_form', '1'));
+  $config->set('amazon_store_show_category_select', update_variable_get('amazon_store_show_category_select', 'TRUE'));
+  $config->set('amazon_store_merchant_id', update_variable_get('amazon_store_merchant_id', 'Amazon'));
+  $config->set('amazon_store_search_index_choice', update_variable_get('amazon_store_search_index_choice', 'All'));
+  $config->set('amazon_store_default_items', update_variable_get('amazon_store_default_items', 'searchindex'));
+  $config->set('amazon_store_default_search_index', update_variable_get('amazon_store_default_search_index', '"Books"'));
+  $config->set('amazon_store_default_browsenode_id', update_variable_get('amazon_store_default_browsenode_id', 'novalue'));
+  $config->set('amazon_store_default_item_list', update_variable_get('amazon_store_default_item_list', '""'));
+  $config->set('amazon_store_refresh_schedule', update_variable_get('amazon_store_refresh_schedule', '43200'));
+  $config->set('amazon_store_include_categories', update_variable_get('amazon_store_include_categories', array()));
+  $config->set('amazon_store_search_block_keywords_width', update_variable_get('amazon_store_search_block_keywords_width', 15));
+  $config->set('amazon_store_categories_block_num_columns', update_variable_get('amazon_store_categories_block_num_columns', 2));
+  update_variable_del('amazon_store_store_name');
+  update_variable_del('amazon_store_path');
+  update_variable_del('amazon_store_show_searchform');
+  update_variable_del('amazon_store_show_narrowby_form');
+  update_variable_del('amazon_store_show_sort_form');
+  update_variable_del('amazon_store_show_category_select');
+  update_variable_del('amazon_store_merchant_id');
+  update_variable_del('amazon_store_search_index_choice');
+  update_variable_del('amazon_store_default_items');
+  update_variable_del('amazon_store_default_search_index');
+  update_variable_del('amazon_store_default_browsenode_id');
+  update_variable_del('amazon_store_default_item_list');
+  update_variable_del('amazon_store_refresh_schedule');
+  update_variable_del('amazon_store_include_categories');
+  update_variable_del('amazon_store_search_block_keywords_width');
+  update_variable_del('amazon_store_categories_block_num_columns');
 }

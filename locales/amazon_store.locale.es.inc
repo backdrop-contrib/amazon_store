@@ -14,14 +14,14 @@
  */
 
 function _amazon_store_locale() {
-  $locale = array('ES' => array(
+  $locale = array(
+    'ES' => array(
       'All' => array(
         'friendly_name' => t('All'),
         'BrowseNode' => 2000,
         'parameters_allowed' => array('Keywords'),
         'sorts' => NULL,
       ),
-
       'Books' => array(
         'friendly_name' => t('Books'),
         'BrowseNode' => 599364031,
@@ -37,7 +37,6 @@ function _amazon_store_locale() {
           '-publicationdate' => 'Publication date: oldest to most recent',
         ),
       ),
-
       'DVD' => array(
         'friendly_name' => t('DVD'),
         'BrowseNode' => 599379031,
@@ -52,7 +51,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: newer to older',
         ),
       ),
-
       'Electronics' => array(
         'friendly_name' => t('Electronics'),
         'BrowseNode' => 667049031,
@@ -66,7 +64,6 @@ function _amazon_store_locale() {
           'reviewrank_authority	' => 'Review rank: high to low',
         ),
       ),
-
       'ForeignBooks' => array(
         'friendly_name' => t('Foreign Books'),
         'BrowseNode' => 599367031,
@@ -82,7 +79,6 @@ function _amazon_store_locale() {
           '-publicationdate' => 'Publication date: oldest to most recent',
         ),
       ),
-
       'Kitchen' => array(
         'friendly_name' => t('Kitchen'),
         'BrowseNode' => 599391031,
@@ -96,7 +92,6 @@ function _amazon_store_locale() {
           'reviewrank_authority	' => 'Review rank: high to low',
         ),
       ),
-
       'Music' => array(
         'friendly_name' => t('Music'),
         'BrowseNode' => 599373031,
@@ -111,7 +106,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: newer to older',
         ),
       ),
-
       'Software' => array(
         'friendly_name' => t('Software'),
         'BrowseNode' => 599376031,
@@ -126,7 +120,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: newer to older',
         ),
       ),
-
       'Toys' => array(
         'friendly_name' => t('Toys'),
         'BrowseNode' => 599385031,
@@ -140,7 +133,6 @@ function _amazon_store_locale() {
           'reviewrank_authority	' => 'Review rank: high to low',
         ),
       ),
-
       'VideoGames' => array(
         'friendly_name' => t('Video Games'),
         'BrowseNode' => 599382031,
@@ -155,7 +147,6 @@ function _amazon_store_locale() {
           '-releasedate' => 'Release date: newer to older',
         ),
       ),
-
       'Watches' => array(
         'friendly_name' => t('Watches'),
         'BrowseNode' => 599388031,

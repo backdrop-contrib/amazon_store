@@ -13,11 +13,15 @@ function amazon_store_asin_ctools_arguments() {
     'keyword' => 'ASIN',
     'description' => t('Creates an Amazon item from the ASIN.'),
     'context' => 'amazon_store_create_asin_context',
-    'native path' => AMAZON_STORE_PATH .'/item',
+    'native path' => AMAZON_STORE_PATH . '/item',
   );
   return $args;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function amazon_store_create_asin_context($arg = NULL, $conf = NULL, $empty = FALSE) {
   // If unset it wants a generic, unfilled context.
   if ($empty) {
