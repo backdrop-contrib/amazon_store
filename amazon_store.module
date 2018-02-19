@@ -21,7 +21,7 @@ module_load_include('inc', 'amazon_store', 'amazon_store.pages');
  */
 function amazon_store_init() {
   // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
   //TODO: We probably don't need to load this in hook_init. Figure out where to do it
   $GLOBALS['amazon_store_search_indexes'] = new SearchIndexes($locale);
 }
@@ -335,7 +335,7 @@ function amazon_store_cache_item($xml) {
 
   $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
   // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
 
   // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
   // So we cache the XML instead
@@ -355,7 +355,7 @@ function amazon_store_cache_item($xml) {
  */
 function amazon_store_retrieve_item($asin) {
   // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
 
   $item = cache_get("ASIN-{$asin}-{$locale}", 'cache_amazon_store');
   if ($item && $item->data) {
@@ -379,7 +379,7 @@ function amazon_store_retrieve_item($asin) {
 function amazon_store_cache_search($parameters, $results) {
   $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
   // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
 
   ksort($parameters);
   $key = "Search-$locale-" . implode('/', array_keys($parameters)) . implode('/', $parameters);
@@ -395,7 +395,7 @@ function amazon_store_cache_search($parameters, $results) {
  */
 function amazon_store_retrieve_cached_search($parameters) {
   // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
 
   $xml = NULL;
   ksort($parameters);
@@ -764,8 +764,7 @@ function amazon_store_http_request($op, $parameters) {
  * 	SimpleXML result with search results
  */
 function _amazon_store_search($parameters = array()) {
-  // TODO This variable was probably removed in Backdrop without replacement.
-  $locale = variable_get('amazon_locale', 'US');
+  $locale = config_get('amazon.settings', 'amazon_locale');
   $response_groups = "Variations,Images,ItemAttributes,OfferFull";
   if ($parameters['SearchIndex'] != 'Apparel') {
     $response_groups .= ',EditorialReview,Similarities,AlternateVersions,Large';

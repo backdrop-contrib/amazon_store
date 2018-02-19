@@ -4,7 +4,7 @@
  * @file
  *   Present a block of Amazon store category links.
  */
-$num_columns = variable_get('amazon_store_categories_block_num_columns', 2);
+$num_columns = config_get('amazon_store.settings', 'amazon_store_categories_block_num_columns');
 $categories = $GLOBALS['amazon_store_search_indexes']->getSearchIndexPulldown(TRUE);
 print "<div class='amazon-store-category-blurb'>". t("Search Amazon in these categories:") ."</div>";
 $td_length = (int)(count($categories)/$num_columns);

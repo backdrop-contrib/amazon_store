@@ -27,7 +27,6 @@ class SearchIndexes {
    * @return unknown_type
    */
   function __construct($locale) {
-    dpm($locale);
     $locale_file = '/locales/amazon_store.locale.' . strtolower($locale);
     $file = module_load_include('inc', 'amazon_store', $locale_file);
     // Protect against a selected locale that is not yet supported.

@@ -20,7 +20,6 @@
 function _amazon_store_page() {
   $config = config('amazon_store.settings');
 
-  dpm($config);
   $output = "";
   $parameters = array();
   $do_search = FALSE;
@@ -96,7 +95,6 @@ function _amazon_store_page() {
 
   if (!empty($parameters['ItemId']) && $do_search == FALSE) {
     $results = _amazon_store_itemlist(array('ItemId' => $parameters['ItemId']));
-    dpm($results);
   }
   else {
     $results = _amazon_store_search($parameters );

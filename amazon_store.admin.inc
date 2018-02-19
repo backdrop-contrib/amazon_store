@@ -53,7 +53,6 @@ function amazon_store_admin_form($form, &$form_state) {
     ),
     '#description' => t('You may search for items sold by Amazon or all Amazon Marketplace sellers (including Amazon).'),
   );
-  dpm($GLOBALS['amazon_store_search_indexes']);
   $form['amazon_store_search_index_choice'] = array(
     '#type' => 'select',
     '#title' => t('Default search index selection on amazon_store page'),

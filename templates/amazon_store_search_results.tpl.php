@@ -7,7 +7,7 @@
 
 ?>
 <?php
-  if (variable_get('amazon_store_show_searchform',TRUE)) {
+  if (config_get('amazon_store.settings', 'amazon_store_show_searchform')) {
     // Argument specifies how wide the keywords textfield should be, in chars.
     $form = drupal_get_form('amazon_store_search_form', 50);
     print drupal_render($form);
@@ -21,13 +21,13 @@
 <?php if (!empty($results->Item)): ?>
 
 <div class="change_sort"><?php
-if (variable_get('amazon_store_show_sort_form',TRUE) && (int)$results->TotalResults > 1) {
+if (config_get('amazon_store.settings', 'amazon_store_show_sort_form') && (int)$results->TotalResults > 1) {
   $form = drupal_get_form('amazon_store_sort_form');
   print drupal_render($form);
 }?>
 </div>
 <div class="search-sets narrow-by"><?php
-if (variable_get('amazon_store_show_narrowby_form',TRUE) && !empty($results->SearchBinSets) && (int)$results->TotalResults > 1) {
+if (config_get('amazon_store.settings', 'amazon_store_show_narrowby_form') && !empty($results->SearchBinSets) && (int)$results->TotalResults > 1) {
   $form = drupal_get_form('amazon_store_searchbin_sets_form', $results->SearchBinSets);
   print drupal_render($form);
 }
