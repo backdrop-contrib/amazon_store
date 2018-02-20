@@ -97,6 +97,69 @@ function amazon_store_menu() {
 function amazon_store_block_info() {
   $blocks['amazon_store_search']['info'] = t('Amazon Store Search');
   $blocks['categories']['info'] = t('Amazon Store Categories');
+
+  // Block plugins.
+  $blocks['item_browsenodes'] = array(
+    'info' => t('Amazon Browse'),
+    'description' => t('Amazon Item Reviews (Browsenodes).'),
+    'class' => 'ItemBrowseNodes',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_debug_info'] = array(
+    'info' => t('Debug Info'),
+    'description' => t('Debugging data - shows the actual object returned from Amazon and displayed on this page.'),
+    'class' => 'ItemDebugInfo',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_description'] = array(
+    'info' => t('Amazon Item Description'),
+    'description' => t('Amazon Item Description (EditorialReview).'),
+    'class' => 'ItemDescription',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_details'] = array(
+    'info' => t('Product Details'),
+    'description' => t('Amazon Item Details.'),
+    'class' => 'ItemDetails',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_image'] = array(
+    'info' => t('Amazon Product Image'),
+    'description' => t('Amazon Product Image'),
+    'class' => 'ItemImage',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_offers'] = array(
+    'info' => t('Offers'),
+    'description' => t('Amazon Item Offers.'),
+    'class' => 'ItemOffers',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_reviews'] = array(
+    'info' => t('Amazon Customer Reviews'),
+    'description' => t('Amazon Item Reviews (CustomerReview).'),
+    'class' => 'ItemReviews',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_similar_items'] = array(
+    'info' => t('Similar Items'),
+    'description' => t('Amazon Item similar items.'),
+    'class' => 'ItemSimilarItems',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_specials'] = array(
+    'info' => t('Special Links'),
+    'description' => t('Amazon Item special links'),
+    'class' => 'ItemSpecials',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+  $blocks['item_title'] = array(
+    'info' => t('Amazon Item Title'),
+    'description' => t('Amazon Item Title.'),
+    'class' => 'ItemTitle',
+    'required contexts' => array('amazon_item' => 'amazon_item'),
+  );
+
   return $blocks;
 }
 
@@ -364,6 +427,7 @@ function amazon_store_retrieve_item($asin) {
   else { // Item was not in cache
     $xml = amazon_store_get_item_data($asin);
   }
+
   return $xml;
 }
 
@@ -1393,5 +1457,33 @@ function amazon_store_get_amazon_store_path() {
 function amazon_store_autoload_info() {
   return array(
     'SearchIndexes' => 'searchindexes.inc',
+    'AmazonItemLayoutContext' => 'plugins/contexts/amazon_item.inc',
+    'ItemBrowseNodes' => 'plugins/content_types/item_browsenodes.inc',
+    'ItemDebugInfo' => 'plugins/content_types/item_debug_info.inc',
+    'ItemDescription' => 'plugins/content_types/item_description.inc',
+    'ItemDetails' => 'plugins/content_types/item_details.inc',
+    'ItemImage' => 'plugins/content_types/item_image.inc',
+    'ItemOffers' => 'plugins/content_types/item_offers.inc',
+    'ItemReviews' => 'plugins/content_types/item_reviews.inc',
+    'ItemSimilarItems' => 'plugins/content_types/item_similar_items.inc',
+    'ItemSpecials' => 'plugins/content_types/item_specials.inc',
+    'ItemTitle' => 'plugins/content_types/item_title.inc',
   );
+}
+
+/**
+ * Implements hook_layout_context_info().
+ */
+function amazon_store_layout_context_info() {
+  module_load_include('inc', 'amazon_store', 'amazon_item');
+  $info['amazon_item'] = array(
+    'title' => t('Amazon item'),
+    'class' => 'AmazonItemLayoutContext',
+    'menu paths' => array(
+      'store-item/%asin',
+    ),
+    'path placeholder' => '%asin',
+    'load callback' => 'amazon_store_retrieve_item',
+  );
+  return $info;
 }
