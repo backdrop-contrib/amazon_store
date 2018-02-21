@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *  Provides the amazon_item context plugin for amazon_store panel
+ *  Provides the amazon_item context plugin for amazon_store block
  *
  */
 

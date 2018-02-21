@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   template for item_reviews panel
+ *   template for item_reviews block
  */
 ?>
 

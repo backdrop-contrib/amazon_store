@@ -26,7 +26,7 @@
 
       <h3>Product Details</h3>
       <div id="product-details">
-        <?php print theme('amazon_store_details_panel', array('item' => $amazon_item)); ?>
+        <?php print theme('amazon_store_details_block', array('item' => $amazon_item)); ?>
       </div>
     </div> <!-- End item-details -->
 
@@ -37,12 +37,12 @@
       <?php print theme('amazon_store_item_offers', array('amazon_item' => $amazon_item)); ?>
 
       <h3>Similar Items</h3>
-      <?php print theme('amazon_store_similar_items_panel', array('item' => $amazon_item)); ?>
+      <?php print theme('amazon_store_similar_items_block', array('item' => $amazon_item)); ?>
     </div> <!-- end right-column -->
 
   </div> <!-- end columns-wrapper -->
   <div id="bottom-section" class="column">
     <h3>Customer Reviews</h3>
-    <?php print theme('amazon_store_item_reviews_panel', array('item' => $amazon_item)); ?>
+    <?php print theme('amazon_store_item_reviews_block', array('item' => $amazon_item)); ?>
   </div> <!-- end bottom-section -->
 </div>

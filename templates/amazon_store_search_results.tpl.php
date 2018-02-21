@@ -13,7 +13,7 @@
     print drupal_render($form);
   }
 ?>
-<div class="amazon-store-panel search-results"><!--
+<div class="amazon-store-block search-results"><!--
 <a href='<?php print url(AMAZON_STORE_PATH . "/cart") ?>'> Go to your cart</a>
  -->
 

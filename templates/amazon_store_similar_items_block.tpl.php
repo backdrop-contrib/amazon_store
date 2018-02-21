@@ -1,7 +1,7 @@
 <?php dpm($item);
 /**
  * @file
- * 	Template for Similar Products Panels plugin
+ * 	Template for Similar Products block plugin
  */
 
 if ($item->SimilarProducts->SimilarProduct): ?>

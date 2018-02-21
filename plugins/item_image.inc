@@ -2,7 +2,7 @@
 
 
 /**
- * Display the administrative title for a panel pane in the drag & drop UI
+ * Display the administrative title for a block pane in the drag & drop UI
  */
  
  // todo: fix admin title
@@ -12,7 +12,7 @@ function amazon_store_item_image_admin_title($subtype, $conf, $context) {
 
 class ItemImage extends Block {
   /**
-   *  Sets title text on draggable block panel in Layout builder.
+   *  Sets title text on draggable block block in Layout builder.
    */
   function getAdminTitle() {
     return !empty($this->settings['title']) ? check_plain($this->settings['title']) : t('Amazon Product Image');

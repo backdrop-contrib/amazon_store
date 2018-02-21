@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   Template file for item details panel plugin
+ *   Template file for item details block plugin
  */
 
 // For each ItemAttribute to be reported, list the attribute

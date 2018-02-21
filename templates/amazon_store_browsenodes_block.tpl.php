@@ -1,7 +1,7 @@
 <?php
 /**
  @file
-	Template for the the BrowseNodes content_type panel for an amazon product page
+	Template for the the BrowseNodes content_type block for an amazon product page
 */
 
 if ($item->BrowseNodes->BrowseNode) {

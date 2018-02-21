@@ -15,7 +15,7 @@ class ItemReviews extends Block {
    */
   function getContent() {
     if (!empty($this->contexts['amazon_item']->data)) {
-      return theme('amazon_store_item_reviews_panel', array('item' => $this->contexts['amazon_item']->data));
+      return theme('amazon_store_item_reviews_block', array('item' => $this->contexts['amazon_item']->data));
     }
   }
 }

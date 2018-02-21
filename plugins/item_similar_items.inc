@@ -16,7 +16,7 @@ class ItemSimilarItems extends Block {
   function getContent() {
     if (!empty($this->contexts['amazon_item']->data)) {
     dpm($this);
-      return theme('amazon_store_similar_items_panel', array('item' => $this->contexts['amazon_item']->data));
+      return theme('amazon_store_similar_items_block', array('item' => $this->contexts['amazon_item']->data));
     }
   }
 }
