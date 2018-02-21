@@ -17,7 +17,7 @@ define('AMAZON_STORE_STORE_NAME', config_get('amazon_store.settings', 'amazon_st
 module_load_include('inc', 'amazon_store', 'amazon_store.pages');
 
 /**
- * Implements hook_init().().
+ * Implements hook_init().
  */
 function amazon_store_init() {
   // TODO This variable was probably removed in Backdrop without replacement.
@@ -38,7 +38,7 @@ function amazon_store_config_info() {
 }
 
 /**
- * Implements hook_menu().().
+ * Implements hook_menu().
  */
 function amazon_store_menu() {
   $amazon_store_path = amazon_store_get_amazon_store_path();
@@ -92,7 +92,7 @@ function amazon_store_menu() {
 
 
 /**
- * Implements hook_block_info.().
+ * Implements hook_block_info.
  */
 function amazon_store_block_info() {
   $blocks['amazon_store_search']['info'] = t('Amazon Store Search');
@@ -164,7 +164,7 @@ function amazon_store_block_info() {
 }
 
 /**
- * Implements hook_block_view.().
+ * Implements hook_block_view.
  */
 function amazon_store_block_view($delta) {
   $block = array();
@@ -183,7 +183,7 @@ function amazon_store_block_view($delta) {
 }
 
 /**
- * Implements hook_block_configure.().
+ * Implements hook_block_configure.
  */
 function amazon_store_block_configure($delta) {
   $config = config('amazon_store.settings');
@@ -211,7 +211,7 @@ function amazon_store_block_configure($delta) {
 }
 
 /**
- * Implements hook_block_save.().
+ * Implements hook_block_save.
  */
 function amazon_store_block_save($delta, $edit) {
   switch ($delta) {
@@ -226,7 +226,7 @@ function amazon_store_block_save($delta, $edit) {
 }
 
 /**
- * Implements hook_theme();().().
+ * Implements hook_theme();().
  */
 function amazon_store_theme() {
   return array(
@@ -286,7 +286,7 @@ function amazon_store_theme() {
 }
 
 /**
- * Implements hook_cron();().().
+ * Implements hook_cron();().
  */
 function amazon_store_cron() {
   // Clear data which has expired.
@@ -297,7 +297,7 @@ function amazon_store_cron() {
 }
 
 /**
- * Implements hook_flush_caches();().().
+ * Implements hook_flush_caches();().
  *
  * When global cache clean is done (as from devel module)
  * the cache_amazon_store table will be truncated as well
@@ -307,7 +307,7 @@ function amazon_store_flush_caches() {
 }
 
 /**
- * Implements hook_forms().().
+ * Implements hook_forms().
  *
  * Since we have pages with multiple forms of the same type on the
  * search results page and also on the cart page, we have to
