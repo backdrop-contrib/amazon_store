@@ -15,7 +15,7 @@ class ItemImage extends Block {
    *  Sets title text on draggable block panel in Layout builder.
    */
   function getAdminTitle() {
-    return !empty($this->settings['title']) ? check_plain($this->settings['title']) : t('Custom block');
+    return !empty($this->settings['title']) ? check_plain($this->settings['title']) : t('Amazon Product Image');
   }
 
   /**

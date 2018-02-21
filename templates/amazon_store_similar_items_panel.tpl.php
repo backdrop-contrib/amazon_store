@@ -1,4 +1,4 @@
-<?php
+<?php dpm($item);
 /**
  * @file
  * 	Template for Similar Products Panels plugin
