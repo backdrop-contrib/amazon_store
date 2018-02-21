@@ -20,7 +20,6 @@ module_load_include('inc', 'amazon_store', 'amazon_store.pages');
  * Implements hook_init().
  */
 function amazon_store_init() {
-  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = config_get('amazon.settings', 'amazon_locale');
   //TODO: We probably don't need to load this in hook_init. Figure out where to do it
   $GLOBALS['amazon_store_search_indexes'] = new SearchIndexes($locale);
@@ -383,7 +382,6 @@ function template_preprocess_amazon_store_all(&$variables) { }
 function amazon_store_cache_item($xml) {
 
   $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
-  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = config_get('amazon.settings', 'amazon_locale');
 
   // If you cache the object itself it can't be deserialized. http://drupal.org/node/199337
@@ -403,7 +401,6 @@ function amazon_store_cache_item($xml) {
  * 	Item as SimpleXML object
  */
 function amazon_store_retrieve_item($asin) {
-  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = config_get('amazon.settings', 'amazon_locale');
 
   $item = cache_get("ASIN-{$asin}-{$locale}", 'cache_amazon_store');
@@ -428,7 +425,6 @@ function amazon_store_retrieve_item($asin) {
  */
 function amazon_store_cache_search($parameters, $results) {
   $cache_timeout = config_get('amazon_store.settings', 'amazon_store_refresh_schedule');
-  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = config_get('amazon.settings', 'amazon_locale');
 
   ksort($parameters);
@@ -444,7 +440,6 @@ function amazon_store_cache_search($parameters, $results) {
  * 	SimpleXML object or NULL if not found in cache
  */
 function amazon_store_retrieve_cached_search($parameters) {
-  // TODO This variable was probably removed in Backdrop without replacement.
   $locale = config_get('amazon.settings', 'amazon_locale');
 
   $xml = NULL;
